@@ -2,32 +2,125 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Performance Bidireccional — Continental</title>
+<title>Dashboard Performance</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --primary: #0078d4; 
-  --primary-hover: #005a9e;
-  --bg: #f3f2f1;
+:root {
+  --primary: #cd001a;
+  --primary-hover: #a30015;
+  --primary-alpha: rgba(205, 0, 26, 0.1);
+  --bg: #f6f8fa;
   --card: #ffffff;
-  --border: #edebe9;
-  --text: #323130;
-  --text-dark: #201f1e;
-  --muted: #605e5c;
-  --sidebar: #f3f2f1;
-  --sidebar-hover: #e1dfdd;
+  --border: rgba(27, 31, 36, 0.12);
+  --border-light: rgba(27, 31, 36, 0.08);
+  --text: #57606a;
+  --text-dark: #24292f;
+  --muted: #57606a;
+  --sidebar: #ffffff;
+  --sidebar-hover: #f3f4f6;
   --cal-bg: #ffffff;
-  --cal-sel: #0078d4;
-  --cal-range: rgba(0, 120, 212, 0.1);
-  --header-bg: #001015;
-  --panel: #faf9f8;
+  --cal-sel: #cd001a;
+  --cal-range: rgba(205, 0, 26, 0.1);
+  --header-bg: #24292f;
+  --panel: #f6f8fa;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 3px rgba(27, 31, 36, 0.04);
+  --shadow-md: 0 4px 12px rgba(27, 31, 36, 0.08);
+}
+
+[data-theme="dark"] {
+  --primary: #cd001a;
+  --primary-hover: #ff334b;
+  --primary-alpha: rgba(205, 0, 26, 0.2);
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --border-light: rgba(240, 246, 252, 0.1);
+  --text: #8b949e;
+  --text-dark: #c9d1d9;
+  --muted: #8b949e;
+  --sidebar: #161b22;
+  --sidebar-hover: #21262d;
+  --cal-bg: #161b22;
+  --cal-sel: #cd001a;
+  --cal-range: rgba(205, 0, 26, 0.2);
+  --header-bg: #161b22;
+  --panel: #0d1117;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.8);
 
 }
-body{font-family:'Georgia', 'Times New Roman', serif;background:var(--bg);color:var(--text-dark);height:100vh;overflow:hidden;}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text-dark);
+  height: 100vh;
+  overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base styles for dark mode override */
+canvas { filter: brightness(1); transition: filter 0.3s; }
+[data-theme="dark"] canvas { filter: brightness(0.85) contrast(1.2); }
+
+.topbar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.sidebar-header {
+  height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* Cards */
+.kcard, .cc, #dpPanel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  position: relative;
+}
+/* Buttons */
+.nav-btn, .btn-top, .fsel, .btn-clr, #datePickerBtn, .dp-btn {
+  border-radius: var(--radius-sm);
+}
+.btn-top {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dark);
+  padding: 8px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.btn-top:hover {
+  background: var(--sidebar-hover);
+  color: var(--text-dark);
+  border-color: var(--border);
+}
+.filterbar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 48px;
+}
+
+.kcard .kacc { display: none; }
+
 
 /* ============ UPLOAD ============ */
 #uploadScreen{
@@ -35,8 +128,8 @@ body{font-family:'Georgia', 'Times New Roman', serif;background:var(--bg);color:
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;z-index:100;
 }
 .up-logo{display:flex;align-items:center;gap:12px;}
-.up-logo-box{width:46px;height:46px;background:var(--primary);border-radius:2px;display:flex;align-items:center;justify-content:center;}
-.up-logo-box svg{width:26px;height:26px;fill:white;}
+.up-logo-box{width:46px;height:46px;display:flex;align-items:center;justify-content:center;}
+.up-logo-box img{width:40px;height:40px;object-fit:contain;}
 .up-logo-txt strong{display:block;font-size:18px;font-weight:600;color:var(--text-dark);font-family:system-ui, sans-serif;}
 .up-logo-txt span{font-size:13px;color:var(--muted);}
 #dropZone{
@@ -57,11 +150,11 @@ body{font-family:'Georgia', 'Times New Roman', serif;background:var(--bg);color:
 
 /* ============ SIDEBAR ============ */
 #sidebar{width:225px;min-width:225px;background:var(--sidebar);display:flex;flex-direction:column;height:100vh;overflow-y:auto; border-right: 1px solid var(--border);}
-.sb-head{padding:0 16px;border-bottom:none;background:var(--header-bg);display:flex;align-items:center;gap:10px;height:48px;flex-shrink:0;}
-.sb-icon{width:32px;height:32px;background:var(--primary);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sb-icon svg{width:18px;height:18px;fill:white;}
-.sb-brand strong{display:block;font-size:13px;font-weight:600;color:#fff;font-family:system-ui,sans-serif;line-height:1.2;letter-spacing:-0.2px;}
-.sb-brand span{font-size:11px;color:rgba(255,255,255,0.7);}
+.sb-head{padding:0 20px;border-bottom:1px solid var(--border);background:var(--card);display:flex;align-items:center;gap:10px;height:48px;flex-shrink:0;}
+.sb-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-icon img{width:24px;height:24px;object-fit:contain;}
+.sb-brand strong{display:block;font-size:15px;font-weight:600;color:var(--text-dark);font-family:system-ui,sans-serif;line-height:1.2;letter-spacing:-0.2px;}
+.sb-brand span{font-size:12px;color:var(--text);font-weight:500;}
 .sb-nav{padding:16px 0;flex:1;}
 .sb-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin:16px 0 8px;font-family:system-ui, sans-serif;}
 .sb-lbl:first-child{margin-top:0;}
@@ -81,12 +174,12 @@ body{font-family:'Georgia', 'Times New Roman', serif;background:var(--bg);color:
 
 /* ============ MAIN ============ */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
-.topbar{background:var(--header-bg);border-bottom:none;padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.crumb{font-size:13px;color:rgba(255,255,255,0.7);}
-.crumb-view{font-size:15px;font-weight:600;color:#fff;}
+.topbar-old{background:var(--header-bg);border-bottom:none;padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.crumb{font-size:14px;color:var(--text);font-weight:500;}
+.crumb-view{font-size:15px;font-weight:600;color:var(--text-dark);}
 .topbar-r{display:flex;align-items:center;gap:12px;}
-.rec-badge{background:var(--header-bg);border:1px solid rgba(255,255,255,0.2);border-radius:2px;padding:6px 12px;font-size:13px;color:#fff;}
-.rec-badge strong{color:#fff;}
+.rec-badge{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:13px;color:var(--text-dark);}
+.rec-badge strong{color:var(--text-dark);}
 .btn-top{
   display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:2px;font-size:13px;
   font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.2);background:transparent;
@@ -206,7 +299,7 @@ select.fsel:focus{border-color:var(--primary);}
 .view{display:none;}
 .view.active{display:block;}
 .view-hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px;}
-.view-ttl{font-size:24px;font-weight:normal;color:var(--text-dark);font-family:'Georgia', 'Times New Roman', serif;}
+.view-ttl{font-size:24px;font-weight:normal;color:var(--text-dark);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .vbadge{font-size:12px;font-weight:600;letter-spacing:.5px;padding:4px 12px;border-radius:2px; border: 1px solid var(--border);}
 .vb-navy{background:rgba(0,0,0,.02);color:var(--text-dark);}
 .vb-red{background:rgba(0,90,158,.05);color:var(--primary);}
@@ -216,20 +309,20 @@ select.fsel:focus{border-color:var(--primary);}
 .krow.c5{grid-template-columns:repeat(5,1fr);}
 .krow.c4{grid-template-columns:repeat(4,1fr);}
 .krow.c3{grid-template-columns:repeat(3,1fr);}
-.kcard{background:var(--card);border:1px solid var(--border);border-radius:0;padding:16px;position:relative;overflow:hidden;}
+.kcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;}
 .kacc{position:absolute;top:0;left:0;right:0;height:2px;}
-.klbl{font-size:10px;font-weight:bold;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-family:system-ui, sans-serif;}
-.kval{font-size:28px;font-weight:normal;color:var(--text-dark);line-height:1;margin-bottom:6px;font-family:'Georgia', 'Times New Roman', serif;}
+.klbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;font-family:-apple-system, system-ui, sans-serif;}
+.kval{font-size:28px;font-weight:normal;color:var(--text-dark);line-height:1;margin-bottom:6px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .ksub{font-size:13px;color:var(--muted);}
 .cgrid{display:grid;gap:16px;margin-bottom:16px;}
 .cgrid.c2{grid-template-columns:1fr 1fr;}
 .cgrid.c3{grid-template-columns:1fr 1fr 1fr;}
-.cc{background:var(--card);border:1px solid var(--border);border-radius:0;padding:16px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
 .cc-ttl{font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;font-family:system-ui, sans-serif;}
 .cc-sub{font-size:11px;font-style:italic;color:var(--muted);margin-top:6px;margin-bottom:14px;display:block;}
 .scroll-ch{overflow-y:auto;overflow-x:hidden;}
 .scroll-ch::-webkit-scrollbar{width:4px;}
-.scroll-ch::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:2px;}
+.scroll-ch::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--radius-sm);}
 .ch-fix{position:relative;}
 .flist{display:flex;flex-direction:column;gap:10px;padding-top:6px;}
 .frow{display:flex;align-items:center;gap:10px;}
@@ -249,7 +342,7 @@ select.fsel:focus{border-color:var(--primary);}
 .geo-mini{height:12px;border-radius:2px;background:var(--primary);}
 ::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:2px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--radius-sm);}
 </style>
 </head>
 <body>
@@ -258,7 +351,7 @@ select.fsel:focus{border-color:var(--primary);}
 <div id="uploadScreen">
   <div class="up-logo">
     <div class="up-logo-box">
-      <svg viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 10-5-10-5zM2 16l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <img src="https://icontinental.edu.pe/wp-content/uploads/2020/07/favico.png" alt="Logo">
     </div>
     <div class="up-logo-txt">
       <strong>Dashboard Reporte IC</strong>
@@ -337,7 +430,7 @@ select.fsel:focus{border-color:var(--primary);}
 <div id="app" style="display:none;">
   <aside id="sidebar">
     <div class="sb-head">
-      <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 10-5-10-5zM2 16l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="sb-icon"><img src="https://icontinental.edu.pe/wp-content/uploads/2020/07/favico.png" alt="Logo"></div>
       <div class="sb-brand"><strong>Continental</strong><span>Performance Bidir.</span></div>
     </div>
     <nav class="sb-nav">
@@ -375,13 +468,18 @@ select.fsel:focus{border-color:var(--primary);}
         <span class="crumb">Dashboard /</span>
         <span class="crumb-view" id="topView">Resumen general</span>
       </div>
+      
       <div class="topbar-r">
         <div class="rec-badge"><strong id="recN">0</strong> registros filtrados</div>
+        <button class="btn-top" id="btnThemeToggle" title="Cambiar tema">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 21.5a9.5 9.5 0 110-19 9.5 9.5 0 010 19zm0-18a8.5 8.5 0 100 17 8.5 8.5 0 000-17zM12 19V5a7 7 0 010 14z" fill="currentColor"/></svg>
+        </button>
         <button class="btn-top" id="btnReUp">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Nuevo archivo
         </button>
       </div>
+
     </div>
 
     <div class="filterbar">
@@ -409,11 +507,11 @@ select.fsel:focus{border-color:var(--primary);}
       <div id="view-resumen" class="view active">
         <div class="view-hdr"><span class="view-ttl">Resumen general</span><span class="vbadge vb-navy">Bidireccional</span></div>
         <div class="krow c5">
-          <div class="kcard"><div class="kacc" style="background:#323130"></div><div class="klbl">Total oportunidades</div><div class="kval" id="k-tot">—</div><div class="ksub">Registros cargados</div></div>
-          <div class="kcard"><div class="kacc" style="background:#605E5C"></div><div class="klbl">Activos</div><div class="kval" id="k-act">—</div><div class="ksub">En proceso</div></div>
-          <div class="kcard"><div class="kacc" style="background:#A19F9D"></div><div class="klbl">Inactivos</div><div class="kval" id="k-ina">—</div><div class="ksub">Fuera de proceso</div></div>
-          <div class="kcard"><div class="kacc" style="background:#005A9E"></div><div class="klbl">Matriculados</div><div class="kval" id="k-mat">—</div><div class="ksub">Conversión final</div></div>
-          <div class="kcard"><div class="kacc" style="background:#8A8886"></div><div class="klbl">Tasa conversión</div><div class="kval" id="k-conv">—</div><div class="ksub">Opp → matrícula</div></div>
+          <div class="kcard"><div class="klbl">Total oportunidades</div><div class="kval" id="k-tot">—</div><div class="ksub">Registros cargados</div></div>
+          <div class="kcard"><div class="klbl">Activos</div><div class="kval" id="k-act">—</div><div class="ksub">En proceso</div></div>
+          <div class="kcard"><div class="klbl">Inactivos</div><div class="kval" id="k-ina">—</div><div class="ksub">Fuera de proceso</div></div>
+          <div class="kcard"><div class="klbl">Matriculados</div><div class="kval" id="k-mat">—</div><div class="ksub">Conversión final</div></div>
+          <div class="kcard"><div class="klbl">Tasa conversión</div><div class="kval" id="k-conv">—</div><div class="ksub">Opp → matrícula</div></div>
         </div>
         <div class="cgrid c2">
           <div class="cc"><div class="cc-ttl">Embudo de conversión</div><div class="cc-sub">Distribución por etapa del funnel</div><div class="flist" id="funnelViz"></div></div>
@@ -431,10 +529,10 @@ select.fsel:focus{border-color:var(--primary);}
       <div id="view-captacion" class="view">
         <div class="view-hdr"><span class="view-ttl">Captación</span><span class="vbadge vb-navy">Oportunidades</span></div>
         <div class="krow c4">
-          <div class="kcard"><div class="kacc" style="background:#323130"></div><div class="klbl">Total oportunidades</div><div class="kval" id="kc-tot">—</div><div class="ksub">Todos los registros</div></div>
-          <div class="kcard"><div class="kacc" style="background:#605E5C"></div><div class="klbl">Activos</div><div class="kval" id="kc-act">—</div><div class="ksub">Status activo</div></div>
-          <div class="kcard"><div class="kacc" style="background:#0078D4"></div><div class="klbl">Engagement</div><div class="kval" id="kc-eng">—</div><div class="ksub">En etapa engagement</div></div>
-          <div class="kcard"><div class="kacc" style="background:#A19F9D"></div><div class="klbl">Preinscrito</div><div class="kval" id="kc-pre">—</div><div class="ksub">En preinscripción</div></div>
+          <div class="kcard"><div class="klbl">Total oportunidades</div><div class="kval" id="kc-tot">—</div><div class="ksub">Todos los registros</div></div>
+          <div class="kcard"><div class="klbl">Activos</div><div class="kval" id="kc-act">—</div><div class="ksub">Status activo</div></div>
+          <div class="kcard"><div class="klbl">Engagement</div><div class="kval" id="kc-eng">—</div><div class="ksub">En etapa engagement</div></div>
+          <div class="kcard"><div class="klbl">Preinscrito</div><div class="kval" id="kc-pre">—</div><div class="ksub">En preinscripción</div></div>
         </div>
         <div class="cgrid c2">
           <div class="cc"><div class="cc-ttl">Estado del funnel</div><div class="cc-sub">Conteo por etapa</div><div class="ch-fix" style="height:180px"><canvas id="ch-c-funnel" role="img" aria-label="Estado funnel">Funnel</canvas></div></div>
@@ -457,10 +555,10 @@ select.fsel:focus{border-color:var(--primary);}
       <div id="view-comercial" class="view">
         <div class="view-hdr"><span class="view-ttl">Comercial</span><span class="vbadge vb-red">Matriculados</span></div>
         <div class="krow c4">
-          <div class="kcard"><div class="kacc" style="background:#005A9E"></div><div class="klbl">Matriculados</div><div class="kval" id="kcom-mat">—</div><div class="ksub">Conversión final</div></div>
-          <div class="kcard"><div class="kacc" style="background:#605E5C"></div><div class="klbl">Ingresantes</div><div class="kval" id="kcom-ing">—</div><div class="ksub">Pre-matrícula</div></div>
-          <div class="kcard"><div class="kacc" style="background:#8A8886"></div><div class="klbl">Postulantes</div><div class="kval" id="kcom-post">—</div><div class="ksub">En postulación</div></div>
-          <div class="kcard"><div class="kacc" style="background:#A19F9D"></div><div class="klbl">Preinscritos</div><div class="kval" id="kcom-pre">—</div><div class="ksub">En preinscripción</div></div>
+          <div class="kcard"><div class="klbl">Matriculados</div><div class="kval" id="kcom-mat">—</div><div class="ksub">Conversión final</div></div>
+          <div class="kcard"><div class="klbl">Ingresantes</div><div class="kval" id="kcom-ing">—</div><div class="ksub">Pre-matrícula</div></div>
+          <div class="kcard"><div class="klbl">Postulantes</div><div class="kval" id="kcom-post">—</div><div class="ksub">En postulación</div></div>
+          <div class="kcard"><div class="klbl">Preinscritos</div><div class="kval" id="kcom-pre">—</div><div class="ksub">En preinscripción</div></div>
         </div>
         <div class="cgrid c2">
           <div class="cc"><div class="cc-ttl">Base asignada</div><div class="cc-sub">Funnel comercial por asesor</div>
@@ -483,9 +581,9 @@ select.fsel:focus{border-color:var(--primary);}
       <div id="view-geografia" class="view">
         <div class="view-hdr"><span class="view-ttl">Geografía</span><span class="vbadge vb-teal">Distribución regional</span></div>
         <div class="krow c3">
-          <div class="kcard"><div class="kacc" style="background:#323130"></div><div class="klbl">Departamentos activos</div><div class="kval" id="kg-deptos">—</div><div class="ksub">Con al menos 1 oportunidad</div></div>
-          <div class="kcard"><div class="kacc" style="background:#005A9E"></div><div class="klbl">Principal departamento</div><div class="kval" id="kg-top" style="font-size:16px;">—</div><div class="ksub" id="kg-top-n">— oportunidades</div></div>
-          <div class="kcard"><div class="kacc" style="background:#605E5C"></div><div class="klbl">Edad promedio global</div><div class="kval" id="kg-edad">—</div><div class="ksub">Años promedio</div></div>
+          <div class="kcard"><div class="klbl">Departamentos activos</div><div class="kval" id="kg-deptos">—</div><div class="ksub">Con al menos 1 oportunidad</div></div>
+          <div class="kcard"><div class="klbl">Principal departamento</div><div class="kval" id="kg-top" style="font-size:16px;">—</div><div class="ksub" id="kg-top-n">— oportunidades</div></div>
+          <div class="kcard"><div class="klbl">Edad promedio global</div><div class="kval" id="kg-edad">—</div><div class="ksub">Años promedio</div></div>
         </div>
         <div class="cgrid c2">
           <div class="cc"><div class="cc-ttl">Oportunidades por departamento</div><div class="cc-sub">Todos los departamentos registrados</div>
@@ -505,10 +603,10 @@ select.fsel:focus{border-color:var(--primary);}
       <div id="view-bidireccional" class="view">
         <div class="view-hdr"><span class="view-ttl">Bidireccional</span><span class="vbadge vb-amber">Gestión de usuarios</span></div>
         <div class="krow c4">
-          <div class="kcard"><div class="kacc" style="background:#323130"></div><div class="klbl">Con gestión bidir.</div><div class="kval" id="kb-total">—</div><div class="ksub">Oportunidades gestionadas</div></div>
-          <div class="kcard"><div class="kacc" style="background:#005A9E"></div><div class="klbl">Sin gestión bidir.</div><div class="kval" id="kb-sin">—</div><div class="ksub">Sin usuario asignado</div></div>
-          <div class="kcard"><div class="kacc" style="background:#8A8886"></div><div class="klbl">Usuarios activos</div><div class="kval" id="kb-users">—</div><div class="ksub">Asesores bidireccionales</div></div>
-          <div class="kcard"><div class="kacc" style="background:#605E5C"></div><div class="klbl">Promedio por usuario</div><div class="kval" id="kb-prom">—</div><div class="ksub">Opp por asesor bidir.</div></div>
+          <div class="kcard"><div class="klbl">Con gestión bidir.</div><div class="kval" id="kb-total">—</div><div class="ksub">Oportunidades gestionadas</div></div>
+          <div class="kcard"><div class="klbl">Sin gestión bidir.</div><div class="kval" id="kb-sin">—</div><div class="ksub">Sin usuario asignado</div></div>
+          <div class="kcard"><div class="klbl">Usuarios activos</div><div class="kval" id="kb-users">—</div><div class="ksub">Asesores bidireccionales</div></div>
+          <div class="kcard"><div class="klbl">Promedio por usuario</div><div class="kval" id="kb-prom">—</div><div class="ksub">Opp por asesor bidir.</div></div>
         </div>
         <div class="cgrid c2">
           <div class="cc"><div class="cc-ttl">Oportunidades por usuario bidireccional</div><div class="cc-sub">Total de oportunidades creadas por asesor</div>
@@ -621,18 +719,36 @@ function renderDpMonth(slot,year,month){
     if(isToday&&!isStart&&!isEnd)cls+=' today';
     html+=`<div class="${cls}" data-y="${year}" data-m="${month}" data-d="${d}">${d}</div>`;
   }
+  
   daysEl.innerHTML=html;
-  daysEl.querySelectorAll('.dp-day:not(.empty)').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{
-      if(dpState.start&&!dpState.end){
-        dpState.hovered=new Date(+el.dataset.y,+el.dataset.m,+el.dataset.d);
-        renderDpMonth(1,dpState.viewYear,dpState.viewMonth);
-        let m2=dpState.viewMonth+1,y2=dpState.viewYear;if(m2>11){m2=0;y2++;}renderDpMonth(2,y2,m2);
-      }
-    });
-    el.addEventListener('click',()=>dpDayClick(+el.dataset.y,+el.dataset.m,+el.dataset.d));
-  });
 }
+
+function initDpListeners() {
+  document.getElementById('dpDays1').addEventListener('mousedown', handleDpClick);
+  document.getElementById('dpDays2').addEventListener('mousedown', handleDpClick);
+  document.getElementById('dpDays1').addEventListener('mouseover', handleDpMouseOver);
+  document.getElementById('dpDays2').addEventListener('mouseover', handleDpMouseOver);
+}
+
+function handleDpClick(e) {
+  if (e.target.classList.contains('dp-day') && !e.target.classList.contains('empty')) {
+    dpDayClick(+e.target.dataset.y, +e.target.dataset.m, +e.target.dataset.d);
+  }
+}
+
+function handleDpMouseOver(e) {
+  if (e.target.classList.contains('dp-day') && !e.target.classList.contains('empty')) {
+    if(dpState.start && !dpState.end){
+      const el = e.target;
+      const newHover = new Date(+el.dataset.y, +el.dataset.m, +el.dataset.d);
+      if (dpState.hovered && dpState.hovered.getTime() === newHover.getTime()) return;
+      dpState.hovered = newHover;
+      renderDpMonth(1,dpState.viewYear,dpState.viewMonth);
+      let m2=dpState.viewMonth+1,y2=dpState.viewYear;if(m2>11){m2=0;y2++;}renderDpMonth(2,y2,m2);
+    }
+  }
+}
+
 
 function dpDayClick(y,m,d){
   const dt=new Date(y,m,d);
@@ -695,7 +811,7 @@ function dpUpdateBtnLabel(){
 }
 
 // ===== CHART HELPERS =====
-const BASE_TT={backgroundColor:'#323130',titleFont:{family:"'Lora'",size:12},bodyFont:{family:"'Lora'",size:11},padding:10,cornerRadius:4};
+const BASE_TT={backgroundColor:'#323130',titleFont:{family:"system-ui, -apple-system, sans-serif",size:12},bodyFont:{family:"system-ui, -apple-system, sans-serif",size:11},padding:10,cornerRadius:4};
 function mk(id,cfg){const c=document.getElementById(id);if(!c)return;if(charts[id])charts[id].destroy();charts[id]=new Chart(c,cfg);}
 
 function mkHBar(id,labels,data,colors,wrapId){
@@ -705,18 +821,18 @@ function mkHBar(id,labels,data,colors,wrapId){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:55}},
       plugins:{tooltip:BASE_TT,legend:{display:false},
         datalabels:{display:true,anchor:'end',align:'end',formatter:v=>v.toLocaleString(),
-          font:{family:"'Lora'",size:11,weight:'600'},color:'#323130'}},
-      scales:{x:{grid:{color:'#EDEBE9'},ticks:{font:{family:"'Lora'",size:11},color:'#605E5C'}},
-              y:{grid:{display:false},ticks:{font:{family:"'Lora'",size:11},color:'#323130'}}}}});
+          font:{family:"system-ui, -apple-system, sans-serif",size:11,weight:'600'},color:'#323130'}},
+      scales:{x:{grid:{color:'#EDEBE9'},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C'}},
+              y:{grid:{display:false},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#323130'}}}}});
 }
 function mkBar(id,labels,data,colors){
   mk(id,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:2,borderSkipped:false}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
       plugins:{tooltip:BASE_TT,legend:{display:false},
         datalabels:{display:true,anchor:'end',align:'top',formatter:v=>v>0?v.toLocaleString():'',
-          font:{family:"'Lora'",size:11,weight:'600'},color:'#323130'}},
-      scales:{x:{grid:{display:false},ticks:{font:{family:"'Lora'",size:11},color:'#605E5C',autoSkip:false,maxRotation:30}},
-              y:{grid:{color:'#EDEBE9'},ticks:{font:{family:"'Lora'",size:11},color:'#605E5C'}}}}});
+          font:{family:"system-ui, -apple-system, sans-serif",size:11,weight:'600'},color:'#323130'}},
+      scales:{x:{grid:{display:false},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C',autoSkip:false,maxRotation:30}},
+              y:{grid:{color:'#EDEBE9'},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C'}}}}});
 }
 function mkDonut(id,labels,data,colors,legId){
   mk(id,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:5}]},
@@ -737,7 +853,7 @@ function renderFunnel(){
   cont.innerHTML=FUNNEL_STAGES.map(s=>{
     const n=filtered.filter(r=>r[C.ESTADO]===s).length;
     const pct=Math.round(n/total*100);
-    return`<div class="frow"><div class="flbl">${FUNNEL_LBL[s]}</div><div class="ftrack"><div class="ffill" style="width:${pct}%;background:${FUNNEL_CLR[s]}"><span>${pct>6?n.toLocaleString():''}</span></div></div><div class="fcount">${n.toLocaleString()}</div></div>`;
+    return`<div class="frow"><div class="flbl">${FUNNEL_LBL[s]}</div><div class="ftrack"><div class="ffill" style="width:${pct}%;background:${FUNNEL_CLR[s]}"><span></span></div></div><div class="fcount">${n.toLocaleString()}</div></div>`;
   }).join('');
 }
 
@@ -939,7 +1055,30 @@ document.addEventListener('DOMContentLoaded',()=>{
     filtered=[...allData];renderAll();
   });
 
+  initDpListeners();
+
+  // Theme Toggle
+  const btnTheme = document.getElementById('btnThemeToggle');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  function applyTheme(isDark) {
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    // Request chart rerender if they exist
+    Object.values(charts).forEach(c => {
+      Chart.defaults.color = isDark ? '#8b949e' : '#57606a';
+      Chart.defaults.borderColor = isDark ? 'rgba(240, 246, 252, 0.1)' : 'rgba(27, 31, 36, 0.1)';
+      c.update();
+    });
+  }
+  
+  btnTheme.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    applyTheme(!isDark);
+  });
+  
+  applyTheme(prefersDark.matches);
+
   // Date picker
+
   document.getElementById('datePickerBtn').addEventListener('click',e=>{e.stopPropagation();openDp();});
   document.getElementById('dpClear').addEventListener('click',e=>{e.stopPropagation();activeDateFilter={start:null,end:null};dpUpdateBtnLabel();applyFilters();});
   document.getElementById('dpOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDp();});
