@@ -37,27 +37,26 @@
   --primary: #cd001a;
   --primary-hover: #ff334b;
   --primary-alpha: rgba(205, 0, 26, 0.2);
-  --bg: #0d1117;
-  --card: #161b22;
-  --border: #30363d;
-  --border-light: rgba(240, 246, 252, 0.1);
-  --text: #8b949e;
-  --text-dark: #c9d1d9;
-  --muted: #8b949e;
-  --sidebar: #161b22;
-  --sidebar-hover: #21262d;
-  --cal-bg: #161b22;
+  --bg: #111111;
+  --card: #1c1c1c;
+  --border: #333333;
+  --border-light: rgba(255, 255, 255, 0.05);
+  --text: #a0a0a0;
+  --text-dark: #e0e0e0;
+  --muted: #888888;
+  --sidebar: #171717;
+  --sidebar-hover: #242424;
+  --cal-bg: #1c1c1c;
   --cal-sel: #cd001a;
   --cal-range: rgba(205, 0, 26, 0.2);
-  --header-bg: #161b22;
-  --panel: #0d1117;
+  --header-bg: #1c1c1c;
+  --panel: #111111;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.8);
-
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text-dark);
   height: 100vh;
@@ -66,8 +65,6 @@ body {
 }
 
 /* Base styles for dark mode override */
-canvas { filter: brightness(1); transition: filter 0.3s; }
-[data-theme="dark"] canvas { filter: brightness(0.85) contrast(1.2); }
 
 .topbar {
   background: var(--card);
@@ -101,12 +98,14 @@ canvas { filter: brightness(1); transition: filter 0.3s; }
   border-radius: var(--radius-sm);
 }
 .btn-top {
+  display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text-dark);
   padding: 8px 16px;
   box-shadow: var(--shadow-sm);
 }
+.btn-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;}
 .btn-top:hover {
   background: var(--sidebar-hover);
   color: var(--text-dark);
@@ -130,7 +129,7 @@ canvas { filter: brightness(1); transition: filter 0.3s; }
 .up-logo{display:flex;align-items:center;gap:12px;}
 .up-logo-box{width:46px;height:46px;display:flex;align-items:center;justify-content:center;}
 .up-logo-box img{width:40px;height:40px;object-fit:contain;}
-.up-logo-txt strong{display:block;font-size:18px;font-weight:600;color:var(--text-dark);font-family:system-ui, sans-serif;}
+.up-logo-txt strong{display:block;font-size:18px;font-weight:600;color:var(--text-dark);font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .up-logo-txt span{font-size:13px;color:var(--muted);}
 #dropZone{
   width:480px;max-width:92vw;border:2px dashed var(--primary);border-radius:2px;
@@ -141,7 +140,7 @@ canvas { filter: brightness(1); transition: filter 0.3s; }
 #dropZone svg{width:46px;height:46px;stroke:var(--primary);margin:0 auto 14px;display:block;}
 #dropZone p{color:var(--text-dark);font-size:15px;font-weight:500;margin-bottom:6px;}
 #dropZone small{color:var(--muted);font-size:13px;}
-.up-btn{padding:10px 22px;border-radius:2px;font-size:14px;font-weight:500;cursor:pointer;font-family:system-ui, sans-serif;border:none;background:var(--primary);color:#fff;}
+.up-btn{padding:10px 22px;border-radius:2px;font-size:14px;font-weight:500;cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;border:none;background:var(--primary);color:#fff;}
 .up-btn:hover{background:var(--primary-hover);}
 #fileInput{display:none;}
 
@@ -153,12 +152,12 @@ canvas { filter: brightness(1); transition: filter 0.3s; }
 .sb-head{padding:0 20px;border-bottom:1px solid var(--border);background:var(--card);display:flex;align-items:center;gap:10px;height:48px;flex-shrink:0;}
 .sb-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sb-icon img{width:24px;height:24px;object-fit:contain;}
-.sb-brand strong{display:block;font-size:15px;font-weight:600;color:var(--text-dark);font-family:system-ui,sans-serif;line-height:1.2;letter-spacing:-0.2px;}
+.sb-brand strong{display:block;font-size:15px;font-weight:600;color:var(--text-dark);font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;line-height:1.2;letter-spacing:-0.2px;}
 .sb-brand span{font-size:12px;color:var(--text);font-weight:500;}
 .sb-nav{padding:16px 0;flex:1;}
-.sb-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin:16px 0 8px;font-family:system-ui, sans-serif;}
+.sb-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin:16px 0 8px;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .sb-lbl:first-child{margin-top:0;}
-.nav-btn{  font-family:system-ui, sans-serif;
+.nav-btn{  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
   display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;
   color:var(--text);font-size:13px;transition:all .15s;margin-bottom:2px;
@@ -180,34 +179,28 @@ canvas { filter: brightness(1); transition: filter 0.3s; }
 .topbar-r{display:flex;align-items:center;gap:12px;}
 .rec-badge{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:13px;color:var(--text-dark);}
 .rec-badge strong{color:var(--text-dark);}
-.btn-top{
-  display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:2px;font-size:13px;
-  font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.2);background:transparent;
-  color:rgba(255,255,255,0.8);font-family:system-ui, sans-serif;transition:all .15s;
-}
-.btn-top:hover{border-color:rgba(255,255,255,0.4);color:#fff;background:rgba(255,255,255,0.1);}
-.btn-top svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
+
 
 /* ============ FILTERBAR ============ */
 .filterbar{
   background:var(--card);border-bottom:1px solid var(--border);
   padding:0 24px;height:40px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;
 }
-.f-lbl{font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:system-ui, sans-serif;}
+.f-lbl{font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .f-sep{width:1px;height:24px;background:var(--border);}
 select.fsel{
   padding:0 8px;font-size:12px;font-weight:600;border:none;
-  background:transparent;color:var(--text-dark);cursor:pointer;font-family:system-ui, sans-serif;height:32px;outline:none;
+  background:transparent;color:var(--text-dark);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;height:32px;outline:none;
 }
 select.fsel:focus{border-color:var(--primary);}
-.btn-clr{padding:0 8px;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--text-dark);cursor:pointer;font-family:system-ui, sans-serif;height:32px;}
+.btn-clr{padding:0 8px;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--text-dark);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;height:32px;}
 .btn-clr:hover{border-color:var(--primary);color:var(--primary);}
 
 /* ============ DATE PICKER BUTTON ============ */
 #datePickerBtn{
   display:flex;align-items:center;gap:6px;padding:0 8px;height:32px;
   border:none;border-radius:0;background:transparent;
-  color:var(--text-dark);font-size:12px;font-weight:600;cursor:pointer;font-family:system-ui, sans-serif;
+  color:var(--text-dark);font-size:12px;font-weight:600;cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   transition:all .15s;white-space:nowrap;
 }
 #datePickerBtn:hover{border-color:var(--primary);}
@@ -236,14 +229,14 @@ select.fsel:focus{border-color:var(--primary);}
 .dp-presets-ttl{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;padding:0 16px;margin-bottom:8px;}
 .dp-preset-item{
   display:block;width:100%;padding:8px 16px;font-size:13px;color:var(--text);
-  cursor:pointer;border:none;background:none;text-align:left;font-family:system-ui, sans-serif;
+  cursor:pointer;border:none;background:none;text-align:left;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   border-left:3px solid transparent;transition:all .1s;
 }
 .dp-preset-item:hover{background:var(--sidebar-hover);color:var(--text-dark);}
 .dp-preset-item.sel{background:var(--card);color:var(--primary);font-weight:600;border-left-color:var(--primary);}
 .dp-divider{height:1px;background:var(--border);margin:12px 16px;}
 .dp-gran-ttl{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;padding:0 16px;margin-bottom:6px;}
-.dp-gran-item{display:block;width:100%;padding:7px 16px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;text-align:left;font-family:system-ui, sans-serif;}
+.dp-gran-item{display:block;width:100%;padding:7px 16px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;text-align:left;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .dp-gran-item.sel{color:var(--text-dark);font-weight:600;}
 /* Right calendar */
 .dp-cal-wrap{padding:20px;flex:1;}
@@ -251,7 +244,7 @@ select.fsel:focus{border-color:var(--primary);}
 .dp-goto-lbl{font-size:13px;color:var(--muted);margin-right:4px;}
 .dp-goto-sel{
   padding:5px 10px;font-size:13px;border-radius:2px;border:1px solid var(--border);
-  background:#fff;color:var(--text);cursor:pointer;font-family:system-ui, sans-serif;outline:none;
+  background:#fff;color:var(--text);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;outline:none;
 }
 .dp-nav-btn{
   width:32px;height:32px;border-radius:2px;border:1px solid var(--border);background:#fff;
@@ -265,7 +258,7 @@ select.fsel:focus{border-color:var(--primary);}
 .dp-month-ttl{
   font-size:15px;font-weight:600;color:var(--text-dark);text-align:center;
   background:transparent;border-bottom: 1px solid var(--border);padding:8px 0;margin-bottom:12px;
-  font-family:system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 .dp-dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;}
 .dp-dow{font-size:12px;font-weight:600;color:var(--muted);text-align:center;padding:4px 0;}
@@ -289,7 +282,7 @@ select.fsel:focus{border-color:var(--primary);}
 .dp-footer-info{font-size:13px;color:var(--muted);}
 .dp-footer-info strong{color:var(--text-dark);}
 .dp-footer-btns{display:flex;gap:10px;}
-.dp-btn{padding:7px 18px;border-radius:2px;font-size:13px;font-weight:500;cursor:pointer;font-family:system-ui, sans-serif;border:1px solid var(--border);background:#fff;color:var(--text);transition:all .15s;}
+.dp-btn{padding:7px 18px;border-radius:2px;font-size:13px;font-weight:500;cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;border:1px solid var(--border);background:#fff;color:var(--text);transition:all .15s;}
 .dp-btn:hover{border-color:var(--primary);color:var(--primary);}
 .dp-btn.prim{background:var(--primary);color:#fff;border-color:var(--primary);}
 .dp-btn.prim:hover{background:var(--primary-hover);border-color:var(--primary-hover); color:#fff;}
@@ -299,7 +292,7 @@ select.fsel:focus{border-color:var(--primary);}
 .view{display:none;}
 .view.active{display:block;}
 .view-hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px;}
-.view-ttl{font-size:24px;font-weight:normal;color:var(--text-dark);font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+.view-ttl{font-size:26px;font-weight:normal;color:var(--text-dark);font-family: "Georgia", "Times New Roman", serif;}
 .vbadge{font-size:12px;font-weight:600;letter-spacing:.5px;padding:4px 12px;border-radius:2px; border: 1px solid var(--border);}
 .vb-navy{background:rgba(0,0,0,.02);color:var(--text-dark);}
 .vb-red{background:rgba(0,90,158,.05);color:var(--primary);}
@@ -311,14 +304,14 @@ select.fsel:focus{border-color:var(--primary);}
 .krow.c3{grid-template-columns:repeat(3,1fr);}
 .kcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;}
 .kacc{position:absolute;top:0;left:0;right:0;height:2px;}
-.klbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;font-family:-apple-system, system-ui, sans-serif;}
-.kval{font-size:28px;font-weight:normal;color:var(--text-dark);line-height:1;margin-bottom:6px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+.klbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+.kval{font-size:28px;font-weight:normal;color:var(--text-dark);line-height:1;margin-bottom:6px;font-family: "Georgia", "Times New Roman", serif;}
 .ksub{font-size:13px;color:var(--muted);}
 .cgrid{display:grid;gap:16px;margin-bottom:16px;}
 .cgrid.c2{grid-template-columns:1fr 1fr;}
 .cgrid.c3{grid-template-columns:1fr 1fr 1fr;}
 .cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
-.cc-ttl{font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;font-family:system-ui, sans-serif;}
+.cc-ttl{font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
 .cc-sub{font-size:11px;font-style:italic;color:var(--muted);margin-top:6px;margin-bottom:14px;display:block;}
 .scroll-ch{overflow-y:auto;overflow-x:hidden;}
 .scroll-ch::-webkit-scrollbar{width:4px;}
@@ -366,7 +359,7 @@ select.fsel:focus{border-color:var(--primary);}
       <polyline points="9 15 12 12 15 15"/>
     </svg>
     <p>Arrastra tu Excel aquí o haz clic para seleccionar</p>
-    <small>Google Sheets → Archivo → Descargar → Excel (.xlsx)</small>
+    <small>CRM → Descarga tu reporte → Excel (.xlsx)</small>
   </div>
   <button class="up-btn" id="btnSelect">Seleccionar archivo</button>
   <input type="file" id="fileInput" accept=".xlsx,.xls">
@@ -431,7 +424,7 @@ select.fsel:focus{border-color:var(--primary);}
   <aside id="sidebar">
     <div class="sb-head">
       <div class="sb-icon"><img src="https://icontinental.edu.pe/wp-content/uploads/2020/07/favico.png" alt="Logo"></div>
-      <div class="sb-brand"><strong>Continental</strong><span>Performance Bidir.</span></div>
+      <div class="sb-brand"><strong>Continental</strong><span>Performance Marketing</span></div>
     </div>
     <nav class="sb-nav">
       <div class="sb-lbl">General</div>
@@ -452,6 +445,10 @@ select.fsel:focus{border-color:var(--primary);}
       </button>
       <button class="nav-btn" data-view="bidireccional">
         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Bidireccional
+      </button>
+      <div class="sb-lbl">Rendimiento</div>
+      <button class="nav-btn" data-view="avance">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Avance por semanas
       </button>
     </nav>
     <div class="sb-foot">
@@ -625,6 +622,48 @@ select.fsel:focus{border-color:var(--primary);}
         </div>
       </div>
 
+      <!-- AVANCE POR SEMANAS -->
+      <div id="view-avance" class="view">
+        <div class="view-hdr"><span class="view-ttl">Avance de Leads</span><span class="vbadge vb-navy" style="margin-left:8px;">META VS REAL</span></div>
+        
+        <!-- Filter bar specific to AVANCE -->
+        <div class="cc" style="margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <div class="f-lbl">VISTA:</div>
+          <select id="av-vista" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"><option value="Instituto">Instituto</option><option value="Escuela">Escuela</option></select>
+          <select id="av-resumen" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"><option value="Resumen">Resumen total</option><option value="Distancia">Distancia</option><option value="Presencial">Presencial</option><option value="Semipresencial">Semipresencial</option></select>
+          <select id="av-canal" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"><option value="Todos">Todos los canales</option><option value="ATL">ATL</option><option value="B2B">B2B</option><option value="BTL">BTL</option><option value="DIGITAL">DIGITAL</option></select>
+          <select id="av-tipo" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"><option value="Leads">Leads</option><option value="Matriculas">Matrículas</option></select>
+        </div>
+
+        <!-- KPIs for AVANCE -->
+        <div class="krow c4" style="margin-bottom:20px;">
+          <div class="kcard" style="border-top: 4px solid var(--border);"><div class="klbl">META TOTAL</div><div class="kval" id="av-kpi-meta">—</div><div class="ksub">Objetivo del periodo</div></div>
+          <div class="kcard" style="border-top: 4px solid #f97316;"><div class="klbl">REAL ACUMULADO</div><div class="kval" id="av-kpi-real">—</div><div class="ksub">Desde semana de inicio</div></div>
+          <div class="kcard" style="border-top: 4px solid #10b981;"><div class="klbl">% AVANCE</div><div class="kval" id="av-kpi-pct">—</div><div class="ksub">Real / Meta</div></div>
+          <div class="kcard" style="border-top: 4px solid var(--text-dark);"><div class="klbl">SEMANAS CON DATOS</div><div class="kval" id="av-kpi-sems">—</div><div class="ksub">Semanas analizadas</div></div>
+        </div>
+
+        <!-- AVANCE CHART -->
+        <div class="cc">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <div class="cc-ttl" style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance de Leads Totales</div>
+              <div class="cc-sub">Acumulado semanal: Meta vs Real</div>
+            </div>
+            <div style="text-align:right; font-size:12px; color:var(--muted);">
+              Avance Total<br/><strong id="av-avance-lbl" style="font-size:16px;color:var(--text-dark);font-family:-apple-system, sans-serif;">—</strong>
+            </div>
+          </div>
+          <div class="leg" style="margin-top:10px; margin-bottom: 20px;" id="av-leg">
+             <span class="leg-item"><span class="leg-sq" style="background:#f97316;height:4px;border-radius:2px;width:16px;"></span>REAL</span>
+             <span class="leg-item"><span class="leg-sq" style="background:#0ea5e9;height:4px;border-radius:2px;width:16px;"></span>META</span>
+          </div>
+          <div class="ch-fix" style="height:400px;margin-top:12px;">
+            <canvas id="ch-avance" role="img" aria-label="Gráfico de avance">Avance</canvas>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -643,13 +682,13 @@ const C={
   DEPTO:'Departamento (Contacto padre) (Contacto)',
 };
 
-const PALETTE=['#005A9E','#323130','#605E5C','#0078D4','#8A8886','#2B88D8','#A19F9D','#71AFE5','#D2D0CE','#E1DFDD'];
-const CANAL_CLR={'Digital':'#0078D4','BTL':'#605E5C','ATL':'#8A8886','Base de datos':'#005A9E','HS':'#323130','B2B':'#A19F9D'};
-const MOD_CLR={'DISTANCIA':'#005A9E','PRESENCIAL':'#323130','SEMIPRESENCIAL':'#605E5C'};
+const PALETTE=['#005A9E','#505A69','#605E5C','#0078D4','#8A8886','#2B88D8','#A19F9D','#71AFE5','#D2D0CE','#E1DFDD'];
+const CANAL_CLR={'Digital':'#0078D4','BTL':'#605E5C','ATL':'#8A8886','Base de datos':'#005A9E','HS':'#505A69','B2B':'#A19F9D'};
+const MOD_CLR={'DISTANCIA':'#005A9E','PRESENCIAL':'#505A69','SEMIPRESENCIAL':'#605E5C'};
 const GEN_CLR={'Masculino':'#0078D4','Femenino':'#605E5C'};
-const RAZON_CLR={'En proceso':'#0078D4','Perdida':'#323130','Lograda':'#005A9E','Cierre periodo':'#8A8886'};
+const RAZON_CLR={'En proceso':'#0078D4','Perdida':'#505A69','Lograda':'#005A9E','Cierre periodo':'#8A8886'};
 const FUNNEL_STAGES=['ENGAGEMENT','PREINSCRITO','POSTULANTE','INGRESANTE','MATRICULADO'];
-const FUNNEL_CLR={ENGAGEMENT:'#A19F9D',PREINSCRITO:'#8A8886',POSTULANTE:'#605E5C',INGRESANTE:'#323130',MATRICULADO:'#005A9E'};
+const FUNNEL_CLR={ENGAGEMENT:'rgba(205,0,26,0.15)',PREINSCRITO:'#8A8886',POSTULANTE:'#605E5C',INGRESANTE:'#505A69',MATRICULADO:'#005A9E'};
 const FUNNEL_LBL={ENGAGEMENT:'Engagement',PREINSCRITO:'Preinscrito',POSTULANTE:'Postulante',INGRESANTE:'Ingresante',MATRICULADO:'Matriculado'};
 const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const MONTHS_CAP=MONTHS.map(m=>m[0].toUpperCase()+m.slice(1));
@@ -811,7 +850,7 @@ function dpUpdateBtnLabel(){
 }
 
 // ===== CHART HELPERS =====
-const BASE_TT={backgroundColor:'#323130',titleFont:{family:"system-ui, -apple-system, sans-serif",size:12},bodyFont:{family:"system-ui, -apple-system, sans-serif",size:11},padding:10,cornerRadius:4};
+const BASE_TT={backgroundColor:'rgba(0,0,0,0.85)',titleColor:'#fff',bodyColor:'#eee',titleFont:{family:"-apple-system, sans-serif",size:12},bodyFont:{family:"-apple-system, sans-serif",size:11},padding:10,cornerRadius:4};
 function mk(id,cfg){const c=document.getElementById(id);if(!c)return;if(charts[id])charts[id].destroy();charts[id]=new Chart(c,cfg);}
 
 function mkHBar(id,labels,data,colors,wrapId){
@@ -821,21 +860,21 @@ function mkHBar(id,labels,data,colors,wrapId){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:55}},
       plugins:{tooltip:BASE_TT,legend:{display:false},
         datalabels:{display:true,anchor:'end',align:'end',formatter:v=>v.toLocaleString(),
-          font:{family:"system-ui, -apple-system, sans-serif",size:11,weight:'600'},color:'#323130'}},
-      scales:{x:{grid:{color:'#EDEBE9'},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C'}},
-              y:{grid:{display:false},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#323130'}}}}});
+          font:{family:"-apple-system, sans-serif",size:11,weight:'normal'}}},
+      scales:{x:{grid:{},ticks:{font:{family:"-apple-system, sans-serif",size:11}}},
+              y:{grid:{display:false},ticks:{font:{family:"-apple-system, sans-serif",size:11}}}}}});
 }
 function mkBar(id,labels,data,colors){
   mk(id,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:2,borderSkipped:false}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
       plugins:{tooltip:BASE_TT,legend:{display:false},
         datalabels:{display:true,anchor:'end',align:'top',formatter:v=>v>0?v.toLocaleString():'',
-          font:{family:"system-ui, -apple-system, sans-serif",size:11,weight:'600'},color:'#323130'}},
-      scales:{x:{grid:{display:false},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C',autoSkip:false,maxRotation:30}},
-              y:{grid:{color:'#EDEBE9'},ticks:{font:{family:"system-ui, -apple-system, sans-serif",size:11},color:'#605E5C'}}}}});
+          font:{family:"-apple-system, sans-serif",size:11,weight:'normal'}}},
+      scales:{x:{grid:{display:false},ticks:{font:{family:"-apple-system, sans-serif",size:11},autoSkip:false,maxRotation:30}},
+              y:{grid:{},ticks:{font:{family:"-apple-system, sans-serif",size:11}}}}}});
 }
 function mkDonut(id,labels,data,colors,legId){
-  mk(id,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:5}]},
+  mk(id,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,hoverOffset:5}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
       plugins:{tooltip:BASE_TT,legend:{display:false},datalabels:{display:false}}}});
   buildLeg(legId,labels,data,colors);
@@ -853,7 +892,7 @@ function renderFunnel(){
   cont.innerHTML=FUNNEL_STAGES.map(s=>{
     const n=filtered.filter(r=>r[C.ESTADO]===s).length;
     const pct=Math.round(n/total*100);
-    return`<div class="frow"><div class="flbl">${FUNNEL_LBL[s]}</div><div class="ftrack"><div class="ffill" style="width:${pct}%;background:${FUNNEL_CLR[s]}"><span></span></div></div><div class="fcount">${n.toLocaleString()}</div></div>`;
+    return`<div class="frow"><div class="flbl">${FUNNEL_LBL[s]}</div><div class="ftrack"><div class="ffill" style="width:${pct}%;background:${FUNNEL_CLR[s]}"></div></div><div class="fcount">${n.toLocaleString()}</div></div>`;
   }).join('');
 }
 
@@ -888,7 +927,7 @@ function renderResumen(){
   const cd=countBy(filtered,C.CANAL);const ce=topN(cd,6);
   mkDonut('ch-r-canal',ce.map(e=>e[0]),ce.map(e=>e[1]),ce.map((e,i)=>CANAL_CLR[e[0]]||PALETTE[i]),'leg-r-canal');
   const pe=topN(countBy(filtered,C.PROGRAMA),8);
-  mkHBar('ch-r-prog',pe.map(e=>trim(e[0],30)),pe.map(e=>e[1]),Array(pe.length).fill('#323130'),'wrap-r-prog');
+  mkHBar('ch-r-prog',pe.map(e=>trim(e[0],30)),pe.map(e=>e[1]),Array(pe.length).fill('#505A69'),'wrap-r-prog');
   const me=Object.entries(countBy(filtered,C.MODALIDAD));
   mkDonut('ch-r-mod',me.map(e=>e[0]),me.map(e=>e[1]),me.map(e=>MOD_CLR[e[0]]||'#999'),'leg-r-mod');
   const graw=countBy(filtered.filter(r=>r[C.GENERO]),C.GENERO);
@@ -902,20 +941,20 @@ function renderCaptacion(){
   const cd=countBy(filtered,C.CANAL);const ce=topN(cd,6);
   mkDonut('ch-c-canal',ce.map(e=>e[0]),ce.map(e=>e[1]),ce.map((e,i)=>CANAL_CLR[e[0]]||PALETTE[i]),'leg-c-canal');
   const pe=topN(countBy(filtered,C.PROGRAMA),10);
-  mkHBar('ch-c-prog',pe.map(e=>trim(e[0],30)),pe.map(e=>e[1]),Array(pe.length).fill('#323130'),'wrap-c-prog');
+  mkHBar('ch-c-prog',pe.map(e=>trim(e[0],30)),pe.map(e=>e[1]),Array(pe.length).fill('#505A69'),'wrap-c-prog');
   const oe=topN(countBy(filtered,C.ORIGEN),10);
   mkHBar('ch-c-origen',oe.map(e=>trim(e[0],28)),oe.map(e=>e[1]),Array(oe.length).fill('#005A9E'),'wrap-c-origen');
   const me=Object.entries(countBy(filtered,C.MODALIDAD));
   mkDonut('ch-c-mod',me.map(e=>e[0]),me.map(e=>e[1]),me.map(e=>MOD_CLR[e[0]]||'#999'),'leg-c-mod');
   const te=Object.entries(countBy(filtered,C.TIPO));
-  mkDonut('ch-c-tipo',te.map(e=>e[0]),te.map(e=>e[1]),['#323130','#005A9E'],'leg-c-tipo');
+  mkDonut('ch-c-tipo',te.map(e=>e[0]),te.map(e=>e[1]),['#505A69','#005A9E'],'leg-c-tipo');
   const pre=Object.entries(countBy(filtered,C.PERIODO));
-  mkBar('ch-c-periodo',pre.map(e=>e[0]),pre.map(e=>e[1]),['#323130','#005A9E','#0078D4']);
+  mkBar('ch-c-periodo',pre.map(e=>e[0]),pre.map(e=>e[1]),['#505A69','#005A9E','#0078D4']);
 }
 function renderComercial(){
   const f4=filtered.filter(r=>['MATRICULADO','INGRESANTE','POSTULANTE','PREINSCRITO'].includes(r[C.ESTADO]));
   const be=topN(countBy(f4.length?f4:filtered,C.BASE),10);
-  mkHBar('ch-com-base',be.map(e=>trim(e[0],22)),be.map(e=>e[1]),Array(be.length).fill('#323130'),'wrap-com-base');
+  mkHBar('ch-com-base',be.map(e=>trim(e[0],22)),be.map(e=>e[1]),Array(be.length).fill('#505A69'),'wrap-com-base');
   const matD=filtered.filter(r=>r[C.ESTADO]==='MATRICULADO');
   const cme=Object.entries(countBy(matD.length?matD:filtered,C.CANAL));
   mkDonut('ch-com-canal',cme.map(e=>e[0]),cme.map(e=>e[1]),cme.map((e,i)=>CANAL_CLR[e[0]]||PALETTE[i]),'leg-com-canal');
@@ -934,7 +973,7 @@ function renderGeografia(){
   const depData=filtered.filter(r=>r[C.DEPTO]&&r[C.DEPTO].toString().trim()!='');
   const depArr=Object.entries(countBy(depData,C.DEPTO)).sort((a,b)=>b[1]-a[1]);
   const total=filtered.length||1;
-  mkHBar('ch-g-depto',depArr.map(e=>e[0]),depArr.map(e=>e[1]),depArr.map((_,i)=>i===0?'#005A9E':'#323130'),'wrap-g-depto');
+  mkHBar('ch-g-depto',depArr.map(e=>e[0]),depArr.map(e=>e[1]),depArr.map((_,i)=>i===0?'#005A9E':'#505A69'),'wrap-g-depto');
   const edadMap={};
   depData.forEach(r=>{const d=r[C.DEPTO];const e=+r[C.EDAD];if(d&&e>0&&e<100){if(!edadMap[d])edadMap[d]=[];edadMap[d].push(e);}});
   const edAvg=Object.entries(edadMap).map(([d,arr])=>([d,+(avg(arr).toFixed(1))])).sort((a,b)=>b[1]-a[1]);
@@ -952,8 +991,8 @@ function renderGeografia(){
 function renderBidireccional(){
   const bdD=filtered.filter(r=>r[C.USUARIO_BIDIR]&&r[C.USUARIO_BIDIR].toString().trim()!='');
   const ube=topN(countBy(bdD,C.USUARIO_BIDIR),15);
-  mkHBar('ch-b-users',ube.map(e=>trim(e[0],26)),ube.map(e=>e[1]),ube.map((_,i)=>i===0?'#005A9E':i===1?'#323130':'#71AFE5'),'wrap-b-users');
-  mkDonut('ch-b-cob',['Con gestión bidir.','Sin gestión bidir.'],[bdD.length,filtered.length-bdD.length],['#323130','#EDEBE9'],'leg-b-cob');
+  mkHBar('ch-b-users',ube.map(e=>trim(e[0],26)),ube.map(e=>e[1]),ube.map((_,i)=>i===0?'#005A9E':i===1?'#505A69':'#71AFE5'),'wrap-b-users');
+  mkDonut('ch-b-cob',['Con gestión bidir.','Sin gestión bidir.'],[bdD.length,filtered.length-bdD.length],['#505A69','#EDEBE9'],'leg-b-cob');
   const ec=FUNNEL_STAGES.map(s=>bdD.filter(r=>r[C.ESTADO]===s).length);
   mkBar('ch-b-funnel',FUNNEL_STAGES.map(s=>FUNNEL_LBL[s]),ec,FUNNEL_STAGES.map(s=>FUNNEL_CLR[s]));
   const cbe=Object.entries(countBy(bdD,C.CANAL));
@@ -966,11 +1005,11 @@ function renderBidireccional(){
     const eng=rows.filter(r=>r[C.ESTADO]==='ENGAGEMENT').length;
     const mat=rows.filter(r=>r[C.ESTADO]==='MATRICULADO').length;
     const cm=Object.entries(countBy(rows,C.CANAL)).sort((a,b)=>b[1]-a[1])[0];
-    return`<tr><td style="font-weight:600">${trim(usr,30)}</td><td style="text-align:center"><strong>${cnt}</strong></td><td style="text-align:center">${act}</td><td style="text-align:center">${eng}</td><td style="text-align:center">${mat}</td><td style="text-align:center">${cm?cm[0]:'—'}</td><td style="width:120px"><div class="geo-mini" style="width:${Math.round(cnt/maxC*100)}%;background:#323130"></div></td></tr>`;
+    return`<tr><td style="font-weight:600">${trim(usr,30)}</td><td style="text-align:center"><strong>${cnt}</strong></td><td style="text-align:center">${act}</td><td style="text-align:center">${eng}</td><td style="text-align:center">${mat}</td><td style="text-align:center">${cm?cm[0]:'—'}</td><td style="width:120px"><div class="geo-mini" style="width:${Math.round(cnt/maxC*100)}%;background:#505A69"></div></td></tr>`;
   }).join('');
 }
 
-function renderAll(){updateKPIs();renderResumen();renderCaptacion();renderComercial();renderGeografia();renderBidireccional();}
+function renderAll(){updateKPIs();renderResumen();renderCaptacion();renderComercial();renderGeografia();renderBidireccional();renderAvance();}
 
 // ===== FILTERS =====
 function toDate(v){
@@ -1023,12 +1062,13 @@ function processExcel(wb){
 function loadFile(file){const r=new FileReader();r.onload=e=>{const wb=XLSX.read(e.target.result,{type:'binary',cellDates:true});processExcel(wb);};r.readAsBinaryString(file);}
 
 // ===== NAV =====
-const viewNames={resumen:'Resumen general',captacion:'Oportunidades — Captación',comercial:'Matriculados — Comercial',geografia:'Geografía',bidireccional:'Bidireccional'};
+const viewNames={resumen:'Resumen general',avance:'Avance por semanas',captacion:'Oportunidades — Captación',comercial:'Matriculados — Comercial',geografia:'Geografía',bidireccional:'Bidireccional'};
 function switchView(v){
+  document.querySelector('.filterbar').style.display = (v==='avance') ? 'none' : 'flex';
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
   setEl('topView',viewNames[v]||v);
-  const c=document.querySelector('.content');if(c)c.scrollTop=0;
+  const c=document.querySelector('.content');if(c)c.scrollTop=0; if(v==='avance') renderAvance();
 }
 
 // ===== EVENTS =====
@@ -1062,19 +1102,23 @@ document.addEventListener('DOMContentLoaded',()=>{
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   function applyTheme(isDark) {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    
+    Chart.defaults.color = isDark ? '#a0a0a0' : '#444444';
+    Chart.defaults.borderColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+    Chart.defaults.elements.bar.borderWidth = 0;
+    Chart.defaults.elements.bar.borderColor = 'transparent';
+    Chart.defaults.elements.arc.borderColor = isDark ? '#1c1c1c' : '#fff';
+    Chart.defaults.elements.arc.borderWidth = 2;
+
     // Request chart rerender if they exist
-    Object.values(charts).forEach(c => {
-      Chart.defaults.color = isDark ? '#8b949e' : '#57606a';
-      Chart.defaults.borderColor = isDark ? 'rgba(240, 246, 252, 0.1)' : 'rgba(27, 31, 36, 0.1)';
-      c.update();
-    });
+    Object.values(charts).forEach(c => c.update());
   }
   
   btnTheme.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    applyTheme(!isDark);
+    const d = document.documentElement.getAttribute('data-theme') === 'dark';
+    applyTheme(!d);
   });
-  
+
   applyTheme(prefersDark.matches);
 
   // Date picker
@@ -1114,6 +1158,532 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   });
 });
+
+// ===== AVANCE METAS =====
+let metasData = []; // will store the read records from the secondary Excel
+
+// Hardcoded Metas are processed directly
+function initMetas() {
+    processMetasCSV(`INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+DISTANCIA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Distancia;18;lunes, 27 de Abril de 2026;11;2.72%;9;2.08%;7;1.99%;156;2.04%;;183;;Distancia;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Distancia;19;lunes, 4 de Mayo de 2026;12;2.96%;9;2.08%;7;1.99%;195;2.56%;;223;;Distancia;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Distancia;20;lunes, 11 de Mayo de 2026;13;3.21%;20;4.63%;16;4.56%;215;2.82%;;264;;Distancia;20;lunes, 11 de Mayo de 2026;3;3.06%;1;4.00%;0;0.00%;10;2.11%;;14;;;
+Distancia;21;lunes, 18 de Mayo de 2026;13;3.21%;18;4.17%;14;3.99%;215;2.82%;;260;;Distancia;21;lunes, 18 de Mayo de 2026;3;3.06%;1;4.00%;0;0.00%;12;2.53%;;16;;;
+Distancia;22;lunes, 25 de Mayo de 2026;14;3.46%;18;4.17%;14;3.99%;235;3.08%;;281;;Distancia;22;lunes, 25 de Mayo de 2026;3;3.06%;1;4.00%;1;4.55%;13;2.74%;;18;;;
+Distancia;23;lunes, 1 de Junio de 2026;17;4.20%;18;4.17%;14;3.99%;274;3.59%;;323;;Distancia;23;lunes, 1 de Junio de 2026;3;3.06%;1;4.00%;1;4.55%;13;2.74%;;18;;;
+Distancia;24;lunes, 8 de Junio de 2026;18;4.44%;18;4.17%;14;3.99%;293;3.84%;;343;;Distancia;24;lunes, 8 de Junio de 2026;3;3.06%;1;4.00%;1;4.55%;15;3.16%;;20;;;
+Distancia;25;lunes, 15 de Junio de 2026;20;4.94%;22;5.09%;18;5.13%;318;4.17%;;378;;Distancia;25;lunes, 15 de Junio de 2026;4;4.08%;1;4.00%;1;4.55%;17;3.58%;;23;;;
+Distancia;26;lunes, 22 de Junio de 2026;21;5.19%;24;5.56%;18;5.13%;352;4.61%;;415;;Distancia;26;lunes, 22 de Junio de 2026;4;4.08%;1;4.00%;1;4.55%;18;3.79%;;24;;;
+Distancia;27;lunes, 29 de Junio de 2026;22;5.43%;29;6.71%;23;6.55%;371;4.86%;;445;;Distancia;27;lunes, 29 de Junio de 2026;5;5.10%;1;4.00%;1;4.55%;18;3.79%;;25;;;
+Distancia;28;lunes, 6 de Julio de 2026;25;6.17%;30;6.94%;25;7.12%;420;5.50%;;500;;Distancia;28;lunes, 6 de Julio de 2026;5;5.10%;1;4.00%;1;4.55%;24;5.05%;;31;;;
+Distancia;29;lunes, 13 de Julio de 2026;26;6.42%;31;7.18%;27;7.69%;450;5.90%;;534;;Distancia;29;lunes, 13 de Julio de 2026;5;5.10%;1;4.00%;1;4.55%;29;6.11%;;36;;;
+Distancia;30;lunes, 20 de Julio de 2026;29;7.16%;26;6.02%;23;6.55%;510;6.68%;;588;;Distancia;30;lunes, 20 de Julio de 2026;6;6.12%;1;4.00%;1;4.55%;29;6.11%;;37;;;
+Distancia;31;lunes, 27 de Julio de 2026;20;4.94%;20;4.63%;15;4.27%;500;6.55%;;555;;Distancia;31;lunes, 27 de Julio de 2026;4;4.08%;1;4.00%;1;4.55%;20;4.21%;;26;;;
+Distancia;32;lunes, 3 de Agosto de 2026;34;8.40%;31;7.18%;25;7.12%;606;7.94%;;696;;Distancia;32;lunes, 3 de Agosto de 2026;7;7.14%;2;8.00%;2;9.09%;33;6.95%;;44;;;
+Distancia;33;lunes, 10 de Agosto de 2026;40;9.88%;39;9.03%;33;9.40%;684;8.96%;;796;;Distancia;33;lunes, 10 de Agosto de 2026;7;7.14%;2;8.00%;2;9.09%;39;8.21%;;50;;;
+Distancia;34;lunes, 17 de Agosto de 2026;37;9.14%;35;8.10%;29;8.26%;754;9.88%;;855;;Distancia;34;lunes, 17 de Agosto de 2026;9;9.18%;2;8.00%;2;9.09%;43;9.05%;;56;;;
+Distancia;35;lunes, 24 de Agosto de 2026;33;8.15%;35;8.10%;29;8.26%;801;10.50%;;898;;Distancia;35;lunes, 24 de Agosto de 2026;10;10.20%;3;12.00%;2;9.09%;50;10.53%;;65;;;
+Distancia;36;lunes, 31 de Agosto de 2026;;;;;;;283;3.71%;;283;;Distancia;36;lunes, 31 de Agosto de 2026;9;9.18%;2;8.00%;2;9.09%;54;11.37%;;67;;;
+Distancia;37;lunes, 7 de Setiembre de 2026;;;;;;;;;;0;;Distancia;37;lunes, 7 de Setiembre de 2026;8;8.16%;2;8.00%;2;9.09%;38;8.00%;;50;;;
+Distancia;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;Distancia;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;;
+Distancia;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;Distancia;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;;
+Distancia;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;Distancia;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
+Distancia;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;Distancia;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
+Distancia;;Total;405;100.00%;432;100.00%;351;100.00%;7632;100.00%;;8,820;;Distancia;;Total;98;100.00%;25;100.00%;22;100.00%;475;100.00%;;620;;;
+INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Presencial;18;lunes, 27 de Abril de 2026;15;2.60%;;0.00%;15;2.21%;62;1.98%;;92;;Presencial;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Presencial;19;lunes, 4 de Mayo de 2026;17;2.95%;;0.00%;15;2.21%;77;2.46%;;109;;Presencial;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Presencial;20;lunes, 11 de Mayo de 2026;19;3.30%;;0.00%;15;2.21%;85;2.72%;;119;;Presencial;20;lunes, 11 de Mayo de 2026;7;2.55%;;0.00%;1;3.70%;5;2.10%;;13;;;
+Presencial;21;lunes, 18 de Mayo de 2026;19;3.30%;;0.00%;30;4.42%;85;2.72%;;134;;Presencial;21;lunes, 18 de Mayo de 2026;8;2.91%;;0.00%;1;3.70%;6;2.52%;;15;;;
+Presencial;22;lunes, 25 de Mayo de 2026;20;3.47%;;0.00%;30;4.42%;93;2.97%;;143;;Presencial;22;lunes, 25 de Mayo de 2026;9;3.27%;;0.00%;1;3.70%;6;2.52%;;16;;;
+Presencial;23;lunes, 1 de Junio de 2026;24;4.17%;;0.00%;30;4.42%;108;3.45%;;162;;Presencial;23;lunes, 1 de Junio de 2026;9;3.27%;;0.00%;1;3.70%;6;2.52%;;16;;;
+Presencial;24;lunes, 8 de Junio de 2026;27;4.69%;;0.00%;30;4.42%;116;3.71%;;173;;Presencial;24;lunes, 8 de Junio de 2026;10;3.64%;;0.00%;1;3.70%;7;2.94%;;18;;;
+Presencial;25;lunes, 15 de Junio de 2026;28;4.86%;;0.00%;38;5.60%;124;3.96%;;190;;Presencial;25;lunes, 15 de Junio de 2026;11;4.00%;;0.00%;1;3.70%;8;3.36%;;20;;;
+Presencial;26;lunes, 22 de Junio de 2026;29;5.03%;;0.00%;38;5.60%;139;4.44%;;206;;Presencial;26;lunes, 22 de Junio de 2026;12;4.36%;;0.00%;1;3.70%;9;3.78%;;22;;;
+Presencial;27;lunes, 29 de Junio de 2026;30;5.21%;;0.00%;40;5.90%;147;4.70%;;217;;Presencial;27;lunes, 29 de Junio de 2026;13;4.73%;;0.00%;1;3.70%;9;3.78%;;23;;;
+Presencial;28;lunes, 6 de Julio de 2026;34;5.90%;;0.00%;41;6.05%;163;5.21%;;238;;Presencial;28;lunes, 6 de Julio de 2026;14;5.09%;;0.00%;1;3.70%;11;4.62%;;26;;;
+Presencial;29;lunes, 13 de Julio de 2026;37;6.42%;;0.00%;42;6.19%;180;5.75%;;259;;Presencial;29;lunes, 13 de Julio de 2026;15;5.45%;;0.00%;1;3.70%;11;4.62%;;27;;;
+Presencial;30;lunes, 20 de Julio de 2026;42;7.29%;;0.00%;46;6.78%;201;6.43%;;289;;Presencial;30;lunes, 20 de Julio de 2026;17;6.18%;;0.00%;1;3.70%;12;5.04%;;30;;;
+Presencial;31;lunes, 27 de Julio de 2026;35;6.08%;;0.00%;40;5.90%;210;6.71%;;285;;Presencial;31;lunes, 27 de Julio de 2026;12;4.36%;;0.00%;1;3.70%;10;4.20%;;23;;;
+Presencial;32;lunes, 3 de Agosto de 2026;47;8.16%;;0.00%;53;7.82%;240;7.67%;;340;;Presencial;32;lunes, 3 de Agosto de 2026;19;6.91%;;0.00%;2;7.41%;16;6.72%;;37;;;
+Presencial;33;lunes, 10 de Agosto de 2026;55;9.55%;;0.00%;53;7.82%;271;8.66%;;379;;Presencial;33;lunes, 10 de Agosto de 2026;22;8.00%;;0.00%;3;11.11%;18;7.56%;;43;;;
+Presencial;34;lunes, 17 de Agosto de 2026;51;8.85%;;0.00%;61;9.00%;294;9.40%;;406;;Presencial;34;lunes, 17 de Agosto de 2026;24;8.73%;;0.00%;3;11.11%;22;9.24%;;49;;;
+Presencial;35;lunes, 24 de Agosto de 2026;47;8.16%;;0.00%;61;9.00%;318;10.17%;;426;;Presencial;35;lunes, 24 de Agosto de 2026;26;9.45%;;0.00%;3;11.11%;25;10.50%;;54;;;
+Presencial;36;lunes, 31 de Agosto de 2026;;0.00%;;0.00%;;0.00%;215;6.87%;;215;;Presencial;36;lunes, 31 de Agosto de 2026;28;10.18%;;0.00%;3;11.11%;28;11.76%;;59;;;
+Presencial;37;lunes, 7 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;37;lunes, 7 de Setiembre de 2026;19;6.91%;;0.00%;1;3.70%;20;8.40%;;40;;;
+Presencial;38;lunes, 14 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;38;lunes, 14 de Setiembre de 2026;;;;;;;9;3.78%;;9;;;
+Presencial;39;lunes, 21 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;0.00%;;0;;;
+Presencial;40;lunes, 28 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
+Presencial;41;lunes, 5 de Octubre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
+Presencial;;Total;576;100%;0;0;678;100%;3128;100%;;4,382;;Presencial;;Total;275;100.00%;0;0.00%;27;100.00%;238;100.00%;;540;;;
+INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SEMIPRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Semipresencial;18;lunes, 27 de Abril de 2026;2;3.23%;;0.00%;;0.00%;15;2.10%;;17;;Semipresencial;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Semipresencial;19;lunes, 4 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;18;2.52%;;20;;Semipresencial;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
+Semipresencial;20;lunes, 11 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;20;2.81%;;22;;Semipresencial;20;lunes, 11 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
+Semipresencial;21;lunes, 18 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;20;2.81%;;22;;Semipresencial;21;lunes, 18 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
+Semipresencial;22;lunes, 25 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;22;3.09%;;24;;Semipresencial;22;lunes, 25 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
+Semipresencial;23;lunes, 1 de Junio de 2026;3;4.84%;;0.00%;;0.00%;26;3.65%;;29;;Semipresencial;23;lunes, 1 de Junio de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
+Semipresencial;24;lunes, 8 de Junio de 2026;3;4.84%;;0.00%;;0.00%;27;3.79%;;30;;Semipresencial;24;lunes, 8 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;25;lunes, 15 de Junio de 2026;3;4.84%;;0.00%;;0.00%;29;4.07%;;32;;Semipresencial;25;lunes, 15 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;26;lunes, 22 de Junio de 2026;3;4.84%;;0.00%;;0.00%;33;4.63%;;36;;Semipresencial;26;lunes, 22 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;27;lunes, 29 de Junio de 2026;3;4.84%;;0.00%;;0.00%;35;4.91%;;38;;Semipresencial;27;lunes, 29 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;28;lunes, 6 de Julio de 2026;4;6.45%;;0.00%;;0.00%;38;5.33%;;42;;Semipresencial;28;lunes, 6 de Julio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;29;lunes, 13 de Julio de 2026;4;6.45%;;0.00%;;0.00%;43;6.03%;;47;;Semipresencial;29;lunes, 13 de Julio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
+Semipresencial;30;lunes, 20 de Julio de 2026;4;6.45%;;0.00%;;0.00%;49;6.87%;;53;;Semipresencial;30;lunes, 20 de Julio de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
+Semipresencial;31;lunes, 27 de Julio de 2026;2;3.23%;;0.00%;;0.00%;45;6.31%;;47;;Semipresencial;31;lunes, 27 de Julio de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
+Semipresencial;32;lunes, 3 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;57;7.99%;;63;;Semipresencial;32;lunes, 3 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
+Semipresencial;33;lunes, 10 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;64;8.98%;;70;;Semipresencial;33;lunes, 10 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;4;8.00%;;5;;;
+Semipresencial;34;lunes, 17 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;70;9.82%;;76;;Semipresencial;34;lunes, 17 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;4;8.00%;;5;;;
+Semipresencial;35;lunes, 24 de Agosto de 2026;5;8.06%;;0.00%;;0.00%;76;10.66%;;81;;Semipresencial;35;lunes, 24 de Agosto de 2026;2;10.00%;;0.00%;;0.00%;4;8.00%;;6;;;
+Semipresencial;36;lunes, 31 de Agosto de 2026;;;;;;;26;3.65%;;26;;Semipresencial;36;lunes, 31 de Agosto de 2026;2;10.00%;;0.00%;;0.00%;6;12.00%;;8;;;
+Semipresencial;37;lunes, 7 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;37;lunes, 7 de Setiembre de 2026;1;5.00%;;0.00%;;0.00%;5;10.00%;;6;;;
+Semipresencial;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;38;lunes, 14 de Setiembre de 2026;;;;;;;2;4.00%;;2;;;
+Semipresencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;0.00%;;0;;;
+Semipresencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
+Semipresencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;Semipresencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
+Semipresencial;;Total;62;100.00%;0;0.00%;0;0.00%;713;100.00%;;775;;Semipresencial;;Total;20;100.00%;0;0.00%;0;0.00%;50;100.00%;;70;;;
+INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+RESUMEN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Instituto;18;lunes, 27 de Abril de 2026;28;2.68%;9;2.08%;22;2.14%;233;2.03%;;292;;Instituto;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Instituto;19;lunes, 4 de Mayo de 2026;31;2.97%;9;2.08%;22;2.14%;290;2.53%;;352;;Instituto;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;MES;META
+Instituto;20;lunes, 11 de Mayo de 2026;34;3.26%;20;4.63%;31;3.01%;320;2.79%;;405;;Instituto;20;lunes, 11 de Mayo de 2026;11;2.80%;1;4.00%;1;2.04%;16;2.10%;;29;;MAYO;98
+Instituto;21;lunes, 18 de Mayo de 2026;34;3.26%;18;4.17%;44;4.28%;320;2.79%;;416;;Instituto;21;lunes, 18 de Mayo de 2026;12;3.05%;1;4.00%;1;2.04%;19;2.49%;;33;;JUNIO;172
+Instituto;22;lunes, 25 de Mayo de 2026;36;3.45%;18;4.17%;44;4.28%;350;3.05%;;448;;Instituto;22;lunes, 25 de Mayo de 2026;13;3.31%;1;4.00%;2;4.08%;20;2.62%;;36;;JULIO;301
+Instituto;23;lunes, 1 de Junio de 2026;44;4.22%;18;4.17%;44;4.28%;408;3.56%;;514;;Instituto;23;lunes, 1 de Junio de 2026;13;3.31%;1;4.00%;2;4.08%;20;2.62%;;36;;AGOSTO;418
+Instituto;24;lunes, 8 de Junio de 2026;48;4.60%;18;4.17%;44;4.28%;436;3.80%;;546;;Instituto;24;lunes, 8 de Junio de 2026;14;3.56%;1;4.00%;2;4.08%;24;3.15%;;41;;SEPTIEMBRE;241
+Instituto;25;lunes, 15 de Junio de 2026;51;4.89%;22;5.09%;56;5.44%;471;4.11%;;600;;Instituto;25;lunes, 15 de Junio de 2026;16;4.07%;1;4.00%;2;4.08%;27;3.54%;;46;;;1,230
+Instituto;26;lunes, 22 de Junio de 2026;53;5.08%;24;5.56%;56;5.44%;524;4.57%;;657;;Instituto;26;lunes, 22 de Junio de 2026;17;4.33%;1;4.00%;2;4.08%;29;3.80%;;49;;;
+Instituto;27;lunes, 29 de Junio de 2026;55;5.27%;29;6.71%;63;6.12%;553;4.82%;;700;;Instituto;27;lunes, 29 de Junio de 2026;19;4.83%;1;4.00%;2;4.08%;29;3.80%;;51;;;
+Instituto;28;lunes, 6 de Julio de 2026;63;6.04%;30;6.94%;66;6.41%;621;5.41%;;780;;Instituto;28;lunes, 6 de Julio de 2026;20;5.09%;1;4.00%;2;4.08%;37;4.85%;;60;;;
+Instituto;29;lunes, 13 de Julio de 2026;67;6.42%;31;7.18%;69;6.71%;673;5.87%;;840;;Instituto;29;lunes, 13 de Julio de 2026;21;5.34%;1;4.00%;2;4.08%;42;5.50%;;66;;;
+Instituto;30;lunes, 20 de Julio de 2026;75;7.19%;26;6.02%;69;6.71%;760;6.62%;;930;;Instituto;30;lunes, 20 de Julio de 2026;24;6.11%;1;4.00%;2;4.08%;44;5.77%;;71;;;
+Instituto;31;lunes, 27 de Julio de 2026;57;5.47%;20;4.63%;55;5.34%;755;6.58%;;887;;Instituto;31;lunes, 27 de Julio de 2026;17;4.33%;1;4.00%;2;4.08%;33;4.33%;;53;;;
+Instituto;32;lunes, 3 de Agosto de 2026;87;8.34%;31;7.18%;78;7.58%;903;7.87%;;1,099;;Instituto;32;lunes, 3 de Agosto de 2026;27;6.87%;2;8.00%;4;8.16%;52;6.82%;;85;;;
+Instituto;33;lunes, 10 de Agosto de 2026;101;9.68%;39;9.03%;86;8.36%;1019;8.88%;;1,245;;Instituto;33;lunes, 10 de Agosto de 2026;30;7.63%;2;8.00%;5;10.20%;61;7.99%;;98;;;
+Instituto;34;lunes, 17 de Agosto de 2026;94;9.01%;35;8.10%;90;8.75%;1118;9.74%;;1,337;;Instituto;34;lunes, 17 de Agosto de 2026;34;8.65%;2;8.00%;5;10.20%;69;9.04%;;110;;;
+Instituto;35;lunes, 24 de Agosto de 2026;85;8.15%;35;8.10%;90;8.75%;1195;10.42%;;1,405;;Instituto;35;lunes, 24 de Agosto de 2026;38;9.67%;3;12.00%;5;10.20%;79;10.35%;;125;;;
+Instituto;36;lunes, 31 de Agosto de 2026;0;0.00%;0;;0;0.00%;524;4.57%;;524;;Instituto;36;lunes, 31 de Agosto de 2026;39;9.92%;2;8.00%;5;10.20%;88;11.53%;;134;;;
+Instituto;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;0.00%;;0;;Instituto;37;lunes, 7 de Setiembre de 2026;28;7.12%;2;8.00%;3;6.12%;63;8.26%;;96;;;
+Instituto;38;lunes, 14 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;0.00%;;0;;Instituto;38;lunes, 14 de Setiembre de 2026;0;;0;0.00%;0;0.00%;11;1.44%;;11;;;
+Instituto;39;lunes, 21 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;;;0;;Instituto;39;lunes, 21 de Setiembre de 2026;0;;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Instituto;40;lunes, 28 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;;;0;;Instituto;40;lunes, 28 de Setiembre de 2026;0;;0;;0;;0;0.00%;;0;;;
+Instituto;41;lunes, 5 de Octubre de 2026;0;;0;;0;;0;;;0;;Instituto;41;lunes, 5 de Octubre de 2026;0;;0;;0;;0;;;0;;;
+Instituto;;Total;1043;100.00%;432;100.00%;1029;100.00%;11473;100.00%;;13,977;;Instituto;;Total;393;100.00%;25;100.00%;49;100.00%;763;100.00%;;1230;;;
+ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+DISTANCIA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Distancia;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;0;0.00%;;6;;Distancia;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;49;1.86%;;55;;Distancia;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;21;lunes, 18 de Mayo de 2026;0;0.00%;30;20.55%;6;4.48%;49;1.86%;;85;;Distancia;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;22;lunes, 25 de Mayo de 2026;0;0.00%;30;20.55%;6;4.48%;98;3.71%;;134;;Distancia;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
+Distancia;23;lunes, 1 de Junio de 2026;4;5.13%;30;20.55%;6;4.48%;98;3.71%;;138;;Distancia;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;1;20.00%;1;2.08%;;2;;;
+Distancia;24;lunes, 8 de Junio de 2026;4;5.13%;30;20.55%;6;4.48%;98;3.71%;;138;;Distancia;24;lunes, 8 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;2;4.17%;;3;;;
+Distancia;25;lunes, 15 de Junio de 2026;4;5.13%;26;17.81%;6;4.48%;147;5.57%;;183;;Distancia;25;lunes, 15 de Junio de 2026;1;4.17%;1;4.35%;1;20.00%;2;4.17%;;5;;;
+Distancia;26;lunes, 22 de Junio de 2026;4;5.13%;0;0.00%;7;5.22%;157;5.94%;;168;;Distancia;26;lunes, 22 de Junio de 2026;1;4.17%;1;4.35%;0;0.00%;2;4.17%;;4;;;
+Distancia;27;lunes, 29 de Junio de 2026;7;8.97%;0;0.00%;11;8.21%;170;6.44%;;188;;Distancia;27;lunes, 29 de Junio de 2026;2;8.33%;1;4.35%;1;20.00%;3;6.25%;;7;;;
+Distancia;28;lunes, 6 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;28;lunes, 6 de Julio de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
+Distancia;29;lunes, 13 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;29;lunes, 13 de Julio de 2026;2;8.33%;2;8.70%;1;20.00%;4;8.33%;;9;;;
+Distancia;30;lunes, 20 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;30;lunes, 20 de Julio de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
+Distancia;31;lunes, 27 de Julio de 2026;3;3.85%;0;0.00%;5;3.73%;160;6.06%;;168;;Distancia;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
+Distancia;32;lunes, 3 de Agosto de 2026;7;8.97%;0;0.00%;12;8.96%;196;7.42%;;215;;Distancia;32;lunes, 3 de Agosto de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
+Distancia;33;lunes, 10 de Agosto de 2026;8;10.26%;0;0.00%;12;8.96%;245;9.28%;;265;;Distancia;33;lunes, 10 de Agosto de 2026;2;8.33%;2;8.70%;1;20.00%;4;8.33%;;9;;;
+Distancia;34;lunes, 17 de Agosto de 2026;8;10.26%;0;0.00%;6;4.48%;293;11.09%;;307;;Distancia;34;lunes, 17 de Agosto de 2026;3;12.50%;3;13.04%;0;0.00%;4;8.33%;;10;;;
+Distancia;35;lunes, 24 de Agosto de 2026;8;10.26%;0;0.00%;6;4.48%;293;11.09%;;307;;Distancia;35;lunes, 24 de Agosto de 2026;3;12.50%;3;13.04%;0;0.00%;5;10.42%;;11;;;
+Distancia;36;lunes, 31 de Agosto de 2026;0;;0;;0;;0;;;0;;Distancia;36;lunes, 31 de Agosto de 2026;4;16.67%;3;13.04%;0;0.00%;5;10.42%;;12;;;
+Distancia;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Distancia;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;2;4.17%;;2;;;
+ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SEMIPRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Semipresencial;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;21;lunes, 18 de Mayo de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;22;lunes, 25 de Mayo de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;23;lunes, 1 de Junio de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;24;lunes, 8 de Junio de 2026;2;7.14%;10;6.85%;0;0.00%;33;3.38%;;45;;Semipresencial;24;lunes, 8 de Junio de 2026;0;0.00%;0;0.00%;0;0.00%;1;4.17%;;1;;;
+Semipresencial;25;lunes, 15 de Junio de 2026;2;7.14%;10;6.85%;0;0.00%;33;3.38%;;45;;Semipresencial;25;lunes, 15 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;1;4.17%;;2;;;
+Semipresencial;26;lunes, 22 de Junio de 2026;2;7.14%;4;2.74%;0;0.00%;65;6.65%;;71;;Semipresencial;26;lunes, 22 de Junio de 2026;1;9.09%;2;8.70%;0;0.00%;1;4.17%;;4;;;
+Semipresencial;27;lunes, 29 de Junio de 2026;2;7.14%;0;0.00%;0;0.00%;65;6.65%;;67;;Semipresencial;27;lunes, 29 de Junio de 2026;1;9.09%;2;8.70%;0;0.00%;1;4.17%;;4;;;
+Semipresencial;28;lunes, 6 de Julio de 2026;2;7.14%;0;0.00%;0;0.00%;65;6.65%;;67;;Semipresencial;28;lunes, 6 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
+Semipresencial;29;lunes, 13 de Julio de 2026;3;10.71%;0;0.00%;0;0.00%;65;6.65%;;68;;Semipresencial;29;lunes, 13 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
+Semipresencial;30;lunes, 20 de Julio de 2026;3;10.71%;0;0.00%;0;0.00%;70;7.16%;;73;;Semipresencial;30;lunes, 20 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
+Semipresencial;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;50;5.12%;;50;;Semipresencial;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;32;lunes, 3 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;77;7.88%;;80;;Semipresencial;32;lunes, 3 de Agosto de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
+Semipresencial;33;lunes, 10 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;98;10.03%;;101;;Semipresencial;33;lunes, 10 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;2;8.33%;;6;;;
+Semipresencial;34;lunes, 17 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;109;11.16%;;112;;Semipresencial;34;lunes, 17 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;3;12.50%;;7;;;
+Semipresencial;35;lunes, 24 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;115;11.77%;;118;;Semipresencial;35;lunes, 24 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;3;12.50%;;7;;;
+Semipresencial;36;lunes, 31 de Agosto de 2026;0;;0;;0;;33;3.38%;;33;;Semipresencial;36;lunes, 31 de Agosto de 2026;2;18.18%;3;13.04%;0;0.00%;3;12.50%;;8;;;
+Semipresencial;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Semipresencial;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;1;4.17%;;1;;;
+ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+RESUMEN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Escuela;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Escuela;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Escuela;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;0;0.00%;;6;;Escuela;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Escuela;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;49;1.86%;;55;;Escuela;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Escuela;21;lunes, 18 de Mayo de 2026;0;0.00%;40;27.40%;6;4.48%;82;3.10%;;128;;Escuela;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Escuela;22;lunes, 25 de Mayo de 2026;0;0.00%;40;27.40%;6;4.48%;131;4.96%;;177;;Escuela;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
+Escuela;23;lunes, 1 de Junio de 2026;4;5.13%;40;27.40%;6;4.48%;131;4.96%;;181;;Escuela;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;1;20.00%;1;2.08%;;2;;;
+Escuela;24;lunes, 8 de Junio de 2026;6;7.69%;40;27.40%;6;4.48%;131;4.96%;;183;;Escuela;24;lunes, 8 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;3;6.25%;;4;;;
+Escuela;25;lunes, 15 de Junio de 2026;6;7.69%;36;24.66%;6;4.48%;180;6.82%;;228;;Escuela;25;lunes, 15 de Junio de 2026;1;4.17%;2;8.70%;1;20.00%;3;6.25%;;7;;;
+Escuela;26;lunes, 22 de Junio de 2026;6;7.69%;4;2.74%;7;5.22%;222;8.41%;;239;;Escuela;26;lunes, 22 de Junio de 2026;2;8.33%;3;13.04%;0;0.00%;3;6.25%;;8;;;
+Escuela;27;lunes, 29 de Junio de 2026;9;11.54%;0;0.00%;11;8.21%;235;8.90%;;255;;Escuela;27;lunes, 29 de Junio de 2026;3;12.50%;3;13.04%;1;20.00%;4;8.33%;;11;;;
+Escuela;28;lunes, 6 de Julio de 2026;9;11.54%;0;0.00%;11;8.21%;261;9.88%;;281;;Escuela;28;lunes, 6 de Julio de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
+Escuela;29;lunes, 13 de Julio de 2026;10;12.82%;0;0.00%;11;8.21%;261;9.88%;;282;;Escuela;29;lunes, 13 de Julio de 2026;3;12.50%;4;17.39%;1;20.00%;6;12.50%;;14;;;
+Escuela;30;lunes, 20 de Julio de 2026;10;12.82%;0;0.00%;11;8.21%;266;10.07%;;287;;Escuela;30;lunes, 20 de Julio de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
+Escuela;31;lunes, 27 de Julio de 2026;3;3.85%;0;0.00%;5;3.73%;210;7.95%;;218;;Escuela;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
+Escuela;32;lunes, 3 de Agosto de 2026;10;12.82%;0;0.00%;12;8.96%;273;10.34%;;295;;Escuela;32;lunes, 3 de Agosto de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
+Escuela;33;lunes, 10 de Agosto de 2026;11;14.10%;0;0.00%;12;8.96%;343;12.99%;;366;;Escuela;33;lunes, 10 de Agosto de 2026;3;12.50%;5;21.74%;1;20.00%;6;12.50%;;15;;;
+Escuela;34;lunes, 17 de Agosto de 2026;11;14.10%;0;0.00%;6;4.48%;402;15.22%;;419;;Escuela;34;lunes, 17 de Agosto de 2026;4;16.67%;6;26.09%;0;0.00%;7;14.58%;;17;;;
+Escuela;35;lunes, 24 de Agosto de 2026;11;14.10%;0;0.00%;6;4.48%;408;15.45%;;425;;Escuela;35;lunes, 24 de Agosto de 2026;4;16.67%;6;26.09%;0;0.00%;8;16.67%;;18;;;
+Escuela;36;lunes, 31 de Agosto de 2026;0;;0;;0;;33;1.25%;;33;;Escuela;36;lunes, 31 de Agosto de 2026;6;25.00%;6;26.09%;0;0.00%;8;16.67%;;20;;;
+Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;3;6.25%;;3;;;`);
+}
+
+function processMetasCSV(csvText) {
+    metasData = [];
+    let currentEntity = 'Instituto'; // Fixed currently for Instituto
+    
+    const lines = csvText.split('\n');
+    lines.forEach(line => {
+        const row = line.split(';');
+        if(row.length === 0 || row[0].trim() === '') return;
+        const r0 = row[0].trim().toUpperCase();
+        if(r0 === 'INSTITUTO' && String(row[1]).includes('2026')) { currentEntity = 'Instituto'; return; }
+        if(r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
+        
+        const rawModality = row[0].trim();
+        const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela'].includes(rawModality);
+        const weekStr = String(row[1]).trim();
+        const weekNum = parseInt(weekStr);
+        
+        if(valid && !isNaN(weekNum)) {
+            let modality = (rawModality === 'Instituto' || rawModality === 'Escuela') ? 'Resumen' : rawModality;
+            const parseNum = v => parseInt(String(v).replace(/,/g, '').replace(/%/g, '')) || 0;
+            
+            const l_atl = parseNum(row[3]);
+            const l_b2b = parseNum(row[5]);
+            const l_btl = parseNum(row[7]);
+            const l_dig = parseNum(row[9]);
+            const l_tot = parseNum(row[12]) || (l_atl + l_b2b + l_btl + l_dig);
+            
+            const m_atl = parseNum(row[17]);
+            const m_b2b = parseNum(row[19]);
+            const m_btl = parseNum(row[21]);
+            const m_dig = parseNum(row[23]);
+            const m_tot = parseNum(row[26]) || (m_atl + m_b2b + m_btl + m_dig);
+            
+            metasData.push({
+                entidad: currentEntity,
+                modalidad: modality,
+                semana: weekNum,
+                leads_atl: l_atl,
+                leads_b2b: l_b2b,
+                leads_btl: l_btl,
+                leads_digital: l_dig,
+                leads_total: l_tot,
+                mat_atl: m_atl,
+                mat_b2b: m_b2b,
+                mat_btl: m_btl,
+                mat_digital: m_dig,
+                mat_total: m_tot
+            });
+        }
+    });
+    console.log("Fixed Metas parsed:", metasData.length, "rows.");
+    if (typeof renderAvance === 'function') renderAvance();
+}
+
+// Call initMetas right after we load or during initial render
+setTimeout(initMetas, 100);
+
+
+function processMetasExcel(wb) {
+    metasData = [];
+    let currentEntity = 'Instituto'; // Default assumed
+    wb.SheetNames.forEach(sheetName => {
+        const sheet = wb.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(sheet, {header: 1, defval: ''});
+        
+        json.forEach(row => {
+            if(!row || typeof row !== 'object' || row.length === 0) return;
+            const r0 = String(row[0]).trim().toUpperCase();
+            if(r0 === 'INSTITUTO' && String(row[1]).includes('2026')) { currentEntity = 'Instituto'; return; }
+            if(r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
+            
+            const rawModality = String(row[0]).trim();
+            const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela'].includes(rawModality);
+            const weekStr = String(row[1]).trim();
+            const weekNum = parseInt(weekStr);
+            
+            if(valid && !isNaN(weekNum)) {
+                let modality = (rawModality === 'Instituto' || rawModality === 'Escuela') ? 'Resumen' : rawModality;
+                const parseNum = v => parseInt(String(v).replace(/,/g, '').replace(/%/g, '')) || 0;
+                
+                // Leads are at fixed offsets from the start:
+                const l_atl = parseNum(row[3]);
+                const l_b2b = parseNum(row[5]);
+                const l_btl = parseNum(row[7]);
+                const l_dig = parseNum(row[9]);
+                const l_tot = parseNum(row[11]) || parseNum(row[12]) || parseNum(row[13]) || (l_atl + l_b2b + l_btl + l_dig);
+                
+                // Find where the matriculas block starts by looking for the week number again after index 10
+                let mOffset = -1;
+                for(let i = 11; i < row.length - 2; i++) {
+                    if (parseInt(String(row[i]).trim()) === weekNum) {
+                        mOffset = i - 1; // row[mOffset] would be Modalidad, row[mOffset+1] is Semana
+                        break;
+                    }
+                }
+                
+                // If we couldn't find the second block via weeknum, assume standard gap of 2 (offset 14)
+                if (mOffset === -1) mOffset = 14;
+
+                const m_atl = parseNum(row[mOffset + 3]);
+                const m_b2b = parseNum(row[mOffset + 5]);
+                const m_btl = parseNum(row[mOffset + 7]);
+                const m_dig = parseNum(row[mOffset + 9]);
+                
+                // Try grabbing total from expected total column, or calculate it
+                const expectedTotalCol = mOffset + 12;
+                const m_tot = parseNum(row[expectedTotalCol]) || parseNum(row[expectedTotalCol - 1]) || parseNum(row[expectedTotalCol + 1]) || (m_atl + m_b2b + m_btl + m_dig);
+                
+                metasData.push({
+                    entidad: currentEntity,
+                    modalidad: modality,
+                    semana: weekNum,
+                    leads_atl: l_atl,
+                    leads_b2b: l_b2b,
+                    leads_btl: l_btl,
+                    leads_digital: l_dig,
+                    leads_total: l_tot,
+                    mat_atl: m_atl,
+                    mat_b2b: m_b2b,
+                    mat_btl: m_btl,
+                    mat_digital: m_dig,
+                    mat_total: m_tot
+                });
+            }
+        });
+    });
+    console.log("Metas parsed:", metasData.length, "rows.");
+    renderAvance();
+}
+
+function getWeekNumber(d) {
+    const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    dt.setUTCDate(dt.getUTCDate() + 4 - (dt.getUTCDay()||7));
+    const yearStart = new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+    return Math.ceil(( ( (dt - yearStart) / 86400000) + 1)/7);
+}
+
+function renderAvance() {
+    const v = document.getElementById('av-vista').value;
+    const res = document.getElementById('av-resumen').value;
+    const can = document.getElementById('av-canal').value;
+    const mType = document.getElementById('av-tipo').value;
+    
+    // Filtering metas
+    const metasF = metasData.filter(m => m.entidad === v && (m.modalidad === res || res === 'Resumen total' && m.modalidad === 'Resumen'));
+    metasF.sort((a,b) => a.semana - b.semana); // sort by week asc
+    
+    // Map to numbers
+    let metaPorSemana = {};
+    metasF.forEach(m => {
+        let val = 0;
+        if(mType === 'Leads') {
+            if(can === 'Todos') val = m.leads_total;
+            else if(can === 'ATL') val = m.leads_atl;
+            else if(can === 'B2B') val = m.leads_b2b;
+            else if(can === 'BTL') val = m.leads_btl;
+            else if(can === 'DIGITAL') val = m.leads_digital;
+        } else {
+            if(can === 'Todos') val = m.mat_total;
+            else if(can === 'ATL') val = m.mat_atl;
+            else if(can === 'B2B') val = m.mat_b2b;
+            else if(can === 'BTL') val = m.mat_btl;
+            else if(can === 'DIGITAL') val = m.mat_digital;
+        }
+        metaPorSemana[m.semana] = val;
+    });
+
+    // We get actual data from allData
+    // Map VISTA to period (from user description)
+    let realData = allData.filter(r => {
+        const p = String(r[C.PERIODO] || '').trim();
+        if (v === 'Instituto') {
+            return ['202620', '2026-02', '2026-2', '26-2', '26-02'].includes(p);
+        } else {
+            return ['202630', '2026-03', '2026-3', '26-3', '26-03'].includes(p);
+        }
+    });
+    
+    if(res !== 'Resumen') {
+        realData = realData.filter(r => r[C.MODALIDAD] && r[C.MODALIDAD].toUpperCase() === res.toUpperCase());
+    }
+    if(can !== 'Todos') {
+        realData = realData.filter(r => r[C.CANAL] && r[C.CANAL].toUpperCase() === can.toUpperCase());
+    }
+    if(mType === 'Matriculas') {
+        realData = realData.filter(r => r[C.ESTADO] === 'MATRICULADO');
+    }
+    
+    // Group real by week
+    let countPerWeek = {};
+    realData.forEach(r => {
+        const fstr = r[C.FECHA];
+        if(!fstr) return;
+        const d = toDate(fstr);
+        if(!d) return;
+        const w = getWeekNumber(d);
+        countPerWeek[w] = (countPerWeek[w] || 0) + 1;
+    });
+
+    // Detect if we should stop plotting REAL
+    // Find the latest week with actual records in countPerWeek, bounded by current real-world week
+    const currentRealWorldWeek = getWeekNumber(new Date());
+    let maxRealWeek = -1;
+    Object.keys(countPerWeek).map(Number).forEach(w => {
+        if (w > maxRealWeek && w <= currentRealWorldWeek) {
+            maxRealWeek = w;
+        }
+    });
+
+    // Create cumulative sequence for Real
+    const weeksRealStr = Object.keys(countPerWeek).map(Number).sort((a,b)=>a-b);
+    let minW = 53, maxW = 0;
+    if(metasF.length > 0) {
+        minW = Math.min(minW, ...metasF.map(m=>m.semana));
+        maxW = Math.max(maxW, ...metasF.map(m=>m.semana));
+    }
+    if(weeksRealStr.length > 0) {
+        minW = Math.min(minW, weeksRealStr[0]);
+        maxW = Math.max(maxW, weeksRealStr[weeksRealStr.length-1]);
+    }
+    
+    if(maxW === 0) maxW = 40; // fallback axis
+    if(minW === 53) minW = 10;
+    if(maxW > 37) maxW = 37; // Cap to 37 as requested
+    
+    let labels = [];
+    let dMeta = [];
+    let dReal = [];
+    
+    let cumReal = 0;
+    let cumMeta = 0;
+
+    for(let w = minW; w <= maxW; w++) {
+        labels.push('Sem ' + w);
+        const cw = countPerWeek[w] || 0;
+        cumReal += cw;
+        
+        // Stop plotting real line at the global latest week observed in the dataset
+        if(w <= maxRealWeek) {
+            dReal.push(cumReal);
+        } else {
+            dReal.push(null);
+        }
+        
+        // Accumulate discrete meta goals per week
+        cumMeta += (metaPorSemana[w] || 0);
+        dMeta.push(cumMeta);
+    }
+
+    // KPIs
+    const finalMeta = cumMeta;
+    const finalReal = cumReal;
+    const semsDatos = maxW - minW + 1;
+    const pct = finalMeta > 0 ? ((finalReal / finalMeta)*100).toFixed(1)+'%' : '—';
+    
+    document.getElementById('av-kpi-meta').innerText = finalMeta > 0 ? finalMeta.toLocaleString() : '—';
+    document.getElementById('av-kpi-real').innerText = finalReal.toLocaleString();
+    document.getElementById('av-kpi-pct').innerText = pct;
+    document.getElementById('av-kpi-sems').innerText = semsDatos > 0 ? semsDatos : '—';
+    document.getElementById('av-avance-lbl').innerText = pct;
+
+    // Draw Chart
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const c = document.getElementById('ch-avance');
+    if(!c) return;
+    if(charts['ch-avance']) charts['ch-avance'].destroy();
+    
+    charts['ch-avance'] = new Chart(c, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'REAL',
+                    data: dReal,
+                    borderColor: '#f97316',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0.4
+                },
+                {
+                    label: 'META',
+                    data: dMeta,
+                    borderColor: '#0ea5e9',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                tooltip: BASE_TT,
+                legend: { display: false },
+                datalabels: { display: false }
+            },
+            scales: {
+                x: { grid: { color: Chart.defaults.borderColor }, ticks: { font: { family: "-apple-system, sans-serif", size: 10 } } },
+                y: { grid: { color: Chart.defaults.borderColor }, beginAtZero: true, ticks: { font: { family: "-apple-system, sans-serif", size: 11 } } }
+            }
+        }
+    });
+}
+
+// Bind Avance Filters
+['av-vista', 'av-resumen', 'av-canal', 'av-tipo'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderAvance);
+});
+
+document.getElementById('av-vista').addEventListener('change', (e) => {
+    const vista = e.target.value;
+    const resSelect = document.getElementById('av-resumen');
+    Array.from(resSelect.options).forEach(opt => {
+        if (opt.value === 'Presencial') {
+            opt.style.display = vista === 'Escuela' ? 'none' : 'block';
+            if (vista === 'Escuela' && resSelect.value === 'Presencial') {
+                resSelect.value = 'Resumen';
+                renderAvance();
+            }
+        }
+    });
+});
+
+
 </script>
 </body>
 </html>
