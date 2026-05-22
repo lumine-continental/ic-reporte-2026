@@ -1,2 +1,2 @@
-# periodo-2623
-Periodos 26-2 y 26-3
+# reporte-2026
+Instituto y Escuela Superior Continental
