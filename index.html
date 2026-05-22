@@ -111,6 +111,16 @@ body {
   color: var(--text-dark);
   border-color: var(--border);
 }
+
+@keyframes themePulse {
+  0% { box-shadow: 0 0 0 0 rgba(205, 0, 26, 0.7); border-color: var(--primary); }
+  50% { box-shadow: 0 0 0 8px rgba(205, 0, 26, 0); border-color: var(--primary); }
+  100% { box-shadow: 0 0 0 0 rgba(205, 0, 26, 0); border-color: var(--border); }
+}
+.theme-pulse {
+  animation: themePulse 1s ease-out 3;
+}
+
 .filterbar {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
@@ -192,6 +202,10 @@ select.fsel{
   padding:0 8px;font-size:12px;font-weight:600;border:none;
   background:transparent;color:var(--text-dark);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;height:32px;outline:none;
 }
+select.fsel option {
+  background-color: var(--card);
+  color: var(--text-dark);
+}
 select.fsel:focus{border-color:var(--primary);}
 .btn-clr{padding:0 8px;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--text-dark);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;height:32px;}
 .btn-clr:hover{border-color:var(--primary);color:var(--primary);}
@@ -244,10 +258,14 @@ select.fsel:focus{border-color:var(--primary);}
 .dp-goto-lbl{font-size:13px;color:var(--muted);margin-right:4px;}
 .dp-goto-sel{
   padding:5px 10px;font-size:13px;border-radius:2px;border:1px solid var(--border);
-  background:#fff;color:var(--text);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;outline:none;
+  background:var(--card);color:var(--text);cursor:pointer;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;outline:none;
+}
+.dp-goto-sel option {
+  background-color: var(--card);
+  color: var(--text-dark);
 }
 .dp-nav-btn{
-  width:32px;height:32px;border-radius:2px;border:1px solid var(--border);background:#fff;
+  width:32px;height:32px;border-radius:2px;border:1px solid var(--border);background:var(--card);
   cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);
   font-size:18px;margin-left:auto;transition:all .15s;
 }
@@ -424,7 +442,7 @@ select.fsel:focus{border-color:var(--primary);}
   <aside id="sidebar">
     <div class="sb-head">
       <div class="sb-icon"><img src="https://icontinental.edu.pe/wp-content/uploads/2020/07/favico.png" alt="Logo"></div>
-      <div class="sb-brand"><strong>Continental</strong><span>Performance Marketing</span></div>
+      <div class="sb-brand"><strong>iContinental</strong><span>Performance Marketing</span></div>
     </div>
     <nav class="sb-nav">
       <div class="sb-lbl">General</div>
@@ -448,13 +466,16 @@ select.fsel:focus{border-color:var(--primary);}
       </button>
       <div class="sb-lbl">Rendimiento</div>
       <button class="nav-btn" data-view="avance">
-        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Avance por semanas
+        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Avance por semanas
       </button>
     </nav>
     <div class="sb-foot">
       <div class="sb-stat">
         <div class="sb-stat-lbl">Base cargada</div>
         <div class="sb-stat-val" id="sbRec">— registros</div>
+      </div>
+      <div style="margin-top: 16px; font-size: 11px; text-align: center;">
+        <a href="https://lumine.pe" target="_blank" style="color: var(--muted); text-decoration: none; transition: color 0.15s;" onmouseover="this.style.color='var(--text-dark)'" onmouseout="this.style.color='var(--muted)'">&copy; 2026 - Derechos reservados</a>
       </div>
     </div>
   </aside>
@@ -489,9 +510,9 @@ select.fsel:focus{border-color:var(--primary);}
         <span class="dp-clear" id="dpClear" style="display:none" title="Limpiar fecha">×</span>
       </button>
       <div class="f-sep"></div>
-      <select class="fsel" id="f-periodo"><option value="">Periodo</option></select>
+      <select class="fsel" id="f-periodo"><option value="">Unidad de negocio</option></select>
       <select class="fsel" id="f-modalidad"><option value="">Modalidad</option></select>
-      <select class="fsel" id="f-tipo"><option value="">Tipo opp.</option></select>
+      <select class="fsel" id="f-tipo"><option value="">Tipo oportunidad</option></select>
       <select class="fsel" id="f-estado"><option value="">Estado funnel</option></select>
       <select class="fsel" id="f-canal"><option value="">Canal</option></select>
       <select class="fsel" id="f-status"><option value="">Status</option></select>
@@ -502,7 +523,7 @@ select.fsel:focus{border-color:var(--primary);}
 
       <!-- RESUMEN -->
       <div id="view-resumen" class="view active">
-        <div class="view-hdr"><span class="view-ttl">Resumen general</span><span class="vbadge vb-navy">Bidireccional</span></div>
+        <div class="view-hdr"><span class="view-ttl">Resumen general</span><span class="vbadge vb-navy">Instituto y Escuela</span></div>
         <div class="krow c5">
           <div class="kcard"><div class="klbl">Total oportunidades</div><div class="kval" id="k-tot">—</div><div class="ksub">Registros cargados</div></div>
           <div class="kcard"><div class="klbl">Activos</div><div class="kval" id="k-act">—</div><div class="ksub">En proceso</div></div>
@@ -1044,7 +1065,18 @@ function populateFilters(){
     const sel=document.getElementById(id);if(!sel)return;
     const first=sel.options[0];sel.innerHTML='';sel.appendChild(first);
     [...new Set(allData.map(r=>(r[col]||'').toString()).filter(Boolean))].sort()
-      .forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);});
+      .forEach(v=>{
+        const o=document.createElement('option');
+        o.value=v;
+        let label=v;
+        if(id==='f-periodo'){
+          const val = v.replace(/\s+/g,'').toLowerCase();
+          if(['202620','2026-02','2026-2','26-2','26-02','instituto','20262'].includes(val))label='Instituto';
+          else if(['202630','2026-03','2026-3','26-3','26-03','escuela','20263'].includes(val))label='Escuela';
+        }
+        o.textContent=label;
+        sel.appendChild(o);
+      });
   });
 }
 
@@ -1102,6 +1134,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   function applyTheme(isDark) {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('lumine_theme', isDark ? 'dark' : 'light');
     
     Chart.defaults.color = isDark ? '#a0a0a0' : '#444444';
     Chart.defaults.borderColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
@@ -1119,7 +1152,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     applyTheme(!d);
   });
 
-  applyTheme(prefersDark.matches);
+  const savedTheme = localStorage.getItem('lumine_theme');
+  if (savedTheme) {
+    applyTheme(savedTheme === 'dark');
+  } else {
+    applyTheme(true); // default dark on first load
+  }
+
+  // Pulse animation 3 times on initial load to draw attention to the toggle
+  btnTheme.classList.add('theme-pulse');
+  btnTheme.addEventListener('animationend', () => {
+    btnTheme.classList.remove('theme-pulse');
+  }, { once: true });
 
   // Date picker
 
