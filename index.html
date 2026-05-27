@@ -466,7 +466,7 @@ select.fsel:focus{border-color:var(--primary);}
       </button>
       <div class="sb-lbl">Rendimiento</div>
       <button class="nav-btn" data-view="avance">
-        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Avance por semanas
+        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Status avance
       </button>
     </nav>
     <div class="sb-foot">
@@ -510,9 +510,9 @@ select.fsel:focus{border-color:var(--primary);}
         <span class="dp-clear" id="dpClear" style="display:none" title="Limpiar fecha">×</span>
       </button>
       <div class="f-sep"></div>
-      <select class="fsel" id="f-periodo"><option value="">Unidad de negocio</option></select>
-      <select class="fsel" id="f-modalidad"><option value="">Modalidad</option></select>
       <select class="fsel" id="f-tipo"><option value="">Tipo oportunidad</option></select>
+      <select style="display: none;" class="fsel" id="f-periodo"><option value="">Unidad de negocio</option></select>
+      <select class="fsel" id="f-modalidad"><option value="">Modalidad</option></select>
       <select class="fsel" id="f-estado"><option value="">Estado funnel</option></select>
       <select class="fsel" id="f-canal"><option value="">Canal</option></select>
       <select class="fsel" id="f-status"><option value="">Status</option></select>
@@ -661,14 +661,14 @@ select.fsel:focus{border-color:var(--primary);}
           <div class="kcard" style="border-top: 4px solid var(--border);"><div class="klbl">META TOTAL</div><div class="kval" id="av-kpi-meta">—</div><div class="ksub">Objetivo del periodo</div></div>
           <div class="kcard" style="border-top: 4px solid #f97316;"><div class="klbl">REAL ACUMULADO</div><div class="kval" id="av-kpi-real">—</div><div class="ksub">Desde semana de inicio</div></div>
           <div class="kcard" style="border-top: 4px solid #10b981;"><div class="klbl">% AVANCE</div><div class="kval" id="av-kpi-pct">—</div><div class="ksub">Real / Meta</div></div>
-          <div class="kcard" style="border-top: 4px solid var(--text-dark);"><div class="klbl">SEMANAS CON DATOS</div><div class="kval" id="av-kpi-sems">—</div><div class="ksub">Semanas analizadas</div></div>
+          <div class="kcard" style="border-top: 4px solid var(--text-dark);"><div class="klbl" style="text-transform:uppercase">Semanas restantes</div><div class="kval" id="av-kpi-sems">—</div><div class="ksub">Sem 36 - Semana actual</div></div>
         </div>
 
         <!-- AVANCE CHART -->
         <div class="cc">
           <div style="display:flex; justify-content:space-between; align-items:flex-start;">
             <div>
-              <div class="cc-ttl" style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance de Leads Totales</div>
+              <div class="cc-ttl" style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance semanal de Leads</div>
               <div class="cc-sub">Acumulado semanal: Meta vs Real</div>
             </div>
             <div style="text-align:right; font-size:12px; color:var(--muted);">
@@ -681,6 +681,63 @@ select.fsel:focus{border-color:var(--primary);}
           </div>
           <div class="ch-fix" style="height:400px;margin-top:12px;">
             <canvas id="ch-avance" role="img" aria-label="Gráfico de avance">Avance</canvas>
+          </div>
+        </div>
+
+        <!-- DAILY PROGRESS TABLE -->
+        <div class="cc" style="margin-top: 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div class="cc-ttl" style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance diario de Leads</div>
+              <div class="cc-sub">Rendimiento semanal por modalidad</div>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <span class="f-lbl">Instituto / Escuela:</span>
+              <select id="avd-vista" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                <option value="Instituto">Instituto</option>
+                <option value="Escuela">Escuela</option>
+              </select>
+              <select id="avd-canal" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                <option value="Todos">Todos los canales</option>
+                <option value="ATL">ATL</option>
+                <option value="B2B">B2B</option>
+                <option value="BTL">BTL</option>
+                <option value="Digital" selected>Digital</option>
+                <option value="Base de datos">Base de datos</option>
+                <option value="HS">HS</option>
+              </select>
+              <select id="avd-semana" class="fsel" style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                <!-- dynamic weeks -->
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto; margin-top:20px;">
+            <style>
+              .tb-avd { width:100%; min-width:900px; text-align:center; border-collapse:collapse; font-size: 13px; }
+              .tb-avd th, .tb-avd td { border: 1px solid var(--border); padding: 12px 16px; }
+              .tb-avd th { background: var(--sidebar-bg); font-weight: 600; }
+              .tb-avd td { color: var(--text-dark); }
+              .tb-avd tfoot { background: #000; color: #fff; font-weight: bold; }
+              html[data-theme='dark'] .tb-avd tfoot { background: #222; }
+              .avd-meta-in { background: var(--bg); color: var(--text-dark); border: 1px solid var(--border); border-radius: 4px; width: 60px; padding: 4px; text-align:center; }
+            </style>
+            <table class="tb-avd">
+              <thead>
+                <tr id="avd-head-row">
+                  <th style="min-width: 140px; text-align:left;">Modalidad</th>
+                  <th style="min-width: 100px;">Ingresa tu meta semanal</th>
+                  <!-- dates injected here -->
+                  <th style="min-width: 120px;">Sumatoria - Modalidad</th>
+                  <th style="min-width: 80px;">AVC %</th>
+                </tr>
+              </thead>
+              <tbody id="avd-tbody">
+                <!-- dynamic rows -->
+              </tbody>
+              <tfoot id="avd-tfoot">
+                <!-- accumulated row -->
+              </tfoot>
+            </table>
           </div>
         </div>
       </div>
@@ -895,15 +952,24 @@ function mkBar(id,labels,data,colors){
               y:{grid:{},ticks:{font:{family:"-apple-system, sans-serif",size:11}}}}}});
 }
 function mkDonut(id,labels,data,colors,legId){
+  const ttConfig = Object.assign({}, BASE_TT, {
+    callbacks: {
+      label: function(ctx) {
+        const total = ctx.dataset.data.reduce((a,b)=>a+b,0);
+        const val = ctx.raw;
+        const pct = total>0 ? Math.round((val/total)*100) : 0;
+        return ` ${ctx.label}: ${pct}%`;
+      }
+    }
+  });
   mk(id,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,hoverOffset:5}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
-      plugins:{tooltip:BASE_TT,legend:{display:false},datalabels:{display:false}}}});
+      plugins:{tooltip:ttConfig,legend:{display:false},datalabels:{display:false}}}});
   buildLeg(legId,labels,data,colors);
 }
 function buildLeg(id,labels,data,colors){
   const el=document.getElementById(id);if(!el)return;
-  const total=data.reduce((a,b)=>a+b,0);
-  el.innerHTML=labels.map((l,i)=>`<span class="leg-item"><span class="leg-sq" style="background:${colors[i]}"></span>${trim(l,18)} <strong style="color:var(--text-dark)">${total>0?Math.round(data[i]/total*100):0}%</strong></span>`).join('');
+  el.innerHTML=labels.map((l,i)=>`<span class="leg-item"><span class="leg-sq" style="background:${colors[i]}"></span>${trim(l,18)} <strong style="color:var(--text-dark)">${data[i].toLocaleString()}</strong></span>`).join('');
 }
 
 // ===== FUNNEL =====
@@ -950,6 +1016,8 @@ function renderResumen(){
   const pe=topN(countBy(filtered,C.PROGRAMA),8);
   mkHBar('ch-r-prog',pe.map(e=>trim(e[0],30)),pe.map(e=>e[1]),Array(pe.length).fill('#0ea5e9'),'wrap-r-prog');
   const me=Object.entries(countBy(filtered,C.MODALIDAD));
+  const mS={'distancia':1,'presencial':2,'semipresencial':3};
+  me.sort((a,b)=>(mS[a[0].toLowerCase()]||9)-(mS[b[0].toLowerCase()]||9));
   mkDonut('ch-r-mod',me.map(e=>e[0]),me.map(e=>e[1]),me.map(e=>MOD_CLR[e[0]]||'#999'),'leg-r-mod');
   const graw=countBy(filtered.filter(r=>r[C.GENERO]),C.GENERO);
   const gd={};Object.entries(graw).forEach(([k,v])=>{const kk=k==='Femenimo'?'Femenino':k;gd[kk]=(gd[kk]||0)+v;});
@@ -966,6 +1034,8 @@ function renderCaptacion(){
   const oe=topN(countBy(filtered,C.ORIGEN),10);
   mkHBar('ch-c-origen',oe.map(e=>trim(e[0],28)),oe.map(e=>e[1]),Array(oe.length).fill('#2389e6'),'wrap-c-origen');
   const me=Object.entries(countBy(filtered,C.MODALIDAD));
+  const mS={'distancia':1,'presencial':2,'semipresencial':3};
+  me.sort((a,b)=>(mS[a[0].toLowerCase()]||9)-(mS[b[0].toLowerCase()]||9));
   mkDonut('ch-c-mod',me.map(e=>e[0]),me.map(e=>e[1]),me.map(e=>MOD_CLR[e[0]]||'#999'),'leg-c-mod');
   const te=Object.entries(countBy(filtered,C.TIPO));
   mkDonut('ch-c-tipo',te.map(e=>e[0]),te.map(e=>e[1]),['#0ea5e9','#2389e6'],'leg-c-tipo');
@@ -1030,13 +1100,24 @@ function renderBidireccional(){
   }).join('');
 }
 
-function renderAll(){updateKPIs();renderResumen();renderCaptacion();renderComercial();renderGeografia();renderBidireccional();renderAvance();}
+function renderAll(){updateKPIs();renderResumen();renderCaptacion();renderComercial();renderGeografia();renderBidireccional();renderAvance();renderAvanceDiario();}
 
 // ===== FILTERS =====
 function toDate(v){
   if(!v)return null;if(v instanceof Date)return v;
-  if(typeof v==='number'){return new Date(Math.round((v-25569)*86400*1000));}
-  return new Date(v);
+  if(typeof v==='number'){
+    // Excel dates are in local time context often, but Excel base date 
+    // + milliseconds UTC works if we adjust timezone offset?
+    // Let's just create a normal date.
+    let d = new Date(Math.round((v-25569)*86400*1000));
+    return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  }
+  let s = String(v).trim();
+  if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4}/.test(s)) {
+      let p = s.split(/[\/\-:\s]/);
+      return new Date(p[2], parseInt(p[1])-1, p[0], p[3]||0, p[4]||0, p[5]||0);
+  }
+  return new Date(s);
 }
 function applyFilters(){
   const p=document.getElementById('f-periodo').value;
@@ -1064,8 +1145,18 @@ function populateFilters(){
   Object.entries(map).forEach(([id,col])=>{
     const sel=document.getElementById(id);if(!sel)return;
     const first=sel.options[0];sel.innerHTML='';sel.appendChild(first);
-    [...new Set(allData.map(r=>(r[col]||'').toString()).filter(Boolean))].sort()
-      .forEach(v=>{
+    let vals = [...new Set(allData.map(r=>(r[col]||'').toString()).filter(Boolean))];
+    if(id==='f-tipo'){
+      vals.sort((a,b)=>{
+        const sa=a.toUpperCase(),sb=b.toUpperCase();
+        if(sa==='INSTITUTO'&&sb==='ESCUELA')return -1;
+        if(sa==='ESCUELA'&&sb==='INSTITUTO')return 1;
+        return sa.localeCompare(sb);
+      });
+    } else {
+      vals.sort();
+    }
+    vals.forEach(v=>{
         const o=document.createElement('option');
         o.value=v;
         let label=v;
@@ -1538,7 +1629,7 @@ function getWeekNumber(d) {
     const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     dt.setUTCDate(dt.getUTCDate() + 4 - (dt.getUTCDay()||7));
     const yearStart = new Date(Date.UTC(dt.getUTCFullYear(),0,1));
-    return Math.ceil(( ( (dt - yearStart) / 86400000) + 1)/7);
+    return Math.ceil((((dt - yearStart) / 86400000) + 1)/7);
 }
 
 function renderAvance() {
@@ -1656,13 +1747,14 @@ function renderAvance() {
     // KPIs
     const finalMeta = cumMeta;
     const finalReal = cumReal;
-    const semsDatos = maxW - minW + 1;
+    const currentWeekFixed = maxRealWeek > 0 ? maxRealWeek : currentRealWorldWeek;
+    const semsRestantes = Math.max(0, 36 - currentWeekFixed);
     const pct = finalMeta > 0 ? ((finalReal / finalMeta)*100).toFixed(1)+'%' : '—';
     
     document.getElementById('av-kpi-meta').innerText = finalMeta > 0 ? finalMeta.toLocaleString() : '—';
     document.getElementById('av-kpi-real').innerText = finalReal.toLocaleString();
     document.getElementById('av-kpi-pct').innerText = pct;
-    document.getElementById('av-kpi-sems').innerText = semsDatos > 0 ? semsDatos : '—';
+    document.getElementById('av-kpi-sems').innerText = semsRestantes;
     document.getElementById('av-avance-lbl').innerText = pct;
 
     // Draw Chart
@@ -1717,6 +1809,155 @@ function renderAvance() {
 // Bind Avance Filters
 ['av-vista', 'av-resumen', 'av-canal', 'av-tipo'].forEach(id => {
     document.getElementById(id).addEventListener('change', renderAvance);
+});
+
+// Avance Diario Logic
+function getDatesOfWeekLocal(w, year=2026) {
+    let d = new Date(year, 0, 1, 12, 0, 0);
+    while (d.getDay() !== 4) { d.setDate(d.getDate() + 1); }
+    d.setDate(d.getDate() + (w - 1) * 7);
+    d.setDate(d.getDate() - 3);
+    let dates = [];
+    for(let i=0; i<7; i++) {
+        let nd = new Date(d.getTime());
+        nd.setDate(nd.getDate() + i);
+        dates.push(nd);
+    }
+    return dates;
+}
+
+function renderAvanceDiario() {
+    const weekSel = document.getElementById('avd-semana');
+    const vista = document.getElementById('avd-vista').value;
+    const canal = document.getElementById('avd-canal').value;
+    
+    let vData = allData.filter(r => {
+        const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g,'').toLowerCase();
+        if (vista === 'Instituto') {
+            return ['202620','2026-02','2026-2','26-2','26-02','instituto','20262'].includes(p);
+        } else {
+            return ['202630','2026-03','2026-3','26-3','26-03','escuela','20263'].includes(p);
+        }
+    });
+
+    let wArr = Array.from({length: 35}, (_, i) => i + 2); // 2 through 36
+    
+    if(weekSel.options.length !== wArr.length) {
+        let oldVal = weekSel.value;
+        weekSel.innerHTML = '';
+        wArr.forEach(w => {
+            let opt = document.createElement('option');
+            opt.value = w;
+            opt.textContent = 'Semana ' + w + ', 2026';
+            if (w === 36) { opt.textContent = 'Semana 36, 2026 (Fin)';}
+            weekSel.appendChild(opt);
+        });
+        
+        let cWeek = getWeekNumber(new Date());
+        cWeek = Math.max(2, Math.min(36, cWeek));
+        
+        if(!oldVal) {
+            weekSel.value = cWeek;
+        } else {
+            weekSel.value = oldVal;
+        }
+    }
+    
+    const currW = Number(weekSel.value);
+    const dates = getDatesOfWeekLocal(currW, 2026);
+    
+    const hr = document.getElementById('avd-head-row');
+    hr.innerHTML = `<th style="min-width: 140px; text-align:left;">Modalidad</th><th style="min-width: 100px;">Ingresa tu meta semanal</th>`;
+    const formatD = (d) => [String(d.getDate()).padStart(2,'0'), String(d.getMonth()+1).padStart(2,'0'), d.getFullYear()].join('/');
+    dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+    hr.innerHTML += `<th style="min-width: 120px;">Sumatoria - Modalidad</th><th style="min-width: 80px;">AVC %</th>`;
+    
+    let weekData = vData.filter(r => {
+        const d = toDate(r[C.FECHA]);
+        if(!d) return false;
+        if(canal !== 'Todos' && (r[C.CANAL]||'').toString().trim().toUpperCase() !== canal.toUpperCase()) return false;
+        return true;
+    });
+
+    let modalities = vista === 'Instituto' ? ['DISTANCIA', 'PRESENCIAL', 'SEMIPRESENCIAL'] : ['DISTANCIA', 'SEMIPRESENCIAL'];
+    weekData.forEach(r => { 
+        let rawMod = (r[C.MODALIDAD]||'').toString().trim().toUpperCase();
+        if(rawMod && !modalities.includes(rawMod)) {
+            modalities.push(rawMod);
+        }
+    });
+    
+    let tbody = document.getElementById('avd-tbody');
+    tbody.innerHTML = '';
+    
+    window.avdMetas = window.avdMetas || {};
+    
+    let sumMetas = 0;
+    let sumDays = [0,0,0,0,0,0,0];
+    let sumTotal = 0;
+    
+    modalities.forEach(mod => {
+        let metaKey = `avd-meta-${vista}-${canal}-${currW}-${mod}`;
+        let tr = document.createElement('tr');
+        
+        let dailyCounts = [0,0,0,0,0,0,0];
+        let rowTotal = 0;
+        let modData = weekData.filter(r => (r[C.MODALIDAD]||'').toString().trim().toUpperCase() === mod);
+        modData.forEach(r => {
+            const dStr = formatD(toDate(r[C.FECHA]));
+            let didx = dates.findIndex(dx => formatD(dx) === dStr);
+            if(didx !== -1) {
+                dailyCounts[didx]++;
+                rowTotal++;
+            }
+        });
+        
+        let metaVal = parseFloat(window.avdMetas[metaKey]) || 0;
+        let avc = metaVal > 0 ? Math.round((rowTotal / metaVal)*100) + '%' : '0%';
+        sumMetas += metaVal;
+        
+        let rowHtml = `<td style="text-align:left; font-weight:600;">${mod}</td>
+        <td><input type="text" inputmode="numeric" class="avd-meta-in" data-key="${metaKey}" value="${metaVal || ''}"></td>`;
+        
+        for(let i=0; i<7; i++) {
+            rowHtml += `<td>${dailyCounts[i]}</td>`;
+            sumDays[i] += dailyCounts[i];
+        }
+        
+        rowHtml += `<td style="font-weight:600;">${rowTotal}</td><td style="font-weight:600;">${avc}</td>`;
+        tr.innerHTML = rowHtml;
+        tbody.appendChild(tr);
+        sumTotal += rowTotal;
+    });
+    
+    let totalAvc = sumMetas > 0 ? Math.round((sumTotal / sumMetas)*100) + '%' : '0%';
+    let tfoot = document.getElementById('avd-tfoot');
+    let tfootHtml = `<tr>
+        <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td><td style="background:#dc2626; color: #ffffff !important;">${sumMetas}</td>`;
+    for(let i=0; i<7; i++) {
+        tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumDays[i]}</td>`;
+    }
+    tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td><td style="background:#000; color: #ffffff !important;">${totalAvc}</td></tr>`;
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if(isDark){ tfootHtml = tfootHtml.replace(/#000/g, '#222'); }
+    tfoot.innerHTML = tfootHtml;
+
+    // Attach listeners to inputs
+    document.querySelectorAll('.avd-meta-in').forEach(inp => {
+        inp.addEventListener('blur', (e) => {
+            window.avdMetas[e.target.dataset.key] = e.target.value;
+            renderAvanceDiario();
+        });
+        inp.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.target.blur();
+            }
+        });
+    });
+}
+
+['avd-vista', 'avd-canal', 'avd-semana'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderAvanceDiario);
 });
 
 document.getElementById('av-vista').addEventListener('change', (e) => {
