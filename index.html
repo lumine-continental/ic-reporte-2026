@@ -2005,8 +2005,8 @@
               <div>
                 <div class="cc-ttl"
                   style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Funnel de
-                  conversión por origen</div>
-                <div class="cc-sub">Rendimiento por orígenes específicos</div>
+                  conversión por orígenes de paga</div>
+                <div class="cc-sub">Rendimiento por principales orígenes pauta</div>
               </div>
               <div style="display:flex; gap:12px; align-items:center;">
                 <span class="f-lbl">Unidad de negocio:</span>
@@ -2021,6 +2021,10 @@
                   <option value="Distancia">Distancia</option>
                   <option value="Presencial">Presencial</option>
                   <option value="Semipresencial">Semipresencial</option>
+                </select>
+                <select id="avf-semana" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Acumulado">Acumulado</option>
                 </select>
               </div>
             </div>
@@ -2076,12 +2080,13 @@
                 <thead>
                   <tr id="avf-head-row">
                     <th style="text-align:left;">Origen</th>
+                    <th>Conversaciones</th>
+                    <th>Conversión conversaciones</th>
                     <th>Leads</th>
                     <th>Leads MQL</th>
                     <th>%MQL</th>
-                    <th>Conversaciones</th>
                     <th>Matrículas</th>
-                    <th>%Conversión matrícula</th>
+                    <th style="background: var(--primary); color: #fff;">%Conversión matrícula</th>
                   </tr>
                 </thead>
                 <tbody id="avf-tbody">
@@ -2146,7 +2151,7 @@
       CANAL: 'Canal (Origen) (Origen)', ORIGEN: 'Origen', BASE: 'Base asignada',
       USUARIO_PRE: 'Usuario de Preinscripción', RAZON: 'Razón para el estado',
       USUARIO_BIDIR: 'Usuario Bidireccional', FECHA: 'Fecha de creación',
-      DEPTO: 'Departamento (Contacto padre) (Contacto)',
+      DEPTO: 'Departamento (Contacto padre) (Contacto)', RES_ACTIVIDAD: 'Resultado última actividad', REMARKETING: 'Remarketing',
     };
 
     const PALETTE = ['#2389e6', '#00d3b6', '#ec5168', '#f28c2e', '#f5b915', '#9665c6', '#00bcd4', '#8bc34a'];
@@ -3245,6 +3250,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       const canal = document.getElementById('avd-canal').value;
 
       let vData = allData.filter(r => {
+        if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
         const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
         if (vista === 'Instituto') {
           return ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
@@ -3258,16 +3264,15 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       if (weekSel.options.length !== wArr.length) {
         let oldVal = weekSel.value;
         weekSel.innerHTML = '';
+        let cWeek = getWeekNumber(new Date());
+        cWeek = Math.max(2, Math.min(36, cWeek));
         wArr.forEach(w => {
           let opt = document.createElement('option');
           opt.value = w;
-          opt.textContent = 'Semana ' + w + ', 2026';
-          if (w === 36) { opt.textContent = 'Semana 36, 2026 (Fin)'; }
+          opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
+          if (w === 36 && w !== cWeek) { opt.textContent = 'Semana 36, 2026 (Fin)'; }
           weekSel.appendChild(opt);
         });
-
-        let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(36, cWeek));
 
         if (!oldVal) {
           weekSel.value = cWeek;
@@ -3387,11 +3392,45 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
 
 
 
+
+
+    window.avfConv = window.avfConv || {};
+
     function renderFunnelOrigen() {
       const vista = document.getElementById('avf-vista').value;
       const modalidad = document.getElementById('avf-modalidad').value;
+      const weekSel = document.getElementById('avf-semana');
+
+      let wArr = Array.from({ length: 35 }, (_, i) => i + 2);
+      if (weekSel.options.length !== wArr.length + 1) {
+        let oldVal = weekSel.value;
+        weekSel.innerHTML = '';
+        let optAcum = document.createElement('option');
+        optAcum.value = 'Acumulado';
+        optAcum.textContent = 'Acumulado';
+        weekSel.appendChild(optAcum);
+        let cWeek = getWeekNumber(new Date());
+        cWeek = Math.max(2, Math.min(36, cWeek));
+        wArr.forEach(w => {
+          let opt = document.createElement('option');
+          opt.value = w;
+          opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
+          weekSel.appendChild(opt);
+        });
+        weekSel.value = oldVal || 'Acumulado';
+      }
+      const selWeek = weekSel.value;
 
       let fData = allData.filter(r => {
+        if (String(r[C.CANAL] || '').trim().toLowerCase() !== 'digital') return false;
+        if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+
+        if (selWeek !== 'Acumulado') {
+          const rd = toDate(r[C.FECHA]);
+          if (!rd) return false;
+          if (getWeekNumber(rd) !== parseInt(selWeek)) return false;
+        }
+
         const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
         let validVista = false;
         if (vista === 'Instituto') {
@@ -3408,68 +3447,125 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         return true;
       });
 
+      const mqlVals = [
+        'ic | no contesta', 'ic | buzon', 'ic | matriculado en otro instituto', 'ic | evaluando costo',
+        'ic | abandono', 'ic | motivos personales', 'ic | carrera no satisface', 'ic | motivos económicos',
+        'ic | preinscrito', 'ic | siguiente ciclo', 'inin-outbound-no-answer', 'ic | registrado por error',
+        'ic | llamada caída', '', 'preinscrito', 'ic | consulta modalidad', 'ic | modalidad no satisface',
+        'ic | matricula en universidad', 'ic | no existe', 'ic | agenda pago matricula', 'ic | consulta revision malla',
+        'ic | agenda pago 1era cuota', 'carrera no satisface', 'inin-outbound-disconnect', 'ic | matriculado',
+        'inin-outbound-machine', 'ic | persona ocupada llamar después', 'ic | carrera no disponible', 'llamada caída',
+        'ic | error operador - sin cobertura', 'matricula otro programa', 'buzon', 'no contesta', 'consulta modalidad',
+        'ic | evaluando temas familiares', 'ic | reagenda pago matricula', 'inin-outbound-busy', 'ic | tono ocupado',
+        'siguiente ciclo', 'agenda pago matricula', 'ic | evaluando horarios', 'ic | documentos incompletos',
+        'ocupado', 'whatsapp - leido', 'ic | alumno actual', 'inin-outbound-failed-to-reach-agent',
+        'ic | whatsapp - leido', 'motivos personales', 'ic | no acepta convalidacion', 'inin-outbound-sit-callable',
+        'dg | interesado uc', 'evaluando horario y costo', 'persona ocupada', 'evaluando costo',
+        'ic | reagenda pago postulación', 'modalidad no satisface', 'ic | agenda envío documentos', 'ic | secundaria incompleta',
+        '(en blanco)', ' '
+      ];
+
+      const isMQL = (r) => {
+        let val = String(r[C.RES_ACTIVIDAD] || '').trim().toLowerCase();
+        return mqlVals.includes(val);
+      };
+
+      const isMat = (r) => {
+        return String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
+      };
+
       const org1 = ['redes sociales de pago', '10: redes sociales', '6: chat', '18: facebook chat'];
       const org2 = ['17: facebook leads'];
       const org3 = ['5: landing pages', '54: facebook link ads'];
       const org4 = ['52: google search'];
 
-      let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+      let s1 = { l: 0, mql: 0, mat: 0 }, s2 = { l: 0, mql: 0, mat: 0 }, s3 = { l: 0, mql: 0, mat: 0 }, s4 = { l: 0, mql: 0, mat: 0 };
 
       fData.forEach(r => {
         const orig = String(r[C.ORIGEN] || '').trim().toLowerCase();
-        if (org1.includes(orig)) c1++;
-        else if (org2.includes(orig)) c2++;
-        else if (org3.includes(orig)) c3++;
-        else if (org4.includes(orig)) c4++;
+        let target = null;
+        if (org1.includes(orig)) target = s1;
+        else if (org2.includes(orig)) target = s2;
+        else if (org3.includes(orig)) target = s3;
+        else if (org4.includes(orig)) target = s4;
+
+        if (target) {
+          target.l++;
+          if (isMQL(r)) target.mql++;
+          if (isMat(r)) target.mat++;
+        }
       });
 
       const tbody = document.getElementById('avf-tbody');
-      if (tbody) {
-        tbody.innerHTML = `
-            <tr>
-                <td style="text-align:left; font-weight:600;">WhatsApp (varios canales)</td>
-                <td>${c1}</td>
-                <td>237</td>
-                <td>17,10%</td>
-                <td>1386</td>
-                <td>28</td>
-                <td style="font-weight:bold;">12%</td>
-            </tr>
-            <tr>
-                <td style="text-align:left; font-weight:600;">Facebook Leads (Lead Ads)</td>
-                <td>${c2}</td>
-                <td>175</td>
-                <td>72,31%</td>
-                <td class="disabled">N/A</td>
-                <td>4</td>
-                <td style="font-weight:bold;">2%</td>
-            </tr>
-            <tr>
-                <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
-                <td>${c3}</td>
-                <td>17</td>
-                <td>80,95%</td>
-                <td class="disabled">N/A</td>
-                <td>1</td>
-                <td style="font-weight:bold;">6%</td>
-            </tr>
-            <tr>
-                <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
-                <td>${c4}</td>
-                <td>9</td>
-                <td>100,00%</td>
-                <td class="disabled">N/A</td>
-                <td>0</td>
-                <td style="font-weight:bold;">0%</td>
-            </tr>
-        `;
-      }
+      if (!tbody) return;
+
+      const k1 = `avf-${vista}-${modalidad}-${selWeek}-1`;
+      let conv1 = window.avfConv[k1] || '';
+
+      const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+      const pctMat = (num, den) => den > 0 ? Math.round((num / den) * 100) + '%' : '0%';
+
+      let numConv = parseFloat(conv1) || 0;
+      let convPct = (numConv > 0) ? Math.round((s1.l / numConv) * 100) + '%' : '0%';
+
+      tbody.innerHTML = `
+        <tr>
+            <td style="text-align:left; font-weight:600;">WhatsApp (varios canales)</td>
+            <td><input type="text" inputmode="numeric" class="avd-meta-in" data-key="${k1}" value="${conv1}" style="width:100%;"></td>
+            <td style="font-weight:bold;">${convPct}</td>
+            <td>${s1.l}</td>
+            <td>${s1.mql}</td>
+            <td>${pct(s1.mql, s1.l)}</td>
+            <td>${s1.mat}</td>
+            <td style="font-weight:bold;">${pctMat(s1.mat, s1.mql)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Facebook Leads (Lead Ads)</td>
+            <td class="disabled">N/A</td>
+            <td class="disabled">N/A</td>
+            <td>${s2.l}</td>
+            <td>${s2.mql}</td>
+            <td>${pct(s2.mql, s2.l)}</td>
+            <td>${s2.mat}</td>
+            <td style="font-weight:bold;">${pctMat(s2.mat, s2.mql)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
+            <td class="disabled">N/A</td>
+            <td class="disabled">N/A</td>
+            <td>${s3.l}</td>
+            <td>${s3.mql}</td>
+            <td>${pct(s3.mql, s3.l)}</td>
+            <td>${s3.mat}</td>
+            <td style="font-weight:bold;">${pctMat(s3.mat, s3.mql)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
+            <td class="disabled">N/A</td>
+            <td class="disabled">N/A</td>
+            <td>${s4.l}</td>
+            <td>${s4.mql}</td>
+            <td>${pct(s4.mql, s4.l)}</td>
+            <td>${s4.mat}</td>
+            <td style="font-weight:bold;">${pctMat(s4.mat, s4.mql)}</td>
+        </tr>
+    `;
+
+      document.querySelectorAll('#avf-tbody .avd-meta-in').forEach(inp => {
+        inp.addEventListener('blur', (e) => {
+          window.avfConv[e.target.dataset.key] = e.target.value;
+          renderFunnelOrigen();
+        });
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.target.blur();
+          }
+        });
+      });
     }
 
-    ['avf-vista', 'avf-modalidad'].forEach(id => {
-      document.getElementById(id).addEventListener('change', renderFunnelOrigen);
-    });
 
+    ['avf-vista', 'avf-modalidad', 'avf-semana'].forEach(id => { document.getElementById(id).addEventListener('change', renderFunnelOrigen); });
   </script>
 </body>
 
