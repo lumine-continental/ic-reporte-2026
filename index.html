@@ -2005,8 +2005,8 @@
               <div>
                 <div class="cc-ttl"
                   style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Funnel de
-                  conversión por orígenes de paga</div>
-                <div class="cc-sub">Rendimiento por principales orígenes pauta</div>
+                  conversión por orígenes de pago</div>
+                <div class="cc-sub">Rendimiento canales de pauta </div>
               </div>
               <div style="display:flex; gap:12px; align-items:center;">
                 <span class="f-lbl">Unidad de negocio:</span>
@@ -3447,7 +3447,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         return true;
       });
 
-      const mqlVals = [
+      const mqlValsInstituto = [
         'ic | no contesta', 'ic | buzon', 'ic | matriculado en otro instituto', 'ic | evaluando costo',
         'ic | abandono', 'ic | motivos personales', 'ic | carrera no satisface', 'ic | motivos económicos',
         'ic | preinscrito', 'ic | siguiente ciclo', 'inin-outbound-no-answer', 'ic | registrado por error',
@@ -3465,9 +3465,16 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         '(en blanco)', ' '
       ];
 
+      const mqlValsEscuela = ['inin-outbound-machine', 'inin-outbound-no-answer', 'consulta revision malla', 'no usar | programado evaluando horario', 'ic | no contesta', 'siguiente ciclo', 'no contesta', 'llamada caída', '(en blanco)', 'ec | evaluando horario', 'ec | siguiente ciclo | documentos |', 'ec | inscrito', 'inin-outbound-disconnect', 'inin-outbound-sit-callable', 'carrera no satisface', 'preinscrito', 'modalidad no satisface', 'agenda pago matricula', 'ic | buzon', 'buzon', 'matriculado otra universidad', 'inin-outbound-failed-to-reach-agent', 'dg | interesado uc', 'ic | llamada caída', 'ec | evaluando costo', 'ec | matricula otro programa', 'agenda pago postulación', 'ec | programado evaluando horario y costo', 'matricula otro programa', 'ic | carrera no disponible', 'motivos económicos', 'prueba', 'ic | siguiente ciclo', 'ec | preinscrito', 'ic | abandono', 'sin cobertura', 'ic | registrado por error', 'ic | consulta modalidad', 'ec | abandono', 'consulta convalidación', 'ec | no contesta', 'ic | modalidad no satisface', 'ec | registrado por error', 'evaluando horario y costo', 'ic | error operador - sin cobertura', 'ec | motivos económicos sin financiacion', 'ec | carrera no satisface', 'ec | consulta convalidación', 'ec | motivos personales familiares', 'alumno actual', 'ec | no acepta convalidacion | tiempo de convalidación |', 'ec | agenda carta oferta', 'ic | prueba', 'ec | siguiente ciclo', 'ic | carrera no satisface', 'ec | evaluando temas familiares', 'motivos personales', 'ec | siguiente ciclo | tiempo |', 'ic | evaluando costo', 'ec | aspirante cuelga llamada', 'ic | mensaje dejado con tercero', 'interesado ic', 'ec | persona ocupada llamar después', 'ec | carrera no disponible | administración y gestión pública', 'ec | matriculado', ' ', ''];
+
       const isMQL = (r) => {
         let val = String(r[C.RES_ACTIVIDAD] || '').trim().toLowerCase();
-        return mqlVals.includes(val);
+        let tipo = String(r[C.TIPO] || '').trim().toUpperCase();
+        if (tipo === 'ESCUELA') {
+          return mqlValsEscuela.includes(val);
+        } else {
+          return mqlValsInstituto.includes(val);
+        }
       };
 
       const isMat = (r) => {
