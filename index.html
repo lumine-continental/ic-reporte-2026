@@ -1681,7 +1681,7 @@
         <div id="view-geografia" class="view">
           <div class="view-hdr"><span class="view-ttl">Geografía</span><span class="vbadge vb-teal">Distribución
               regional</span></div>
-          <div class="krow c3">
+          <div class="krow c2">
             <div class="kcard">
               <div class="klbl">Departamentos activos</div>
               <div class="kval" id="kg-deptos">—</div>
@@ -1692,13 +1692,8 @@
               <div class="kval" id="kg-top" style="font-size:16px;">—</div>
               <div class="ksub" id="kg-top-n">— oportunidades</div>
             </div>
-            <div class="kcard">
-              <div class="klbl">Edad promedio global</div>
-              <div class="kval" id="kg-edad">—</div>
-              <div class="ksub">Años promedio</div>
-            </div>
           </div>
-          <div class="cgrid c2">
+          <div class="cgrid c1">
             <div class="cc">
               <div class="cc-ttl">Oportunidades por departamento</div>
               <div class="cc-sub">Todos los departamentos registrados</div>
@@ -1707,18 +1702,10 @@
                     aria-label="Por departamento">Departamento</canvas></div>
               </div>
             </div>
-            <div class="cc">
-              <div class="cc-ttl">Edad promedio por departamento</div>
-              <div class="cc-sub">Media de edad de prospectos</div>
-              <div class="scroll-ch" style="max-height:320px;">
-                <div class="ch-fix" id="wrap-g-edad"><canvas id="ch-g-edad" role="img"
-                    aria-label="Edad por departamento">Edad depto</canvas></div>
-              </div>
-            </div>
           </div>
           <div class="cc" style="margin-bottom:12px;">
             <div class="cc-ttl">Detalle por departamento</div>
-            <div class="cc-sub">Oportunidades, edad promedio y conversión</div>
+            <div class="cc-sub">Oportunidades y conversión</div>
             <div style="overflow-x:auto;margin-top:8px;">
               <table class="geo-table">
                 <thead>
@@ -1728,7 +1715,6 @@
                     <th>%</th>
                     <th>Activos</th>
                     <th>Matriculados</th>
-                    <th>Edad prom.</th>
                     <th>Distribución</th>
                   </tr>
                 </thead>
@@ -2421,7 +2407,7 @@
       setEl('kc-tot', tot.toLocaleString()); setEl('kc-act', act.toLocaleString()); setEl('kc-eng', eng.toLocaleString()); setEl('kc-pre', pre.toLocaleString());
       setEl('kcom-mat', mat.toLocaleString()); setEl('kcom-ing', ing.toLocaleString()); setEl('kcom-post', post.toLocaleString()); setEl('kcom-pre', pre.toLocaleString());
       setEl('kg-deptos', [...new Set(depD.map(r => r[C.DEPTO]))].length.toLocaleString()); setEl('kg-top', trim(topD[0], 14)); setEl('kg-top-n', topD[1] + ' oportunidades');
-      setEl('kg-edad', eds.length ? avg(eds).toFixed(1) + ' años' : '—');
+
       setEl('kb-total', bidirD.length.toLocaleString()); setEl('kb-sin', (tot - bidirD.length).toLocaleString()); setEl('kb-users', bidirU.length.toLocaleString()); setEl('kb-prom', bidirU.length > 0 ? Math.round(bidirD.length / bidirU.length).toLocaleString() : '0');
       setEl('recN', tot.toLocaleString()); setEl('sbRec', allData.length.toLocaleString() + ' registros');
     }
@@ -2483,18 +2469,12 @@
       const depArr = Object.entries(countBy(depData, C.DEPTO)).sort((a, b) => b[1] - a[1]);
       const total = filtered.length || 1;
       mkHBar('ch-g-depto', depArr.map(e => e[0]), depArr.map(e => e[1]), depArr.map((_, i) => i === 0 ? '#f97316' : '#0ea5e9'), 'wrap-g-depto');
-      const edadMap = {};
-      depData.forEach(r => { const d = r[C.DEPTO]; const e = +r[C.EDAD]; if (d && e > 0 && e < 100) { if (!edadMap[d]) edadMap[d] = []; edadMap[d].push(e); } });
-      const edAvg = Object.entries(edadMap).map(([d, arr]) => ([d, +(avg(arr).toFixed(1))])).sort((a, b) => b[1] - a[1]);
-      mkHBar('ch-g-edad', edAvg.map(e => e[0]), edAvg.map(e => e[1]), edAvg.map((_, i) => i === 0 ? '#ec5168' : '#2389e6'), 'wrap-g-edad');
       const tbody = document.getElementById('geo-tbody'); if (!tbody) return;
       const maxC = depArr.length ? depArr[0][1] : 1;
       tbody.innerHTML = depArr.map(([dep, cnt]) => {
         const act = filtered.filter(r => r[C.DEPTO] === dep && r[C.STATUS] === 'Activo').length;
         const mats = filtered.filter(r => r[C.DEPTO] === dep && r[C.ESTADO] === 'MATRICULADO').length;
-        const eds = depData.filter(r => r[C.DEPTO] === dep).map(r => +r[C.EDAD]).filter(e => e > 0 && e < 100);
-        const ep = eds.length ? avg(eds).toFixed(1) : '—';
-        return `<tr><td style="font-weight:600">${dep}</td><td style="text-align:center"><strong>${cnt}</strong></td><td style="text-align:center">${Math.round(cnt / total * 100)}%</td><td style="text-align:center">${act}</td><td style="text-align:center">${mats}</td><td style="text-align:center">${ep}</td><td style="width:120px"><div class="geo-mini" style="width:${Math.round(cnt / maxC * 100)}%"></div></td></tr>`;
+        return `<tr><td style="font-weight:600">${dep}</td><td style="text-align:center"><strong>${cnt}</strong></td><td style="text-align:center">${Math.round(cnt / total * 100)}%</td><td style="text-align:center">${act}</td><td style="text-align:center">${mats}</td><td style="width:120px"><div class="geo-mini" style="width:${Math.round(cnt / maxC * 100)}%"></div></td></tr>`;
       }).join('');
     }
     function renderBidireccional() {
