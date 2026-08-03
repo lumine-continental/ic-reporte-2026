@@ -1830,7 +1830,9 @@
               <option value="ATL">ATL</option>
               <option value="B2B">B2B</option>
               <option value="BTL">BTL</option>
-              <option value="DIGITAL">DIGITAL</option>
+              <option value="DIGITAL" selected>Digital</option>
+              <option value="Base de datos">Base de datos</option>
+              <option value="HS">HS</option>
             </select>
             <select id="av-tipo" class="fsel"
               style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -1859,7 +1861,7 @@
             <div class="kcard" style="border-top: 4px solid var(--text-dark);">
               <div class="klbl" style="text-transform:uppercase">Semanas restantes</div>
               <div class="kval" id="av-kpi-sems">—</div>
-              <div class="ksub">Sem 36 - Semana actual</div>
+              <div class="ksub">Sem 40 - Semana actual</div>
             </div>
           </div>
 
@@ -1911,6 +1913,8 @@
                   <option value="B2B">B2B</option>
                   <option value="BTL">BTL</option>
                   <option value="Digital" selected>Digital</option>
+                  <option value="Base de datos">Base de datos</option>
+                  <option value="HS">HS</option>
                   <option value="Base de datos">Base de datos</option>
                   <option value="HS">HS</option>
                 </select>
@@ -2704,193 +2708,216 @@
     // Hardcoded Metas are processed directly
     function initMetas() {
       processMetasCSV(`INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+RESUMEN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Resumen;18;lunes, 18 de Mes de 2026;20;0.00%;9;0.00%;16;0.00%;205;0.00%;;250;;Resumen;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;19;lunes, 19 de Mes de 2026;22;0.00%;9;0.00%;16;0.00%;256;0.00%;;303;;Resumen;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;20;lunes, 20 de Mes de 2026;23;0.00%;20;0.00%;25;0.00%;282;0.00%;;350;;Resumen;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;21;lunes, 21 de Mes de 2026;23;0.00%;18;0.00%;33;0.00%;282;0.00%;;356;;Resumen;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;22;lunes, 22 de Mes de 2026;25;0.00%;18;0.00%;33;0.00%;309;0.00%;;385;;Resumen;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;23;lunes, 23 de Mes de 2026;31;0.00%;18;0.00%;33;0.00%;360;0.00%;;442;;Resumen;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;24;lunes, 24 de Mes de 2026;33;0.00%;18;0.00%;33;0.00%;384;0.00%;;468;;Resumen;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;25;lunes, 25 de Mes de 2026;35;0.00%;22;0.00%;42;0.00%;416;0.00%;;515;;Resumen;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;26;lunes, 26 de Mes de 2026;37;0.00%;24;0.00%;42;0.00%;462;0.00%;;565;;Resumen;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;27;lunes, 27 de Mes de 2026;38;0.00%;29;0.00%;48;0.00%;488;0.00%;;603;;Resumen;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;28;lunes, 28 de Mes de 2026;44;0.00%;30;0.00%;51;0.00%;548;0.00%;;673;;Resumen;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;29;lunes, 29 de Mes de 2026;46;0.00%;31;0.00%;53;0.00%;593;0.00%;;723;;Resumen;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;30;lunes, 30 de Mes de 2026;52;0.00%;26;0.00%;52;0.00%;671;0.00%;;801;;Resumen;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;31;lunes, 31 de Mes de 2026;38;0.00%;20;0.00%;40;0.00%;661;0.00%;;759;;Resumen;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;32;lunes, 32 de Mes de 2026;61;0.00%;31;0.00%;58;0.00%;796;0.00%;;946;;Resumen;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;33;lunes, 33 de Mes de 2026;81;0.00%;39;0.00%;81;0.00%;954;0.00%;;1155;;Resumen;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;34;lunes, 34 de Mes de 2026;80;0.00%;35;0.00%;93;0.00%;1055;0.00%;;1263;;Resumen;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;35;lunes, 35 de Mes de 2026;77;0.00%;35;0.00%;98;0.00%;1139;0.00%;;1349;;Resumen;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;36;lunes, 36 de Mes de 2026;20;0.00%;0;0.00%;37;0.00%;534;0.00%;;591;;Resumen;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;37;lunes, 37 de Mes de 2026;25;0.00%;0;0.00%;41;0.00%;127;0.00%;;193;;Resumen;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;38;lunes, 38 de Mes de 2026;29;0.00%;0;0.00%;45;0.00%;161;0.00%;;235;;Resumen;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;39;lunes, 39 de Mes de 2026;34;0.00%;0;0.00%;56;0.00%;207;0.00%;;297;;Resumen;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;210;0.00%;;210;;Resumen;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
 DISTANCIA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Distancia;18;lunes, 27 de Abril de 2026;11;2.72%;9;2.08%;7;1.99%;156;2.04%;;183;;Distancia;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Distancia;19;lunes, 4 de Mayo de 2026;12;2.96%;9;2.08%;7;1.99%;195;2.56%;;223;;Distancia;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Distancia;20;lunes, 11 de Mayo de 2026;13;3.21%;20;4.63%;16;4.56%;215;2.82%;;264;;Distancia;20;lunes, 11 de Mayo de 2026;3;3.06%;1;4.00%;0;0.00%;10;2.11%;;14;;;
-Distancia;21;lunes, 18 de Mayo de 2026;13;3.21%;18;4.17%;14;3.99%;215;2.82%;;260;;Distancia;21;lunes, 18 de Mayo de 2026;3;3.06%;1;4.00%;0;0.00%;12;2.53%;;16;;;
-Distancia;22;lunes, 25 de Mayo de 2026;14;3.46%;18;4.17%;14;3.99%;235;3.08%;;281;;Distancia;22;lunes, 25 de Mayo de 2026;3;3.06%;1;4.00%;1;4.55%;13;2.74%;;18;;;
-Distancia;23;lunes, 1 de Junio de 2026;17;4.20%;18;4.17%;14;3.99%;274;3.59%;;323;;Distancia;23;lunes, 1 de Junio de 2026;3;3.06%;1;4.00%;1;4.55%;13;2.74%;;18;;;
-Distancia;24;lunes, 8 de Junio de 2026;18;4.44%;18;4.17%;14;3.99%;293;3.84%;;343;;Distancia;24;lunes, 8 de Junio de 2026;3;3.06%;1;4.00%;1;4.55%;15;3.16%;;20;;;
-Distancia;25;lunes, 15 de Junio de 2026;20;4.94%;22;5.09%;18;5.13%;318;4.17%;;378;;Distancia;25;lunes, 15 de Junio de 2026;4;4.08%;1;4.00%;1;4.55%;17;3.58%;;23;;;
-Distancia;26;lunes, 22 de Junio de 2026;21;5.19%;24;5.56%;18;5.13%;352;4.61%;;415;;Distancia;26;lunes, 22 de Junio de 2026;4;4.08%;1;4.00%;1;4.55%;18;3.79%;;24;;;
-Distancia;27;lunes, 29 de Junio de 2026;22;5.43%;29;6.71%;23;6.55%;371;4.86%;;445;;Distancia;27;lunes, 29 de Junio de 2026;5;5.10%;1;4.00%;1;4.55%;18;3.79%;;25;;;
-Distancia;28;lunes, 6 de Julio de 2026;25;6.17%;30;6.94%;25;7.12%;420;5.50%;;500;;Distancia;28;lunes, 6 de Julio de 2026;5;5.10%;1;4.00%;1;4.55%;24;5.05%;;31;;;
-Distancia;29;lunes, 13 de Julio de 2026;26;6.42%;31;7.18%;27;7.69%;450;5.90%;;534;;Distancia;29;lunes, 13 de Julio de 2026;5;5.10%;1;4.00%;1;4.55%;29;6.11%;;36;;;
-Distancia;30;lunes, 20 de Julio de 2026;29;7.16%;26;6.02%;23;6.55%;510;6.68%;;588;;Distancia;30;lunes, 20 de Julio de 2026;6;6.12%;1;4.00%;1;4.55%;29;6.11%;;37;;;
-Distancia;31;lunes, 27 de Julio de 2026;20;4.94%;20;4.63%;15;4.27%;500;6.55%;;555;;Distancia;31;lunes, 27 de Julio de 2026;4;4.08%;1;4.00%;1;4.55%;20;4.21%;;26;;;
-Distancia;32;lunes, 3 de Agosto de 2026;34;8.40%;31;7.18%;25;7.12%;606;7.94%;;696;;Distancia;32;lunes, 3 de Agosto de 2026;7;7.14%;2;8.00%;2;9.09%;33;6.95%;;44;;;
-Distancia;33;lunes, 10 de Agosto de 2026;40;9.88%;39;9.03%;33;9.40%;684;8.96%;;796;;Distancia;33;lunes, 10 de Agosto de 2026;7;7.14%;2;8.00%;2;9.09%;39;8.21%;;50;;;
-Distancia;34;lunes, 17 de Agosto de 2026;37;9.14%;35;8.10%;29;8.26%;754;9.88%;;855;;Distancia;34;lunes, 17 de Agosto de 2026;9;9.18%;2;8.00%;2;9.09%;43;9.05%;;56;;;
-Distancia;35;lunes, 24 de Agosto de 2026;33;8.15%;35;8.10%;29;8.26%;801;10.50%;;898;;Distancia;35;lunes, 24 de Agosto de 2026;10;10.20%;3;12.00%;2;9.09%;50;10.53%;;65;;;
-Distancia;36;lunes, 31 de Agosto de 2026;;;;;;;283;3.71%;;283;;Distancia;36;lunes, 31 de Agosto de 2026;9;9.18%;2;8.00%;2;9.09%;54;11.37%;;67;;;
-Distancia;37;lunes, 7 de Setiembre de 2026;;;;;;;;;;0;;Distancia;37;lunes, 7 de Setiembre de 2026;8;8.16%;2;8.00%;2;9.09%;38;8.00%;;50;;;
-Distancia;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;Distancia;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;;
-Distancia;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;Distancia;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;;
-Distancia;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;Distancia;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
-Distancia;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;Distancia;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
-Distancia;;Total;405;100.00%;432;100.00%;351;100.00%;7632;100.00%;;8,820;;Distancia;;Total;98;100.00%;25;100.00%;22;100.00%;475;100.00%;;620;;;
-INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Distancia;18;lunes, 18 de Mes de 2026;11;0.00%;9;0.00%;7;0.00%;156;0.00%;;183;;Distancia;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;19;lunes, 19 de Mes de 2026;12;0.00%;9;0.00%;7;0.00%;195;0.00%;;223;;Distancia;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;20;lunes, 20 de Mes de 2026;13;0.00%;20;0.00%;16;0.00%;215;0.00%;;264;;Distancia;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;21;lunes, 21 de Mes de 2026;13;0.00%;18;0.00%;14;0.00%;215;0.00%;;260;;Distancia;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;22;lunes, 22 de Mes de 2026;14;0.00%;18;0.00%;14;0.00%;235;0.00%;;281;;Distancia;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;23;lunes, 23 de Mes de 2026;17;0.00%;18;0.00%;14;0.00%;274;0.00%;;323;;Distancia;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;24;lunes, 24 de Mes de 2026;18;0.00%;18;0.00%;14;0.00%;293;0.00%;;343;;Distancia;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;25;lunes, 25 de Mes de 2026;20;0.00%;22;0.00%;18;0.00%;318;0.00%;;378;;Distancia;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;26;lunes, 26 de Mes de 2026;21;0.00%;24;0.00%;18;0.00%;352;0.00%;;415;;Distancia;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;27;lunes, 27 de Mes de 2026;22;0.00%;29;0.00%;23;0.00%;371;0.00%;;445;;Distancia;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;28;lunes, 28 de Mes de 2026;25;0.00%;30;0.00%;25;0.00%;420;0.00%;;500;;Distancia;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;29;lunes, 29 de Mes de 2026;26;0.00%;31;0.00%;27;0.00%;450;0.00%;;534;;Distancia;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;30;lunes, 30 de Mes de 2026;29;0.00%;26;0.00%;23;0.00%;510;0.00%;;588;;Distancia;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;31;lunes, 31 de Mes de 2026;20;0.00%;20;0.00%;15;0.00%;500;0.00%;;555;;Distancia;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;32;lunes, 32 de Mes de 2026;34;0.00%;31;0.00%;25;0.00%;606;0.00%;;696;;Distancia;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;33;lunes, 33 de Mes de 2026;40;0.00%;39;0.00%;33;0.00%;684;0.00%;;796;;Distancia;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;34;lunes, 34 de Mes de 2026;37;0.00%;35;0.00%;29;0.00%;754;0.00%;;855;;Distancia;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;35;lunes, 35 de Mes de 2026;33;0.00%;35;0.00%;29;0.00%;801;0.00%;;898;;Distancia;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;283;0.00%;;283;;Distancia;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
 PRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Presencial;18;lunes, 27 de Abril de 2026;15;2.60%;;0.00%;15;2.21%;62;1.98%;;92;;Presencial;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Presencial;19;lunes, 4 de Mayo de 2026;17;2.95%;;0.00%;15;2.21%;77;2.46%;;109;;Presencial;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Presencial;20;lunes, 11 de Mayo de 2026;19;3.30%;;0.00%;15;2.21%;85;2.72%;;119;;Presencial;20;lunes, 11 de Mayo de 2026;7;2.55%;;0.00%;1;3.70%;5;2.10%;;13;;;
-Presencial;21;lunes, 18 de Mayo de 2026;19;3.30%;;0.00%;30;4.42%;85;2.72%;;134;;Presencial;21;lunes, 18 de Mayo de 2026;8;2.91%;;0.00%;1;3.70%;6;2.52%;;15;;;
-Presencial;22;lunes, 25 de Mayo de 2026;20;3.47%;;0.00%;30;4.42%;93;2.97%;;143;;Presencial;22;lunes, 25 de Mayo de 2026;9;3.27%;;0.00%;1;3.70%;6;2.52%;;16;;;
-Presencial;23;lunes, 1 de Junio de 2026;24;4.17%;;0.00%;30;4.42%;108;3.45%;;162;;Presencial;23;lunes, 1 de Junio de 2026;9;3.27%;;0.00%;1;3.70%;6;2.52%;;16;;;
-Presencial;24;lunes, 8 de Junio de 2026;27;4.69%;;0.00%;30;4.42%;116;3.71%;;173;;Presencial;24;lunes, 8 de Junio de 2026;10;3.64%;;0.00%;1;3.70%;7;2.94%;;18;;;
-Presencial;25;lunes, 15 de Junio de 2026;28;4.86%;;0.00%;38;5.60%;124;3.96%;;190;;Presencial;25;lunes, 15 de Junio de 2026;11;4.00%;;0.00%;1;3.70%;8;3.36%;;20;;;
-Presencial;26;lunes, 22 de Junio de 2026;29;5.03%;;0.00%;38;5.60%;139;4.44%;;206;;Presencial;26;lunes, 22 de Junio de 2026;12;4.36%;;0.00%;1;3.70%;9;3.78%;;22;;;
-Presencial;27;lunes, 29 de Junio de 2026;30;5.21%;;0.00%;40;5.90%;147;4.70%;;217;;Presencial;27;lunes, 29 de Junio de 2026;13;4.73%;;0.00%;1;3.70%;9;3.78%;;23;;;
-Presencial;28;lunes, 6 de Julio de 2026;34;5.90%;;0.00%;41;6.05%;163;5.21%;;238;;Presencial;28;lunes, 6 de Julio de 2026;14;5.09%;;0.00%;1;3.70%;11;4.62%;;26;;;
-Presencial;29;lunes, 13 de Julio de 2026;37;6.42%;;0.00%;42;6.19%;180;5.75%;;259;;Presencial;29;lunes, 13 de Julio de 2026;15;5.45%;;0.00%;1;3.70%;11;4.62%;;27;;;
-Presencial;30;lunes, 20 de Julio de 2026;42;7.29%;;0.00%;46;6.78%;201;6.43%;;289;;Presencial;30;lunes, 20 de Julio de 2026;17;6.18%;;0.00%;1;3.70%;12;5.04%;;30;;;
-Presencial;31;lunes, 27 de Julio de 2026;35;6.08%;;0.00%;40;5.90%;210;6.71%;;285;;Presencial;31;lunes, 27 de Julio de 2026;12;4.36%;;0.00%;1;3.70%;10;4.20%;;23;;;
-Presencial;32;lunes, 3 de Agosto de 2026;47;8.16%;;0.00%;53;7.82%;240;7.67%;;340;;Presencial;32;lunes, 3 de Agosto de 2026;19;6.91%;;0.00%;2;7.41%;16;6.72%;;37;;;
-Presencial;33;lunes, 10 de Agosto de 2026;55;9.55%;;0.00%;53;7.82%;271;8.66%;;379;;Presencial;33;lunes, 10 de Agosto de 2026;22;8.00%;;0.00%;3;11.11%;18;7.56%;;43;;;
-Presencial;34;lunes, 17 de Agosto de 2026;51;8.85%;;0.00%;61;9.00%;294;9.40%;;406;;Presencial;34;lunes, 17 de Agosto de 2026;24;8.73%;;0.00%;3;11.11%;22;9.24%;;49;;;
-Presencial;35;lunes, 24 de Agosto de 2026;47;8.16%;;0.00%;61;9.00%;318;10.17%;;426;;Presencial;35;lunes, 24 de Agosto de 2026;26;9.45%;;0.00%;3;11.11%;25;10.50%;;54;;;
-Presencial;36;lunes, 31 de Agosto de 2026;;0.00%;;0.00%;;0.00%;215;6.87%;;215;;Presencial;36;lunes, 31 de Agosto de 2026;28;10.18%;;0.00%;3;11.11%;28;11.76%;;59;;;
-Presencial;37;lunes, 7 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;37;lunes, 7 de Setiembre de 2026;19;6.91%;;0.00%;1;3.70%;20;8.40%;;40;;;
-Presencial;38;lunes, 14 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;38;lunes, 14 de Setiembre de 2026;;;;;;;9;3.78%;;9;;;
-Presencial;39;lunes, 21 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;0.00%;;0;;;
-Presencial;40;lunes, 28 de Setiembre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
-Presencial;41;lunes, 5 de Octubre de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;Presencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
-Presencial;;Total;576;100%;0;0;678;100%;3128;100%;;4,382;;Presencial;;Total;275;100.00%;0;0.00%;27;100.00%;238;100.00%;;540;;;
-INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Presencial;18;lunes, 18 de Mes de 2026;7;0.00%;0;0.00%;9;0.00%;34;0.00%;;50;;Presencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;19;lunes, 19 de Mes de 2026;8;0.00%;0;0.00%;9;0.00%;43;0.00%;;60;;Presencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;20;lunes, 20 de Mes de 2026;8;0.00%;0;0.00%;9;0.00%;47;0.00%;;64;;Presencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;21;lunes, 21 de Mes de 2026;8;0.00%;0;0.00%;19;0.00%;47;0.00%;;74;;Presencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;22;lunes, 22 de Mes de 2026;9;0.00%;0;0.00%;19;0.00%;52;0.00%;;80;;Presencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;23;lunes, 23 de Mes de 2026;11;0.00%;0;0.00%;19;0.00%;60;0.00%;;90;;Presencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;24;lunes, 24 de Mes de 2026;12;0.00%;0;0.00%;19;0.00%;64;0.00%;;95;;Presencial;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;25;lunes, 25 de Mes de 2026;12;0.00%;0;0.00%;24;0.00%;69;0.00%;;105;;Presencial;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;26;lunes, 26 de Mes de 2026;13;0.00%;0;0.00%;24;0.00%;77;0.00%;;114;;Presencial;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;27;lunes, 27 de Mes de 2026;13;0.00%;0;0.00%;25;0.00%;82;0.00%;;120;;Presencial;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;28;lunes, 28 de Mes de 2026;15;0.00%;0;0.00%;26;0.00%;90;0.00%;;131;;Presencial;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;29;lunes, 29 de Mes de 2026;16;0.00%;0;0.00%;26;0.00%;100;0.00%;;142;;Presencial;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;30;lunes, 30 de Mes de 2026;19;0.00%;0;0.00%;29;0.00%;112;0.00%;;160;;Presencial;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;31;lunes, 31 de Mes de 2026;16;0.00%;0;0.00%;25;0.00%;116;0.00%;;157;;Presencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;32;lunes, 32 de Mes de 2026;21;0.00%;0;0.00%;33;0.00%;133;0.00%;;187;;Presencial;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;33;lunes, 33 de Mes de 2026;35;0.00%;0;0.00%;48;0.00%;206;0.00%;;289;;Presencial;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;34;lunes, 34 de Mes de 2026;37;0.00%;0;0.00%;64;0.00%;231;0.00%;;332;;Presencial;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;35;lunes, 35 de Mes de 2026;39;0.00%;0;0.00%;69;0.00%;262;0.00%;;370;;Presencial;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;36;lunes, 36 de Mes de 2026;20;0.00%;0;0.00%;37;0.00%;225;0.00%;;282;;Presencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;37;lunes, 37 de Mes de 2026;25;0.00%;0;0.00%;41;0.00%;127;0.00%;;193;;Presencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;38;lunes, 38 de Mes de 2026;29;0.00%;0;0.00%;45;0.00%;161;0.00%;;235;;Presencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;39;lunes, 39 de Mes de 2026;34;0.00%;0;0.00%;56;0.00%;207;0.00%;;297;;Presencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;210;0.00%;;210;;Presencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
 SEMIPRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Semipresencial;18;lunes, 27 de Abril de 2026;2;3.23%;;0.00%;;0.00%;15;2.10%;;17;;Semipresencial;18;lunes, 27 de Abril de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Semipresencial;19;lunes, 4 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;18;2.52%;;20;;Semipresencial;19;lunes, 4 de Mayo de 2026;;0.00%;;0.00%;;0.00%;;0.00%;;0;;;
-Semipresencial;20;lunes, 11 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;20;2.81%;;22;;Semipresencial;20;lunes, 11 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
-Semipresencial;21;lunes, 18 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;20;2.81%;;22;;Semipresencial;21;lunes, 18 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
-Semipresencial;22;lunes, 25 de Mayo de 2026;2;3.23%;;0.00%;;0.00%;22;3.09%;;24;;Semipresencial;22;lunes, 25 de Mayo de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
-Semipresencial;23;lunes, 1 de Junio de 2026;3;4.84%;;0.00%;;0.00%;26;3.65%;;29;;Semipresencial;23;lunes, 1 de Junio de 2026;1;5.00%;;0.00%;;0.00%;1;2.00%;;2;;;
-Semipresencial;24;lunes, 8 de Junio de 2026;3;4.84%;;0.00%;;0.00%;27;3.79%;;30;;Semipresencial;24;lunes, 8 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;25;lunes, 15 de Junio de 2026;3;4.84%;;0.00%;;0.00%;29;4.07%;;32;;Semipresencial;25;lunes, 15 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;26;lunes, 22 de Junio de 2026;3;4.84%;;0.00%;;0.00%;33;4.63%;;36;;Semipresencial;26;lunes, 22 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;27;lunes, 29 de Junio de 2026;3;4.84%;;0.00%;;0.00%;35;4.91%;;38;;Semipresencial;27;lunes, 29 de Junio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;28;lunes, 6 de Julio de 2026;4;6.45%;;0.00%;;0.00%;38;5.33%;;42;;Semipresencial;28;lunes, 6 de Julio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;29;lunes, 13 de Julio de 2026;4;6.45%;;0.00%;;0.00%;43;6.03%;;47;;Semipresencial;29;lunes, 13 de Julio de 2026;1;5.00%;;0.00%;;0.00%;2;4.00%;;3;;;
-Semipresencial;30;lunes, 20 de Julio de 2026;4;6.45%;;0.00%;;0.00%;49;6.87%;;53;;Semipresencial;30;lunes, 20 de Julio de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
-Semipresencial;31;lunes, 27 de Julio de 2026;2;3.23%;;0.00%;;0.00%;45;6.31%;;47;;Semipresencial;31;lunes, 27 de Julio de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
-Semipresencial;32;lunes, 3 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;57;7.99%;;63;;Semipresencial;32;lunes, 3 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;3;6.00%;;4;;;
-Semipresencial;33;lunes, 10 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;64;8.98%;;70;;Semipresencial;33;lunes, 10 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;4;8.00%;;5;;;
-Semipresencial;34;lunes, 17 de Agosto de 2026;6;9.68%;;0.00%;;0.00%;70;9.82%;;76;;Semipresencial;34;lunes, 17 de Agosto de 2026;1;5.00%;;0.00%;;0.00%;4;8.00%;;5;;;
-Semipresencial;35;lunes, 24 de Agosto de 2026;5;8.06%;;0.00%;;0.00%;76;10.66%;;81;;Semipresencial;35;lunes, 24 de Agosto de 2026;2;10.00%;;0.00%;;0.00%;4;8.00%;;6;;;
-Semipresencial;36;lunes, 31 de Agosto de 2026;;;;;;;26;3.65%;;26;;Semipresencial;36;lunes, 31 de Agosto de 2026;2;10.00%;;0.00%;;0.00%;6;12.00%;;8;;;
-Semipresencial;37;lunes, 7 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;37;lunes, 7 de Setiembre de 2026;1;5.00%;;0.00%;;0.00%;5;10.00%;;6;;;
-Semipresencial;38;lunes, 14 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;38;lunes, 14 de Setiembre de 2026;;;;;;;2;4.00%;;2;;;
-Semipresencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;39;lunes, 21 de Setiembre de 2026;;;;;;;;0.00%;;0;;;
-Semipresencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;Semipresencial;40;lunes, 28 de Setiembre de 2026;;;;;;;;;;0;;;
-Semipresencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;Semipresencial;41;lunes, 5 de Octubre de 2026;;;;;;;;;;0;;;
-Semipresencial;;Total;62;100.00%;0;0.00%;0;0.00%;713;100.00%;;775;;Semipresencial;;Total;20;100.00%;0;0.00%;0;0.00%;50;100.00%;;70;;;
-INSTITUTO;2026-02;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Semipresencial;18;lunes, 18 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;15;0.00%;;17;;Semipresencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;19;lunes, 19 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;18;0.00%;;20;;Semipresencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;20;lunes, 20 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;20;0.00%;;22;;Semipresencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;21;lunes, 21 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;20;0.00%;;22;;Semipresencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;22;lunes, 22 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;22;0.00%;;24;;Semipresencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;23;lunes, 23 de Mes de 2026;3;0.00%;0;0.00%;0;0.00%;26;0.00%;;29;;Semipresencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;24;lunes, 24 de Mes de 2026;3;0.00%;0;0.00%;0;0.00%;27;0.00%;;30;;Semipresencial;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;25;lunes, 25 de Mes de 2026;3;0.00%;0;0.00%;0;0.00%;29;0.00%;;32;;Semipresencial;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;26;lunes, 26 de Mes de 2026;3;0.00%;0;0.00%;0;0.00%;33;0.00%;;36;;Semipresencial;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;27;lunes, 27 de Mes de 2026;3;0.00%;0;0.00%;0;0.00%;35;0.00%;;38;;Semipresencial;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;28;lunes, 28 de Mes de 2026;4;0.00%;0;0.00%;0;0.00%;38;0.00%;;42;;Semipresencial;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;29;lunes, 29 de Mes de 2026;4;0.00%;0;0.00%;0;0.00%;43;0.00%;;47;;Semipresencial;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;30;lunes, 30 de Mes de 2026;4;0.00%;0;0.00%;0;0.00%;49;0.00%;;53;;Semipresencial;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;31;lunes, 31 de Mes de 2026;2;0.00%;0;0.00%;0;0.00%;45;0.00%;;47;;Semipresencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;32;lunes, 32 de Mes de 2026;6;0.00%;0;0.00%;0;0.00%;57;0.00%;;63;;Semipresencial;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;33;lunes, 33 de Mes de 2026;6;0.00%;0;0.00%;0;0.00%;64;0.00%;;70;;Semipresencial;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;34;lunes, 34 de Mes de 2026;6;0.00%;0;0.00%;0;0.00%;70;0.00%;;76;;Semipresencial;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;35;lunes, 35 de Mes de 2026;5;0.00%;0;0.00%;0;0.00%;76;0.00%;;81;;Semipresencial;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;26;0.00%;;26;;Semipresencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 RESUMEN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Instituto;18;lunes, 27 de Abril de 2026;28;2.68%;9;2.08%;22;2.14%;233;2.03%;;292;;Instituto;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Instituto;19;lunes, 4 de Mayo de 2026;31;2.97%;9;2.08%;22;2.14%;290;2.53%;;352;;Instituto;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;MES;META
-Instituto;20;lunes, 11 de Mayo de 2026;34;3.26%;20;4.63%;31;3.01%;320;2.79%;;405;;Instituto;20;lunes, 11 de Mayo de 2026;11;2.80%;1;4.00%;1;2.04%;16;2.10%;;29;;MAYO;98
-Instituto;21;lunes, 18 de Mayo de 2026;34;3.26%;18;4.17%;44;4.28%;320;2.79%;;416;;Instituto;21;lunes, 18 de Mayo de 2026;12;3.05%;1;4.00%;1;2.04%;19;2.49%;;33;;JUNIO;172
-Instituto;22;lunes, 25 de Mayo de 2026;36;3.45%;18;4.17%;44;4.28%;350;3.05%;;448;;Instituto;22;lunes, 25 de Mayo de 2026;13;3.31%;1;4.00%;2;4.08%;20;2.62%;;36;;JULIO;301
-Instituto;23;lunes, 1 de Junio de 2026;44;4.22%;18;4.17%;44;4.28%;408;3.56%;;514;;Instituto;23;lunes, 1 de Junio de 2026;13;3.31%;1;4.00%;2;4.08%;20;2.62%;;36;;AGOSTO;418
-Instituto;24;lunes, 8 de Junio de 2026;48;4.60%;18;4.17%;44;4.28%;436;3.80%;;546;;Instituto;24;lunes, 8 de Junio de 2026;14;3.56%;1;4.00%;2;4.08%;24;3.15%;;41;;SEPTIEMBRE;241
-Instituto;25;lunes, 15 de Junio de 2026;51;4.89%;22;5.09%;56;5.44%;471;4.11%;;600;;Instituto;25;lunes, 15 de Junio de 2026;16;4.07%;1;4.00%;2;4.08%;27;3.54%;;46;;;1,230
-Instituto;26;lunes, 22 de Junio de 2026;53;5.08%;24;5.56%;56;5.44%;524;4.57%;;657;;Instituto;26;lunes, 22 de Junio de 2026;17;4.33%;1;4.00%;2;4.08%;29;3.80%;;49;;;
-Instituto;27;lunes, 29 de Junio de 2026;55;5.27%;29;6.71%;63;6.12%;553;4.82%;;700;;Instituto;27;lunes, 29 de Junio de 2026;19;4.83%;1;4.00%;2;4.08%;29;3.80%;;51;;;
-Instituto;28;lunes, 6 de Julio de 2026;63;6.04%;30;6.94%;66;6.41%;621;5.41%;;780;;Instituto;28;lunes, 6 de Julio de 2026;20;5.09%;1;4.00%;2;4.08%;37;4.85%;;60;;;
-Instituto;29;lunes, 13 de Julio de 2026;67;6.42%;31;7.18%;69;6.71%;673;5.87%;;840;;Instituto;29;lunes, 13 de Julio de 2026;21;5.34%;1;4.00%;2;4.08%;42;5.50%;;66;;;
-Instituto;30;lunes, 20 de Julio de 2026;75;7.19%;26;6.02%;69;6.71%;760;6.62%;;930;;Instituto;30;lunes, 20 de Julio de 2026;24;6.11%;1;4.00%;2;4.08%;44;5.77%;;71;;;
-Instituto;31;lunes, 27 de Julio de 2026;57;5.47%;20;4.63%;55;5.34%;755;6.58%;;887;;Instituto;31;lunes, 27 de Julio de 2026;17;4.33%;1;4.00%;2;4.08%;33;4.33%;;53;;;
-Instituto;32;lunes, 3 de Agosto de 2026;87;8.34%;31;7.18%;78;7.58%;903;7.87%;;1,099;;Instituto;32;lunes, 3 de Agosto de 2026;27;6.87%;2;8.00%;4;8.16%;52;6.82%;;85;;;
-Instituto;33;lunes, 10 de Agosto de 2026;101;9.68%;39;9.03%;86;8.36%;1019;8.88%;;1,245;;Instituto;33;lunes, 10 de Agosto de 2026;30;7.63%;2;8.00%;5;10.20%;61;7.99%;;98;;;
-Instituto;34;lunes, 17 de Agosto de 2026;94;9.01%;35;8.10%;90;8.75%;1118;9.74%;;1,337;;Instituto;34;lunes, 17 de Agosto de 2026;34;8.65%;2;8.00%;5;10.20%;69;9.04%;;110;;;
-Instituto;35;lunes, 24 de Agosto de 2026;85;8.15%;35;8.10%;90;8.75%;1195;10.42%;;1,405;;Instituto;35;lunes, 24 de Agosto de 2026;38;9.67%;3;12.00%;5;10.20%;79;10.35%;;125;;;
-Instituto;36;lunes, 31 de Agosto de 2026;0;0.00%;0;;0;0.00%;524;4.57%;;524;;Instituto;36;lunes, 31 de Agosto de 2026;39;9.92%;2;8.00%;5;10.20%;88;11.53%;;134;;;
-Instituto;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;0.00%;;0;;Instituto;37;lunes, 7 de Setiembre de 2026;28;7.12%;2;8.00%;3;6.12%;63;8.26%;;96;;;
-Instituto;38;lunes, 14 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;0.00%;;0;;Instituto;38;lunes, 14 de Setiembre de 2026;0;;0;0.00%;0;0.00%;11;1.44%;;11;;;
-Instituto;39;lunes, 21 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;;;0;;Instituto;39;lunes, 21 de Setiembre de 2026;0;;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Instituto;40;lunes, 28 de Setiembre de 2026;0;0.00%;0;;0;0.00%;0;;;0;;Instituto;40;lunes, 28 de Setiembre de 2026;0;;0;;0;;0;0.00%;;0;;;
-Instituto;41;lunes, 5 de Octubre de 2026;0;;0;;0;;0;;;0;;Instituto;41;lunes, 5 de Octubre de 2026;0;;0;;0;;0;;;0;;;
-Instituto;;Total;1043;100.00%;432;100.00%;1029;100.00%;11473;100.00%;;13,977;;Instituto;;Total;393;100.00%;25;100.00%;49;100.00%;763;100.00%;;1230;;;
-ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Resumen;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Resumen;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;3;0.00%;0;0.00%;;3;;Resumen;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;3;0.00%;16;0.00%;;19;;Resumen;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;21;lunes, 21 de Mes de 2026;0;0.00%;22;0.00%;3;0.00%;32;0.00%;;57;;Resumen;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;22;lunes, 22 de Mes de 2026;0;0.00%;22;0.00%;3;0.00%;48;0.00%;;73;;Resumen;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;23;lunes, 23 de Mes de 2026;3;0.00%;22;0.00%;3;0.00%;48;0.00%;;76;;Resumen;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;24;lunes, 24 de Mes de 2026;5;0.00%;29;0.00%;3;0.00%;48;0.00%;;85;;Resumen;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;25;lunes, 25 de Mes de 2026;5;0.00%;26;0.00%;3;0.00%;64;0.00%;;98;;Resumen;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;26;lunes, 26 de Mes de 2026;5;0.00%;8;0.00%;3;0.00%;83;0.00%;;99;;Resumen;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;27;lunes, 27 de Mes de 2026;7;0.00%;8;0.00%;5;0.00%;87;0.00%;;107;;Resumen;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;28;lunes, 28 de Mes de 2026;7;0.00%;8;0.00%;5;0.00%;95;0.00%;;115;;Resumen;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;29;lunes, 29 de Mes de 2026;8;0.00%;11;0.00%;5;0.00%;95;0.00%;;119;;Resumen;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;30;lunes, 30 de Mes de 2026;8;0.00%;11;0.00%;5;0.00%;98;0.00%;;122;;Resumen;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;31;lunes, 31 de Mes de 2026;2;0.00%;0;0.00%;2;0.00%;76;0.00%;;80;;Resumen;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;32;lunes, 32 de Mes de 2026;8;0.00%;11;0.00%;5;0.00%;101;0.00%;;125;;Resumen;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;33;lunes, 33 de Mes de 2026;9;0.00%;11;0.00%;5;0.00%;127;0.00%;;152;;Resumen;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;34;lunes, 34 de Mes de 2026;9;0.00%;11;0.00%;3;0.00%;148;0.00%;;171;;Resumen;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;35;lunes, 35 de Mes de 2026;9;0.00%;11;0.00%;3;0.00%;151;0.00%;;174;;Resumen;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;16;0.00%;;16;;Resumen;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Resumen;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Resumen;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Resumen;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Resumen;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Resumen;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
 DISTANCIA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Distancia;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Distancia;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;0;0.00%;;6;;Distancia;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Distancia;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;49;1.86%;;55;;Distancia;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Distancia;21;lunes, 18 de Mayo de 2026;0;0.00%;30;20.55%;6;4.48%;49;1.86%;;85;;Distancia;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Distancia;22;lunes, 25 de Mayo de 2026;0;0.00%;30;20.55%;6;4.48%;98;3.71%;;134;;Distancia;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
-Distancia;23;lunes, 1 de Junio de 2026;4;5.13%;30;20.55%;6;4.48%;98;3.71%;;138;;Distancia;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;1;20.00%;1;2.08%;;2;;;
-Distancia;24;lunes, 8 de Junio de 2026;4;5.13%;30;20.55%;6;4.48%;98;3.71%;;138;;Distancia;24;lunes, 8 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;2;4.17%;;3;;;
-Distancia;25;lunes, 15 de Junio de 2026;4;5.13%;26;17.81%;6;4.48%;147;5.57%;;183;;Distancia;25;lunes, 15 de Junio de 2026;1;4.17%;1;4.35%;1;20.00%;2;4.17%;;5;;;
-Distancia;26;lunes, 22 de Junio de 2026;4;5.13%;0;0.00%;7;5.22%;157;5.94%;;168;;Distancia;26;lunes, 22 de Junio de 2026;1;4.17%;1;4.35%;0;0.00%;2;4.17%;;4;;;
-Distancia;27;lunes, 29 de Junio de 2026;7;8.97%;0;0.00%;11;8.21%;170;6.44%;;188;;Distancia;27;lunes, 29 de Junio de 2026;2;8.33%;1;4.35%;1;20.00%;3;6.25%;;7;;;
-Distancia;28;lunes, 6 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;28;lunes, 6 de Julio de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
-Distancia;29;lunes, 13 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;29;lunes, 13 de Julio de 2026;2;8.33%;2;8.70%;1;20.00%;4;8.33%;;9;;;
-Distancia;30;lunes, 20 de Julio de 2026;7;8.97%;0;0.00%;11;8.21%;196;7.42%;;214;;Distancia;30;lunes, 20 de Julio de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
-Distancia;31;lunes, 27 de Julio de 2026;3;3.85%;0;0.00%;5;3.73%;160;6.06%;;168;;Distancia;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
-Distancia;32;lunes, 3 de Agosto de 2026;7;8.97%;0;0.00%;12;8.96%;196;7.42%;;215;;Distancia;32;lunes, 3 de Agosto de 2026;2;8.33%;2;8.70%;0;0.00%;4;8.33%;;8;;;
-Distancia;33;lunes, 10 de Agosto de 2026;8;10.26%;0;0.00%;12;8.96%;245;9.28%;;265;;Distancia;33;lunes, 10 de Agosto de 2026;2;8.33%;2;8.70%;1;20.00%;4;8.33%;;9;;;
-Distancia;34;lunes, 17 de Agosto de 2026;8;10.26%;0;0.00%;6;4.48%;293;11.09%;;307;;Distancia;34;lunes, 17 de Agosto de 2026;3;12.50%;3;13.04%;0;0.00%;4;8.33%;;10;;;
-Distancia;35;lunes, 24 de Agosto de 2026;8;10.26%;0;0.00%;6;4.48%;293;11.09%;;307;;Distancia;35;lunes, 24 de Agosto de 2026;3;12.50%;3;13.04%;0;0.00%;5;10.42%;;11;;;
-Distancia;36;lunes, 31 de Agosto de 2026;0;;0;;0;;0;;;0;;Distancia;36;lunes, 31 de Agosto de 2026;4;16.67%;3;13.04%;0;0.00%;5;10.42%;;12;;;
-Distancia;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Distancia;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;2;4.17%;;2;;;
-ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Distancia;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;3;0.00%;0;0.00%;;3;;Distancia;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;3;0.00%;16;0.00%;;19;;Distancia;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;21;lunes, 21 de Mes de 2026;0;0.00%;22;0.00%;3;0.00%;16;0.00%;;41;;Distancia;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;22;lunes, 22 de Mes de 2026;0;0.00%;22;0.00%;3;0.00%;32;0.00%;;57;;Distancia;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;23;lunes, 23 de Mes de 2026;3;0.00%;22;0.00%;3;0.00%;32;0.00%;;60;;Distancia;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;24;lunes, 24 de Mes de 2026;3;0.00%;22;0.00%;3;0.00%;32;0.00%;;60;;Distancia;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;25;lunes, 25 de Mes de 2026;3;0.00%;19;0.00%;3;0.00%;48;0.00%;;73;;Distancia;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;26;lunes, 26 de Mes de 2026;3;0.00%;0;0.00%;3;0.00%;51;0.00%;;57;;Distancia;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;27;lunes, 27 de Mes de 2026;5;0.00%;0;0.00%;5;0.00%;55;0.00%;;65;;Distancia;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;28;lunes, 28 de Mes de 2026;5;0.00%;0;0.00%;5;0.00%;63;0.00%;;73;;Distancia;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;29;lunes, 29 de Mes de 2026;5;0.00%;0;0.00%;5;0.00%;63;0.00%;;73;;Distancia;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;30;lunes, 30 de Mes de 2026;5;0.00%;0;0.00%;5;0.00%;63;0.00%;;73;;Distancia;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;31;lunes, 31 de Mes de 2026;2;0.00%;0;0.00%;2;0.00%;52;0.00%;;56;;Distancia;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;32;lunes, 32 de Mes de 2026;5;0.00%;0;0.00%;5;0.00%;63;0.00%;;73;;Distancia;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;33;lunes, 33 de Mes de 2026;6;0.00%;0;0.00%;5;0.00%;79;0.00%;;90;;Distancia;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;34;lunes, 34 de Mes de 2026;6;0.00%;0;0.00%;3;0.00%;95;0.00%;;104;;Distancia;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;35;lunes, 35 de Mes de 2026;6;0.00%;0;0.00%;3;0.00%;95;0.00%;;104;;Distancia;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Distancia;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Distancia;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+PRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
+Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
+Presencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Presencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Presencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
 SEMIPRESENCIAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
 Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Semipresencial;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;21;lunes, 18 de Mayo de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;22;lunes, 25 de Mayo de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;23;lunes, 1 de Junio de 2026;0;0.00%;10;6.85%;0;0.00%;33;3.38%;;43;;Semipresencial;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;24;lunes, 8 de Junio de 2026;2;7.14%;10;6.85%;0;0.00%;33;3.38%;;45;;Semipresencial;24;lunes, 8 de Junio de 2026;0;0.00%;0;0.00%;0;0.00%;1;4.17%;;1;;;
-Semipresencial;25;lunes, 15 de Junio de 2026;2;7.14%;10;6.85%;0;0.00%;33;3.38%;;45;;Semipresencial;25;lunes, 15 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;1;4.17%;;2;;;
-Semipresencial;26;lunes, 22 de Junio de 2026;2;7.14%;4;2.74%;0;0.00%;65;6.65%;;71;;Semipresencial;26;lunes, 22 de Junio de 2026;1;9.09%;2;8.70%;0;0.00%;1;4.17%;;4;;;
-Semipresencial;27;lunes, 29 de Junio de 2026;2;7.14%;0;0.00%;0;0.00%;65;6.65%;;67;;Semipresencial;27;lunes, 29 de Junio de 2026;1;9.09%;2;8.70%;0;0.00%;1;4.17%;;4;;;
-Semipresencial;28;lunes, 6 de Julio de 2026;2;7.14%;0;0.00%;0;0.00%;65;6.65%;;67;;Semipresencial;28;lunes, 6 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
-Semipresencial;29;lunes, 13 de Julio de 2026;3;10.71%;0;0.00%;0;0.00%;65;6.65%;;68;;Semipresencial;29;lunes, 13 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
-Semipresencial;30;lunes, 20 de Julio de 2026;3;10.71%;0;0.00%;0;0.00%;70;7.16%;;73;;Semipresencial;30;lunes, 20 de Julio de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
-Semipresencial;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;50;5.12%;;50;;Semipresencial;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Semipresencial;32;lunes, 3 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;77;7.88%;;80;;Semipresencial;32;lunes, 3 de Agosto de 2026;1;9.09%;2;8.70%;0;0.00%;2;8.33%;;5;;;
-Semipresencial;33;lunes, 10 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;98;10.03%;;101;;Semipresencial;33;lunes, 10 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;2;8.33%;;6;;;
-Semipresencial;34;lunes, 17 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;109;11.16%;;112;;Semipresencial;34;lunes, 17 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;3;12.50%;;7;;;
-Semipresencial;35;lunes, 24 de Agosto de 2026;3;10.71%;0;0.00%;0;0.00%;115;11.77%;;118;;Semipresencial;35;lunes, 24 de Agosto de 2026;1;9.09%;3;13.04%;0;0.00%;3;12.50%;;7;;;
-Semipresencial;36;lunes, 31 de Agosto de 2026;0;;0;;0;;33;3.38%;;33;;Semipresencial;36;lunes, 31 de Agosto de 2026;2;18.18%;3;13.04%;0;0.00%;3;12.50%;;8;;;
-Semipresencial;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Semipresencial;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;1;4.17%;;1;;;
-ESCUELA;2026-03;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-RESUMEN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;;;ATL;;B2B;;BTL;;DIGITAL;;;TOTAL;;;
-Modalidad;Semana;Fecha;Leads;%;Leads;%;Leads;%;Leads;%;;LEADS;;Modalidad;Semana;Fecha;Matrículas;%;Matrículas;%;Matrículas;%;Matrículas;%;;MATRICULAS;;;
-Escuela;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Escuela;18;lunes, 27 de Abril de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Escuela;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;0;0.00%;;6;;Escuela;19;lunes, 4 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Escuela;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;6;4.48%;49;1.86%;;55;;Escuela;20;lunes, 11 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Escuela;21;lunes, 18 de Mayo de 2026;0;0.00%;40;27.40%;6;4.48%;82;3.10%;;128;;Escuela;21;lunes, 18 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
-Escuela;22;lunes, 25 de Mayo de 2026;0;0.00%;40;27.40%;6;4.48%;131;4.96%;;177;;Escuela;22;lunes, 25 de Mayo de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
-Escuela;23;lunes, 1 de Junio de 2026;4;5.13%;40;27.40%;6;4.48%;131;4.96%;;181;;Escuela;23;lunes, 1 de Junio de 2026;0;0.00%;0;0.00%;1;20.00%;1;2.08%;;2;;;
-Escuela;24;lunes, 8 de Junio de 2026;6;7.69%;40;27.40%;6;4.48%;131;4.96%;;183;;Escuela;24;lunes, 8 de Junio de 2026;0;0.00%;1;4.35%;0;0.00%;3;6.25%;;4;;;
-Escuela;25;lunes, 15 de Junio de 2026;6;7.69%;36;24.66%;6;4.48%;180;6.82%;;228;;Escuela;25;lunes, 15 de Junio de 2026;1;4.17%;2;8.70%;1;20.00%;3;6.25%;;7;;;
-Escuela;26;lunes, 22 de Junio de 2026;6;7.69%;4;2.74%;7;5.22%;222;8.41%;;239;;Escuela;26;lunes, 22 de Junio de 2026;2;8.33%;3;13.04%;0;0.00%;3;6.25%;;8;;;
-Escuela;27;lunes, 29 de Junio de 2026;9;11.54%;0;0.00%;11;8.21%;235;8.90%;;255;;Escuela;27;lunes, 29 de Junio de 2026;3;12.50%;3;13.04%;1;20.00%;4;8.33%;;11;;;
-Escuela;28;lunes, 6 de Julio de 2026;9;11.54%;0;0.00%;11;8.21%;261;9.88%;;281;;Escuela;28;lunes, 6 de Julio de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
-Escuela;29;lunes, 13 de Julio de 2026;10;12.82%;0;0.00%;11;8.21%;261;9.88%;;282;;Escuela;29;lunes, 13 de Julio de 2026;3;12.50%;4;17.39%;1;20.00%;6;12.50%;;14;;;
-Escuela;30;lunes, 20 de Julio de 2026;10;12.82%;0;0.00%;11;8.21%;266;10.07%;;287;;Escuela;30;lunes, 20 de Julio de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
-Escuela;31;lunes, 27 de Julio de 2026;3;3.85%;0;0.00%;5;3.73%;210;7.95%;;218;;Escuela;31;lunes, 27 de Julio de 2026;0;0.00%;0;0.00%;0;0.00%;1;2.08%;;1;;;
-Escuela;32;lunes, 3 de Agosto de 2026;10;12.82%;0;0.00%;12;8.96%;273;10.34%;;295;;Escuela;32;lunes, 3 de Agosto de 2026;3;12.50%;4;17.39%;0;0.00%;6;12.50%;;13;;;
-Escuela;33;lunes, 10 de Agosto de 2026;11;14.10%;0;0.00%;12;8.96%;343;12.99%;;366;;Escuela;33;lunes, 10 de Agosto de 2026;3;12.50%;5;21.74%;1;20.00%;6;12.50%;;15;;;
-Escuela;34;lunes, 17 de Agosto de 2026;11;14.10%;0;0.00%;6;4.48%;402;15.22%;;419;;Escuela;34;lunes, 17 de Agosto de 2026;4;16.67%;6;26.09%;0;0.00%;7;14.58%;;17;;;
-Escuela;35;lunes, 24 de Agosto de 2026;11;14.10%;0;0.00%;6;4.48%;408;15.45%;;425;;Escuela;35;lunes, 24 de Agosto de 2026;4;16.67%;6;26.09%;0;0.00%;8;16.67%;;18;;;
-Escuela;36;lunes, 31 de Agosto de 2026;0;;0;;0;;33;1.25%;;33;;Escuela;36;lunes, 31 de Agosto de 2026;6;25.00%;6;26.09%;0;0.00%;8;16.67%;;20;;;
-Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de Setiembre de 2026;0;0.00%;0;0.00%;0;0.00%;3;6.25%;;3;;;`);
+Semipresencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;18;lunes, 18 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;19;lunes, 19 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;20;lunes, 20 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;16;0.00%;;16;;Semipresencial;21;lunes, 21 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;16;0.00%;;16;;Semipresencial;22;lunes, 22 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;16;0.00%;;16;;Semipresencial;23;lunes, 23 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;24;lunes, 24 de Mes de 2026;2;0.00%;8;0.00%;0;0.00%;16;0.00%;;26;;Semipresencial;24;lunes, 24 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;25;lunes, 25 de Mes de 2026;2;0.00%;8;0.00%;0;0.00%;16;0.00%;;26;;Semipresencial;25;lunes, 25 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;26;lunes, 26 de Mes de 2026;2;0.00%;8;0.00%;0;0.00%;32;0.00%;;42;;Semipresencial;26;lunes, 26 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;27;lunes, 27 de Mes de 2026;2;0.00%;8;0.00%;0;0.00%;32;0.00%;;42;;Semipresencial;27;lunes, 27 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;28;lunes, 28 de Mes de 2026;2;0.00%;8;0.00%;0;0.00%;32;0.00%;;42;;Semipresencial;28;lunes, 28 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;29;lunes, 29 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;32;0.00%;;46;;Semipresencial;29;lunes, 29 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;30;lunes, 30 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;34;0.00%;;48;;Semipresencial;30;lunes, 30 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;24;0.00%;;24;;Semipresencial;31;lunes, 31 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;32;lunes, 32 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;38;0.00%;;52;;Semipresencial;32;lunes, 32 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;33;lunes, 33 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;48;0.00%;;62;;Semipresencial;33;lunes, 33 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;34;lunes, 34 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;53;0.00%;;67;;Semipresencial;34;lunes, 34 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;35;lunes, 35 de Mes de 2026;3;0.00%;11;0.00%;0;0.00%;56;0.00%;;70;;Semipresencial;35;lunes, 35 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;16;0.00%;;16;;Semipresencial;36;lunes, 36 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;37;lunes, 37 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;38;lunes, 38 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;39;lunes, 39 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+Semipresencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;Semipresencial;40;lunes, 40 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;;
+`);
     }
 
     function processMetasCSV(csvText) {
@@ -2906,7 +2933,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         if (r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
 
         const rawModality = row[0].trim();
-        const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela'].includes(rawModality);
+        const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela', 'Resumen'].includes(rawModality);
         const weekStr = String(row[1]).trim();
         const weekNum = parseInt(weekStr);
 
@@ -2965,7 +2992,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
           if (r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
 
           const rawModality = String(row[0]).trim();
-          const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela'].includes(rawModality);
+          const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela', 'Resumen'].includes(rawModality);
           const weekStr = String(row[1]).trim();
           const weekNum = parseInt(weekStr);
 
@@ -3044,18 +3071,19 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       let metaPorSemana = {};
       metasF.forEach(m => {
         let val = 0;
+        let cUpper = can.toUpperCase();
         if (mType === 'Leads') {
-          if (can === 'Todos') val = m.leads_total;
-          else if (can === 'ATL') val = m.leads_atl;
-          else if (can === 'B2B') val = m.leads_b2b;
-          else if (can === 'BTL') val = m.leads_btl;
-          else if (can === 'DIGITAL') val = m.leads_digital;
+          if (cUpper === 'TODOS') val = m.leads_total;
+          else if (cUpper === 'ATL') val = m.leads_atl;
+          else if (cUpper === 'B2B') val = m.leads_b2b;
+          else if (cUpper === 'BTL') val = m.leads_btl;
+          else if (cUpper === 'DIGITAL') val = m.leads_digital;
         } else {
-          if (can === 'Todos') val = m.mat_total;
-          else if (can === 'ATL') val = m.mat_atl;
-          else if (can === 'B2B') val = m.mat_b2b;
-          else if (can === 'BTL') val = m.mat_btl;
-          else if (can === 'DIGITAL') val = m.mat_digital;
+          if (cUpper === 'TODOS') val = m.mat_total;
+          else if (cUpper === 'ATL') val = m.mat_atl;
+          else if (cUpper === 'B2B') val = m.mat_b2b;
+          else if (cUpper === 'BTL') val = m.mat_btl;
+          else if (cUpper === 'DIGITAL') val = m.mat_digital;
         }
         metaPorSemana[m.semana] = val;
       });
@@ -3097,7 +3125,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       const currentRealWorldWeek = getWeekNumber(new Date());
       let maxRealWeek = -1;
       Object.keys(countPerWeek).map(Number).forEach(w => {
-        if (w > maxRealWeek && w <= currentRealWorldWeek) {
+        if (w > maxRealWeek) {
           maxRealWeek = w;
         }
       });
@@ -3116,7 +3144,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
 
       if (maxW === 0) maxW = 40; // fallback axis
       if (minW === 53) minW = 10;
-      if (maxW > 37) maxW = 37; // Cap to 37 as requested
+      if (maxW > 40) maxW = 40; // Cap to 37 as requested
 
       let labels = [];
       let dMeta = [];
@@ -3146,7 +3174,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       const finalMeta = cumMeta;
       const finalReal = cumReal;
       const currentWeekFixed = maxRealWeek > 0 ? maxRealWeek : currentRealWorldWeek;
-      const semsRestantes = Math.max(0, 36 - currentWeekFixed);
+      const semsRestantes = Math.max(0, 40 - currentWeekFixed);
       const pct = finalMeta > 0 ? ((finalReal / finalMeta) * 100).toFixed(1) + '%' : '—';
 
       document.getElementById('av-kpi-meta').innerText = finalMeta > 0 ? finalMeta.toLocaleString() : '—';
@@ -3239,18 +3267,18 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         }
       });
 
-      let wArr = Array.from({ length: 35 }, (_, i) => i + 2); // 2 through 36
+      let wArr = Array.from({ length: 39 }, (_, i) => i + 2); // 2 through 36
 
       if (weekSel.options.length !== wArr.length) {
         let oldVal = weekSel.value;
         weekSel.innerHTML = '';
         let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(36, cWeek));
+        cWeek = Math.max(2, Math.min(40, cWeek));
         wArr.forEach(w => {
           let opt = document.createElement('option');
           opt.value = w;
           opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
-          if (w === 36 && w !== cWeek) { opt.textContent = 'Semana 36, 2026 (Fin)'; }
+          if (w === 40 && w !== cWeek) { opt.textContent = 'Semana 40, 2026 (Fin)'; }
           weekSel.appendChild(opt);
         });
 
@@ -3381,7 +3409,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
       const modalidad = document.getElementById('avf-modalidad').value;
       const weekSel = document.getElementById('avf-semana');
 
-      let wArr = Array.from({ length: 35 }, (_, i) => i + 2);
+      let wArr = Array.from({ length: 39 }, (_, i) => i + 2);
       if (weekSel.options.length !== wArr.length + 1) {
         let oldVal = weekSel.value;
         weekSel.innerHTML = '';
@@ -3390,7 +3418,7 @@ Escuela;37;lunes, 7 de Setiembre de 2026;0;;0;;0;;0;;;0;;Escuela;37;lunes, 7 de 
         optAcum.textContent = 'Acumulado';
         weekSel.appendChild(optAcum);
         let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(36, cWeek));
+        cWeek = Math.max(2, Math.min(40, cWeek));
         wArr.forEach(w => {
           let opt = document.createElement('option');
           opt.value = w;
