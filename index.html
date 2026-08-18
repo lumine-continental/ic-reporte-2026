@@ -1722,6 +1722,7 @@
               </table>
             </div>
           </div>
+
         </div>
 
         <!-- BIDIRECCIONAL -->
@@ -1838,6 +1839,11 @@
               style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
               <option value="Leads">Leads</option>
               <option value="Matriculas">Matrículas</option>
+            </select> <select id="av-mql" class="fsel"
+              style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+              <option value="TOTAL" selected>MQL: TOTAL</option>
+              <option value="SÍ">MQL: SÍ</option>
+              <option value="NO">MQL: NO</option>
             </select>
           </div>
 
@@ -1915,8 +1921,12 @@
                   <option value="Digital" selected>Digital</option>
                   <option value="Base de datos">Base de datos</option>
                   <option value="HS">HS</option>
-                  <option value="Base de datos">Base de datos</option>
-                  <option value="HS">HS</option>
+                </select>
+                <select id="avd-mql" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="TOTAL" selected>MQL: TOTAL</option>
+                  <option value="SÍ">MQL: SÍ</option>
+                  <option value="NO">MQL: NO</option>
                 </select>
                 <select id="avd-semana" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2120,10 +2130,62 @@
               </table>
             </div>
           </div>
+          <div class="cc" style="margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div class="cc-ttl"
+                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
+                  diario por Programa</div>
+                <div class="cc-sub">Rendimiento semanal por programa</div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span class="f-lbl">Unidad de negocio:</span>
+                <select id="avp-vista" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Instituto">Instituto</option>
+                  <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avp-canal" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los canales</option>
+                  <option value="ATL">ATL</option>
+                  <option value="B2B">B2B</option>
+                  <option value="BTL">BTL</option>
+                  <option value="Digital" selected>Digital</option>
+                  <option value="Base de datos">Base de datos</option>
+                  <option value="HS">HS</option>
+                </select>
+                <select id="avp-mql" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="TOTAL" selected>MQL: TOTAL</option>
+                  <option value="SÍ">MQL: SÍ</option>
+                  <option value="NO">MQL: NO</option>
+                </select>
+                <select id="avp-semana" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <!-- dynamic weeks -->
+                </select>
+              </div>
+            </div>
+            <div style="overflow-x:auto; margin-top:20px;">
+              <table class="tb-avd">
+                <thead>
+                  <tr id="avp-head-row">
+                    <!-- JS renders -->
+                  </tr>
+                </thead>
+                <tbody id="avp-tbody"></tbody>
+                <tfoot id="avp-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
         </div>
 
+
       </div>
+
     </div>
+  </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -2416,6 +2478,58 @@
       setEl('recN', tot.toLocaleString()); setEl('sbRec', allData.length.toLocaleString() + ' registros');
     }
 
+    const noMqlValsInstituto = [
+      'inin-outbound-number_could_not_be_dialed',
+      'inin-outbound-sit-uncallable',
+      'ic | datos incorrectos',
+      'ic | do not call or text list',
+      'ic | interesado uc',
+      'datos incorrectos',
+      'ic | reincorporación',
+      'do not call or text list',
+      'ic | alumno actual',
+      'ic | interesado continua',
+      'carrera no disponible',
+      'alumno actual',
+      'reincorporación',
+      'interesado continua',
+      'ic | interesado posgrado',
+      'no existe',
+      'inin-outbound-fax',
+      'registrado por error'
+    ];
+
+    const noMqlValsEscuela = [
+      'inin-outbound-number_could_not_be_dialed',
+      'registrado por error',
+      'inin-outbound-sit-uncallable',
+      'do not call or text list',
+      'datos incorrectos',
+      'carrera no disponible',
+      'alumno actual',
+      'ec | registrado por error | concurso |',
+      'no existe',
+      'reincorporación',
+      'ic | interesado uc',
+      'interesado posgrado',
+      'ec | interesado uc',
+      'interesado continua',
+      'ic | do not call or text list',
+      'ec | alumno actual',
+      'ec | datos incorrectos',
+      'ec | reincorporación',
+      'ic | datos incorrectos'
+    ];
+
+    const isMQL = (r) => {
+      let val = String(r[C.RES_ACTIVIDAD] || '').trim().toLowerCase();
+      let tipo = String(r[C.TIPO] || '').trim().toUpperCase();
+      if (tipo === 'ESCUELA') {
+        return !noMqlValsEscuela.includes(val);
+      } else {
+        return !noMqlValsInstituto.includes(val);
+      }
+    };
     // ===== RENDERS =====
     function renderResumen() {
       renderFunnel();
@@ -2502,7 +2616,7 @@
       }).join('');
     }
 
-    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); }
+    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderAvancePrograma(); }
 
     // ===== FILTERS =====
     function toDate(v) {
@@ -3077,6 +3191,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const res = document.getElementById('av-resumen').value;
       const can = document.getElementById('av-canal').value;
       const mType = document.getElementById('av-tipo').value;
+      const mMql = document.getElementById('av-mql').value;
 
       // Filtering metas
       const metasF = metasData.filter(m => m.entidad === v && (m.modalidad === res || res === 'Resumen total' && m.modalidad === 'Resumen'));
@@ -3122,6 +3237,12 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       }
       if (mType === 'Matriculas') {
         realData = realData.filter(r => r[C.ESTADO] === 'MATRICULADO');
+      }
+      if (mMql !== 'TOTAL') {
+        realData = realData.filter(r => {
+          const m = isMQL(r);
+          return mMql === 'SÍ' ? m : !m;
+        });
       }
 
       // Group real by week
@@ -3247,8 +3368,187 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       });
     }
 
+
+    function renderAvancePrograma() {
+      try {
+        const weekSel = document.getElementById('avp-semana');
+        if (!weekSel) throw new Error("weekSel not found");
+        const vistaSel = document.getElementById('avp-vista');
+        const canalSel = document.getElementById('avp-canal');
+        const mMqlSel = document.getElementById('avp-mql');
+
+        const vista = vistaSel ? vistaSel.value : 'Instituto';
+        const canal = canalSel ? canalSel.value : 'Todos';
+        const mMql = mMqlSel ? mMqlSel.value : 'TOTAL';
+
+        let vData = allData.filter(r => {
+          if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+          const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
+          if (vista === 'Instituto') {
+            return ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
+          } else {
+            return ['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p);
+          }
+        });
+
+        let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
+
+        if (weekSel.options.length !== wArr.length) {
+          let oldVal = weekSel.value;
+          weekSel.innerHTML = '';
+          let cWeek = getWeekNumber(new Date());
+          cWeek = Math.max(2, Math.min(42, cWeek));
+          wArr.forEach(w => {
+            let opt = document.createElement('option');
+            opt.value = w;
+            opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
+            if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
+            weekSel.appendChild(opt);
+          });
+          if (!oldVal) {
+            weekSel.value = cWeek;
+          } else {
+            weekSel.value = oldVal;
+          }
+        }
+
+        const currW = Number(weekSel.value);
+        const dates = getDatesOfWeekLocal(currW, 2026);
+
+        const hr = document.getElementById('avp-head-row');
+        if (!hr) throw new Error("avp-head-row not found");
+        hr.innerHTML = `<th style="min-width: 140px; text-align:left;">PROGRAMA</th>`;
+        const formatD = (d) => [String(d.getDate()).padStart(2, '0'), String(d.getMonth() + 1).padStart(2, '0'), d.getFullYear()].join('/');
+        dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+        hr.innerHTML += `<th style="min-width: 120px;">SUMATORIA</th>`;
+
+        let weekData = vData.filter(r => {
+          const d = toDate(r[C.FECHA]);
+          if (!d) return false;
+          if (canal !== 'Todos' && (r[C.CANAL] || '').toString().trim().toUpperCase() !== canal.toUpperCase()) return false;
+          if (mMql !== 'TOTAL') {
+            const m = isMQL(r);
+            if (mMql === 'SÍ' && !m) return false;
+            if (mMql === 'NO' && m) return false;
+          }
+          return true;
+        });
+
+        function getNormalizedProg(raw) {
+          if (!raw) return null;
+          let r = String(raw).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          if (r.includes("BANCARIOS")) return 'Adm. de Negocios Bancarios y Financieros';
+          if (r.includes("DIRECCION DE EMPRESAS")) return 'Administración y Dirección de Empresas';
+          if (r.includes("ADMINISTRACION DE EMPRESAS")) return 'Administración de Empresas';
+          if (r.includes("SISTEMAS DE INFORMACION")) return 'Desarrollo de Sistemas de Información';
+          if (r.includes("GRAFICO PUBLICITARIO")) return 'Diseño Gráfico Publicitario';
+          if (r.includes("NEGOCIOS INTERNACIONALES")) return 'Administración de Negocios Internacionales';
+          if (r.includes("INTELIGENCIA ARTIFICIAL")) return 'Ciencia de Datos e Inteligencia Artificial';
+          if (r.includes("MODAS")) return 'Diseño de Modas';
+          if (r.includes("CONSTRUCCION")) return 'Gestión de la Construcción';
+          if (r.includes("INTERIORES")) return 'Diseño de Interiores';
+          if (r.includes("CONTABILIDAD")) return 'Contabilidad';
+          if (r.includes("MARKETING DIGITAL")) return 'Publicidad y Marketing Digital';
+          if (r === "MARKETING" || r.includes("MARKETING")) return 'Marketing';
+          if (r.includes("GASTRONOMIA") && r.includes("INNOVACION")) return 'Gastronomía y Innovación Culinaria';
+          if (r.includes("GASTRONOMIA")) return 'Gastronomía';
+          if (r.includes("ENFERMERIA")) return 'Enfermería';
+          if (r.includes("FARMACIA")) return 'Farmacia';
+          return null;
+        }
+
+        let orderedIC = [
+          'Administración de Empresas',
+          'Adm. de Negocios Bancarios y Financieros',
+          'Contabilidad',
+          'Desarrollo de Sistemas de Información',
+          'Diseño Gráfico Publicitario',
+          'Administración de Negocios Internacionales',
+          'Marketing',
+          'Ciencia de Datos e Inteligencia Artificial',
+          'Diseño de Modas',
+          'Gastronomía',
+          'Gestión de la Construcción',
+          'Enfermería',
+          'Farmacia',
+          'Diseño de Interiores'
+        ];
+
+        let orderedEC = [
+          'Administración y Dirección de Empresas',
+          'Publicidad y Marketing Digital',
+          'Gastronomía y Innovación Culinaria'
+        ];
+
+        let currentOrder = vista === 'Instituto' ? orderedIC : orderedEC;
+
+        let tbody = document.getElementById('avp-tbody');
+        if (!tbody) throw new Error("avp-tbody not found");
+        tbody.innerHTML = '';
+
+        let sumDays = [0, 0, 0, 0, 0, 0, 0];
+        let sumTotal = 0;
+
+        currentOrder.forEach(prog => {
+          let tr = document.createElement('tr');
+
+          let dailyCounts = [0, 0, 0, 0, 0, 0, 0];
+          let rowTotal = 0;
+          let progData = weekData.filter(r => getNormalizedProg(r[C.PROGRAMA]) === prog);
+          progData.forEach(r => {
+            const dStr = formatD(toDate(r[C.FECHA]));
+            let didx = dates.findIndex(dx => formatD(dx) === dStr);
+            if (didx !== -1) {
+              dailyCounts[didx]++;
+              rowTotal++;
+            }
+          });
+
+          let html = `<td style="text-align:left; font-weight:600;">${prog.toUpperCase()}</td>`;
+
+          dailyCounts.forEach((c, idx) => {
+            html += `<td>${c}</td>`;
+            sumDays[idx] += c;
+          });
+
+          html += `<td style="font-weight:600;">${rowTotal}</td>`;
+
+          sumTotal += rowTotal;
+
+          tr.innerHTML = html;
+          tbody.appendChild(tr);
+        });
+
+        let tfoot = document.getElementById('avp-tfoot');
+        if (!tfoot) throw new Error("avp-tfoot not found");
+        let tfootHtml = `<tr>
+            <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td>`;
+        sumDays.forEach(c => {
+          tfootHtml += `<td style="background:#000; color: #ffffff !important;">${c}</td>`;
+        });
+        tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td></tr>`;
+
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          tfootHtml = tfootHtml.replace(/#000/g, '#222');
+        }
+
+        tfoot.innerHTML = tfootHtml;
+      } catch (e) {
+        const tbody = document.getElementById('avp-tbody');
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="9" style="color:red; text-align:left;">Error en renderAvancePrograma: ${e.toString()}</td></tr>`;
+        }
+      }
+    }
+
+
+    ['avp-vista', 'avp-canal', 'avp-mql', 'avp-semana'].forEach(id => {
+      document.getElementById(id).addEventListener('change', renderAvancePrograma);
+    });
+
     // Bind Avance Filters
-    ['av-vista', 'av-resumen', 'av-canal', 'av-tipo'].forEach(id => {
+    ['av-vista', 'av-resumen', 'av-canal', 'av-tipo', 'av-mql'].forEach(id => {
       document.getElementById(id).addEventListener('change', renderAvance);
     });
 
@@ -3271,6 +3571,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const weekSel = document.getElementById('avd-semana');
       const vista = document.getElementById('avd-vista').value;
       const canal = document.getElementById('avd-canal').value;
+      const mMql = document.getElementById('avd-mql').value;
 
       let vData = allData.filter(r => {
         if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
@@ -3317,6 +3618,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const d = toDate(r[C.FECHA]);
         if (!d) return false;
         if (canal !== 'Todos' && (r[C.CANAL] || '').toString().trim().toUpperCase() !== canal.toUpperCase()) return false;
+        if (mMql !== 'TOTAL') {
+          const m = isMQL(r);
+          if (mMql === 'SÍ' && !m) return false;
+          if (mMql === 'NO' && m) return false;
+        }
         return true;
       });
 
@@ -3392,7 +3698,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       tfoot.innerHTML = tfootHtml;
     }
 
-    ['avd-vista', 'avd-canal', 'avd-semana'].forEach(id => {
+    ['avd-vista', 'avd-canal', 'avd-mql', 'avd-semana'].forEach(id => {
       document.getElementById(id).addEventListener('change', renderAvanceDiario);
     });
 
@@ -3470,35 +3776,6 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         return true;
       });
 
-      const mqlValsInstituto = [
-        'ic | no contesta', 'ic | buzon', 'ic | matriculado en otro instituto', 'ic | evaluando costo',
-        'ic | abandono', 'ic | motivos personales', 'ic | carrera no satisface', 'ic | motivos económicos',
-        'ic | preinscrito', 'ic | siguiente ciclo', 'inin-outbound-no-answer', 'ic | registrado por error',
-        'ic | llamada caída', '', 'preinscrito', 'ic | consulta modalidad', 'ic | modalidad no satisface',
-        'ic | matricula en universidad', 'ic | no existe', 'ic | agenda pago matricula', 'ic | consulta revision malla',
-        'ic | agenda pago 1era cuota', 'carrera no satisface', 'inin-outbound-disconnect', 'ic | matriculado',
-        'inin-outbound-machine', 'ic | persona ocupada llamar después', 'ic | carrera no disponible', 'llamada caída',
-        'ic | error operador - sin cobertura', 'matricula otro programa', 'buzon', 'no contesta', 'consulta modalidad',
-        'ic | evaluando temas familiares', 'ic | reagenda pago matricula', 'inin-outbound-busy', 'ic | tono ocupado',
-        'siguiente ciclo', 'agenda pago matricula', 'ic | evaluando horarios', 'ic | documentos incompletos',
-        'ocupado', 'whatsapp - leido', 'ic | alumno actual', 'inin-outbound-failed-to-reach-agent',
-        'ic | whatsapp - leido', 'motivos personales', 'ic | no acepta convalidacion', 'inin-outbound-sit-callable',
-        'dg | interesado uc', 'evaluando horario y costo', 'persona ocupada', 'evaluando costo',
-        'ic | reagenda pago postulación', 'modalidad no satisface', 'ic | agenda envío documentos', 'ic | secundaria incompleta',
-        '(en blanco)', ' '
-      ];
-
-      const mqlValsEscuela = ['inin-outbound-machine', 'inin-outbound-no-answer', 'consulta revision malla', 'no usar | programado evaluando horario', 'ic | no contesta', 'siguiente ciclo', 'no contesta', 'llamada caída', '(en blanco)', 'ec | evaluando horario', 'ec | siguiente ciclo | documentos |', 'ec | inscrito', 'inin-outbound-disconnect', 'inin-outbound-sit-callable', 'carrera no satisface', 'preinscrito', 'modalidad no satisface', 'agenda pago matricula', 'ic | buzon', 'buzon', 'matriculado otra universidad', 'inin-outbound-failed-to-reach-agent', 'dg | interesado uc', 'ic | llamada caída', 'ec | evaluando costo', 'ec | matricula otro programa', 'agenda pago postulación', 'ec | programado evaluando horario y costo', 'matricula otro programa', 'ic | carrera no disponible', 'motivos económicos', 'prueba', 'ic | siguiente ciclo', 'ec | preinscrito', 'ic | abandono', 'sin cobertura', 'ic | registrado por error', 'ic | consulta modalidad', 'ec | abandono', 'consulta convalidación', 'ec | no contesta', 'ic | modalidad no satisface', 'ec | registrado por error', 'evaluando horario y costo', 'ic | error operador - sin cobertura', 'ec | motivos económicos sin financiacion', 'ec | carrera no satisface', 'ec | consulta convalidación', 'ec | motivos personales familiares', 'alumno actual', 'ec | no acepta convalidacion | tiempo de convalidación |', 'ec | agenda carta oferta', 'ic | prueba', 'ec | siguiente ciclo', 'ic | carrera no satisface', 'ec | evaluando temas familiares', 'motivos personales', 'ec | siguiente ciclo | tiempo |', 'ic | evaluando costo', 'ec | aspirante cuelga llamada', 'ic | mensaje dejado con tercero', 'interesado ic', 'ec | persona ocupada llamar después', 'ec | carrera no disponible | administración y gestión pública', 'ec | matriculado', ' ', ''];
-
-      const isMQL = (r) => {
-        let val = String(r[C.RES_ACTIVIDAD] || '').trim().toLowerCase();
-        let tipo = String(r[C.TIPO] || '').trim().toUpperCase();
-        if (tipo === 'ESCUELA') {
-          return mqlValsEscuela.includes(val);
-        } else {
-          return mqlValsInstituto.includes(val);
-        }
-      };
 
       const isMat = (r) => {
         return String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
