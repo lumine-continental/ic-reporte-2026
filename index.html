@@ -1996,10 +1996,117 @@
                   <!-- accumulated row -->
                 </tfoot>
               </table>
+
+              <div class="ch-fix" style="height:300px; margin-top:30px;">
+                <canvas id="ch-avd-bar" role="img" aria-label="Avance diario leads barras"></canvas>
+              </div>
+
             </div>
           </div>
 
           <!-- FUNNEL POR ORIGEN TABLE -->
+          <div class="cc" style="margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div class="cc-ttl"
+                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
+                  diario por Programa</div>
+                <div class="cc-sub">Rendimiento semanal por programa</div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span class="f-lbl">Unidad de negocio:</span>
+                <select id="avp-vista" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Instituto">Instituto</option>
+                  <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avp-canal" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los canales</option>
+                  <option value="ATL">ATL</option>
+                  <option value="B2B">B2B</option>
+                  <option value="BTL">BTL</option>
+                  <option value="Digital" selected>Digital</option>
+                  <option value="Base de datos">Base de datos</option>
+                  <option value="HS">HS</option>
+                </select>
+                <select id="avp-modalidad" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todas" selected>Todas las modalidades</option>
+                  <option value="Distancia">Distancia</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Semipresencial">Semipresencial</option>
+                </select>
+                <select id="avp-mql" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="TOTAL" selected>MQL: TOTAL</option>
+                  <option value="SÍ">MQL: SÍ</option>
+                  <option value="NO">MQL: NO</option>
+                </select>
+                <select id="avp-semana" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <!-- dynamic weeks -->
+                </select>
+              </div>
+            </div>
+            <div style="overflow-x:auto; margin-top:20px;">
+              <table class="tb-avd">
+                <thead>
+                  <tr id="avp-head-row">
+                    <!-- JS renders -->
+                  </tr>
+                </thead>
+                <tbody id="avp-tbody"></tbody>
+                <tfoot id="avp-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="cc" style="margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div class="cc-ttl"
+                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
+                  Diario Digital - Orígenes</div>
+                <div class="cc-sub">Rendimiento semanal por orígenes digitales</div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span class="f-lbl">Unidad de negocio:</span>
+                <select id="avo-vista" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Instituto">Instituto</option>
+                  <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avo-modalidad" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todas" selected>Todas las modalidades</option>
+                  <option value="Distancia">Distancia</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Semipresencial">Semipresencial</option>
+                </select>
+                <select id="avo-mql" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="TOTAL" selected>MQL: TOTAL</option>
+                  <option value="SÍ">MQL: SÍ</option>
+                  <option value="NO">MQL: NO</option>
+                </select>
+                <select id="avo-semana" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <!-- dynamic weeks -->
+                </select>
+              </div>
+            </div>
+            <div style="overflow-x:auto; margin-top:20px;">
+              <table class="tb-avd">
+                <thead>
+                  <tr id="avo-head-row">
+                    <!-- JS renders -->
+                  </tr>
+                </thead>
+                <tbody id="avo-tbody"></tbody>
+                <tfoot id="avo-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
           <div class="cc" style="margin-top: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
               <div>
@@ -2127,94 +2234,6 @@
                     <td>0%</td>
                   </tr>
                 </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="cc" style="margin-top:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
-              <div>
-                <div class="cc-ttl"
-                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
-                  diario por Programa</div>
-                <div class="cc-sub">Rendimiento semanal por programa</div>
-              </div>
-              <div style="display:flex; gap:12px; align-items:center;">
-                <span class="f-lbl">Unidad de negocio:</span>
-                <select id="avp-vista" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="Instituto">Instituto</option>
-                  <option value="Escuela">Escuela</option>
-                </select>
-                <select id="avp-canal" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="Todos">Todos los canales</option>
-                  <option value="ATL">ATL</option>
-                  <option value="B2B">B2B</option>
-                  <option value="BTL">BTL</option>
-                  <option value="Digital" selected>Digital</option>
-                  <option value="Base de datos">Base de datos</option>
-                  <option value="HS">HS</option>
-                </select>
-                <select id="avp-mql" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="TOTAL" selected>MQL: TOTAL</option>
-                  <option value="SÍ">MQL: SÍ</option>
-                  <option value="NO">MQL: NO</option>
-                </select>
-                <select id="avp-semana" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <!-- dynamic weeks -->
-                </select>
-              </div>
-            </div>
-            <div style="overflow-x:auto; margin-top:20px;">
-              <table class="tb-avd">
-                <thead>
-                  <tr id="avp-head-row">
-                    <!-- JS renders -->
-                  </tr>
-                </thead>
-                <tbody id="avp-tbody"></tbody>
-                <tfoot id="avp-tfoot"></tfoot>
-              </table>
-            </div>
-          </div>
-          <div class="cc" style="margin-top:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
-              <div>
-                <div class="cc-ttl"
-                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
-                  Diario Digital - Orígenes</div>
-                <div class="cc-sub">Rendimiento semanal por orígenes digitales</div>
-              </div>
-              <div style="display:flex; gap:12px; align-items:center;">
-                <span class="f-lbl">Unidad de negocio:</span>
-                <select id="avo-vista" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="Instituto">Instituto</option>
-                  <option value="Escuela">Escuela</option>
-                </select>
-                <select id="avo-mql" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="TOTAL" selected>MQL: TOTAL</option>
-                  <option value="SÍ">MQL: SÍ</option>
-                  <option value="NO">MQL: NO</option>
-                </select>
-                <select id="avo-semana" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <!-- dynamic weeks -->
-                </select>
-              </div>
-            </div>
-            <div style="overflow-x:auto; margin-top:20px;">
-              <table class="tb-avd">
-                <thead>
-                  <tr id="avo-head-row">
-                    <!-- JS renders -->
-                  </tr>
-                </thead>
-                <tbody id="avo-tbody"></tbody>
-                <tfoot id="avo-tfoot"></tfoot>
               </table>
             </div>
           </div>
@@ -3420,6 +3439,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const vista = vistaSel ? vistaSel.value : 'Instituto';
         const canal = canalSel ? canalSel.value : 'Todos';
         const mMql = mMqlSel ? mMqlSel.value : 'TOTAL';
+        const modSel = document.getElementById('avp-modalidad');
+        const mMod = modSel ? modSel.value : 'Todas';
 
         let vData = allData.filter(r => {
           if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
@@ -3470,6 +3491,10 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             const m = isMQL(r);
             if (mMql === 'SÍ' && !m) return false;
             if (mMql === 'NO' && m) return false;
+          }
+          // mMod is retrieved outside the loop now
+          if (mMod !== 'Todas') {
+            if ((r[C.MODALIDAD] || '').toString().trim().toUpperCase() !== mMod.toUpperCase()) return false;
           }
           return true;
         });
@@ -3544,6 +3569,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             }
           });
 
+          if (rowTotal === 0) return; // Hide row if 0 leads during the week
+
           let html = `<td style="text-align:left; font-weight:600;">${prog.toUpperCase()}</td>`;
 
           dailyCounts.forEach((c, idx) => {
@@ -3583,7 +3610,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
     }
 
 
-    ['avp-vista', 'avp-canal', 'avp-mql', 'avp-semana'].forEach(id => {
+    ['avp-vista', 'avp-canal', 'avp-mql', 'avp-modalidad', 'avp-semana'].forEach(id => {
       document.getElementById(id).addEventListener('change', renderAvancePrograma);
     });
 
@@ -3599,9 +3626,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         if (!weekSel) return;
         const vistaSel = document.getElementById('avo-vista');
         const mMqlSel = document.getElementById('avo-mql');
+        const modSel = document.getElementById('avo-modalidad');
 
         const vista = vistaSel ? vistaSel.value : 'Instituto';
         const mMql = mMqlSel ? mMqlSel.value : 'TOTAL';
+        const mMod = modSel ? modSel.value : 'Todas';
 
         let vData = allData.filter(r => {
           if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
@@ -3647,11 +3676,16 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         let weekData = vData.filter(r => {
           const d = toDate(r[C.FECHA]);
           if (!d) return false;
-          // if((r[C.CANAL]||'').toString().trim().toUpperCase() !== 'DIGITAL') return false;
+          // Solo digitales
+          if ((r[C.CANAL] || '').toString().trim().toUpperCase() !== 'DIGITAL') return false;
+
           if (mMql !== 'TOTAL') {
             const m = isMQL(r);
             if (mMql === 'SÍ' && !m) return false;
             if (mMql === 'NO' && m) return false;
+          }
+          if (mMod !== 'Todas') {
+            if ((r[C.MODALIDAD] || '').toString().trim().toUpperCase() !== mMod.toUpperCase()) return false;
           }
           return true;
         });
@@ -3660,14 +3694,18 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           if (!raw) return null;
           let r = String(raw).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-          if (r.includes('1: visita a frontdesk')) return '1: VISITA A FRONTDESK';
           if (r.includes('11: portal web')) return '11: PORTAL WEB';
           if (r.includes('17: facebook leads')) return '17: FACEBOOK LEADS';
-          if (r.includes('4: activaciones')) return '4: ACTIVACIONES';
           if (r.includes('5: landing pages')) return '5: LANDING PAGES';
           if (r.includes('52: google search')) return '52: GOOGLE SEARCH';
           if (r.includes('65: tik tok lead')) return '65: TIK TOK LEAD';
-          if (r.includes('7: visita a empresa')) return '7: VISITA A EMPRESA';
+
+          if (r.includes('72: tik tok live')) return '72: TIK TOK LIVE';
+          if (r.includes('54: facebook link ads')) return '54: FACEBOOK LINK ADS';
+          if (r.includes('51: tik tok') && !r.includes('lead') && !r.includes('link') && !r.includes('live')) return '51: TIK TOK';
+          if (r.includes('69: tik tok link ads') || r.includes('tik tok link')) return '69: TIK TOK LINK ADS';
+          if (r.includes('50: referidos dig')) return '50: REFERIDOS DIG';
+          if (r.includes('46: instituto lp')) return '46: INSTITUTO LP';
 
           // Redes Sociales de Pago (agrupación)
           if (
@@ -3684,14 +3722,17 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         }
 
         let orderedOrigenes = [
-          '1: VISITA A FRONTDESK',
           '11: PORTAL WEB',
           '17: FACEBOOK LEADS',
-          '4: ACTIVACIONES',
           '5: LANDING PAGES',
           '52: GOOGLE SEARCH',
           '65: TIK TOK LEAD',
-          '7: VISITA A EMPRESA',
+          '72: TIK TOK LIVE',
+          '54: FACEBOOK LINK ADS',
+          '51: TIK TOK',
+          '69: TIK TOK LINK ADS',
+          '50: REFERIDOS DIG',
+          '46: INSTITUTO LP',
           'Redes sociales de pago'
         ];
 
@@ -3716,6 +3757,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
               rowTotal++;
             }
           });
+
+          if (rowTotal === 0) return; // Hide row if 0 leads during the week
 
           let html = `<td style="text-align:left; font-weight:600;">${orig.toUpperCase()}</td>`;
 
@@ -3755,7 +3798,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       }
     }
 
-    ['avo-vista', 'avo-mql', 'avo-semana'].forEach(id => {
+    ['avo-vista', 'avo-mql', 'avo-modalidad', 'avo-semana'].forEach(id => {
       let el = document.getElementById(id);
       if (el) el.addEventListener('change', renderAvanceOrigen);
     });
@@ -3904,6 +3947,101 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       if (isDark) { tfootHtml = tfootHtml.replace(/#000/g, '#222'); }
       tfoot.innerHTML = tfootHtml;
+
+      // CHART LOGIC
+      let c = document.getElementById('ch-avd-bar');
+      if (c) {
+        if (charts['avd_bar']) {
+          charts['avd_bar'].destroy();
+        }
+
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const txtColor = isDark ? '#e5e7eb' : '#374151';
+        const gridColor = isDark ? '#374151' : '#e5e7eb';
+
+        let labelArr = dates.map(d => formatD(d));
+        let ds = [];
+
+        const colors = {
+          'DISTANCIA': 'rgba(100, 116, 139, 0.6)',
+          'PRESENCIAL': 'rgba(148, 163, 184, 0.6)',
+          'SEMIPRESENCIAL': 'rgba(203, 213, 225, 0.6)'
+        };
+
+        // Find row data from table body directly to be easy
+        let tableRows = document.querySelectorAll('#avd-tbody tr');
+        tableRows.forEach(row => {
+          let cells = row.querySelectorAll('td');
+          if (cells.length > 7) {
+            let mod = cells[0].textContent;
+            let data = [];
+            for (let i = 0; i < 7; i++) {
+              data.push(Number(cells[i + 2].textContent));
+            }
+            ds.push({
+              type: 'bar',
+              label: mod,
+              data: data,
+              backgroundColor: colors[mod.toUpperCase()] || 'rgba(148, 163, 184, 0.6)',
+              borderRadius: 4,
+              maxBarThickness: 40
+            });
+          }
+        });
+
+        // Add Line for Total
+        ds.push({
+          type: 'line',
+          label: 'TOTAL DIARIO',
+          data: sumDays,
+          borderColor: '#f97316',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.4,
+          fill: false,
+          datalabels: {
+            align: 'top',
+            anchor: 'end',
+            color: txtColor,
+            font: { weight: 'bold' }
+          }
+        });
+
+        charts['avd_bar'] = new Chart(c, {
+          data: {
+            labels: labelArr,
+            datasets: ds
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                stacked: true,
+                grid: { color: gridColor },
+                ticks: { color: txtColor }
+              },
+              x: {
+                stacked: true,
+                grid: { display: false },
+                ticks: { color: txtColor }
+              }
+            },
+            plugins: {
+              legend: { labels: { color: txtColor } },
+              datalabels: {
+                display: function (context) {
+                  return context.dataset.type === 'line';
+                }
+              }
+            }
+          }
+        });
+      }
+
     }
 
     ['avd-vista', 'avd-canal', 'avd-mql', 'avd-semana'].forEach(id => {
