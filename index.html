@@ -2060,6 +2060,14 @@
                 <tfoot id="avp-tfoot"></tfoot>
               </table>
             </div>
+
+            <!-- Charts para Avance por Programa -->
+            <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+              <div style="height:400px; position:relative;">
+                <canvas id="ch-avp-bar" aria-label="Barras horizontales por programa"></canvas>
+              </div>
+            </div>
+
           </div>
           <div class="cc" style="margin-top:20px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
@@ -2130,9 +2138,7 @@
                   <option value="Semipresencial">Semipresencial</option>
                 </select>
                 <select id="avf-semana" class="fsel"
-                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
-                  <option value="Acumulado">Acumulado</option>
-                </select>
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"></select>
               </div>
             </div>
             <div style="overflow-x:auto; margin-top:20px;">
@@ -2737,8 +2743,8 @@
           let label = v;
           if (id === 'f-periodo') {
             const val = v.replace(/\s+/g, '').toLowerCase();
-            if (['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(val)) label = 'Instituto';
-            else if (['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(val)) label = 'Escuela';
+            if (val === 'instituto') label = 'Instituto';
+            else if (val === 'escuela') label = 'Escuela';
           }
           o.textContent = label;
           sel.appendChild(o);
@@ -2750,7 +2756,16 @@
     function processExcel(wb) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const raw = XLSX.utils.sheet_to_json(ws, { defval: '', raw: true });
-      allData = raw.map(row => { if (row[C.GENERO] === 'Femenimo') row[C.GENERO] = 'Femenino'; return row; });
+      allData = raw.map(row => {
+        if (row[C.GENERO] === 'Femenimo') row[C.GENERO] = 'Femenino';
+        let p = String(row[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
+        if (['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p)) {
+          row[C.PERIODO] = 'Instituto';
+        } else if (['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p)) {
+          row[C.PERIODO] = 'Escuela';
+        }
+        return row;
+      });
       filtered = [...allData];
       populateFilters();
       document.getElementById('uploadScreen').style.display = 'none';
@@ -3280,11 +3295,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       // We get actual data from allData
       // Map VISTA to period (from user description)
       let realData = allData.filter(r => {
-        const p = String(r[C.PERIODO] || '').trim();
+        const p = String(r[C.PERIODO] || '').trim().toLowerCase();
         if (v === 'Instituto') {
-          return ['202620', '2026-02', '2026-2', '26-2', '26-02'].includes(p);
+          return p === 'instituto';
         } else {
-          return ['202630', '2026-03', '2026-3', '26-3', '26-03'].includes(p);
+          return p === 'escuela';
         }
       });
 
@@ -3443,22 +3458,28 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const mMod = modSel ? modSel.value : 'Todas';
 
         let vData = allData.filter(r => {
-          if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+
           const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
           if (vista === 'Instituto') {
-            return ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
+            return p === 'instituto';
           } else {
-            return ['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p);
+            return p === 'escuela';
           }
         });
 
         let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
 
-        if (weekSel.options.length !== wArr.length) {
+        if (weekSel.options.length !== wArr.length + 1) {
           let oldVal = weekSel.value;
           weekSel.innerHTML = '';
           let cWeek = getWeekNumber(new Date());
           cWeek = Math.max(2, Math.min(42, cWeek));
+
+          let optAcum = document.createElement('option');
+          optAcum.value = 'Acumulado';
+          optAcum.textContent = 'Acumulado';
+          weekSel.appendChild(optAcum);
+
           wArr.forEach(w => {
             let opt = document.createElement('option');
             opt.value = w;
@@ -3466,26 +3487,30 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
             weekSel.appendChild(opt);
           });
-          if (!oldVal) {
-            weekSel.value = cWeek;
-          } else {
-            weekSel.value = oldVal;
-          }
+          weekSel.value = oldVal || cWeek;
         }
 
-        const currW = Number(weekSel.value);
-        const dates = getDatesOfWeekLocal(currW, 2026);
+        const isAcum = weekSel.value === 'Acumulado';
+        const currW = isAcum ? 0 : Number(weekSel.value);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
 
         const hr = document.getElementById('avp-head-row');
         if (!hr) throw new Error("avp-head-row not found");
         hr.innerHTML = `<th style="min-width: 140px; text-align:left;">PROGRAMA</th>`;
         const formatD = (d) => [String(d.getDate()).padStart(2, '0'), String(d.getMonth() + 1).padStart(2, '0'), d.getFullYear()].join('/');
-        dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+
+        if (!isAcum) {
+          dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+        }
         hr.innerHTML += `<th style="min-width: 120px;">SUMATORIA</th>`;
 
         let weekData = vData.filter(r => {
           const d = toDate(r[C.FECHA]);
           if (!d) return false;
+
+          if (!isAcum) {
+            if (getWeekNumber(d) !== currW) return false;
+          }
           if (canal !== 'Todos' && (r[C.CANAL] || '').toString().trim().toUpperCase() !== canal.toUpperCase()) return false;
           if (mMql !== 'TOTAL') {
             const m = isMQL(r);
@@ -3519,7 +3544,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           if (r.includes("GASTRONOMIA")) return 'Gastronomía';
           if (r.includes("ENFERMERIA")) return 'Enfermería';
           if (r.includes("FARMACIA")) return 'Farmacia';
-          return null;
+          return 'Otros Programas';
         }
 
         let orderedIC = [
@@ -3536,7 +3561,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           'Gestión de la Construcción',
           'Enfermería',
           'Farmacia',
-          'Diseño de Interiores'
+          'Diseño de Interiores',
+          'Otros Programas'
         ];
 
         let orderedEC = [
@@ -3554,32 +3580,48 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         let sumDays = [0, 0, 0, 0, 0, 0, 0];
         let sumTotal = 0;
 
+        let chartProgs = [];
+        let chartTotals = [];
+        let heatMatrix = [];
+
         currentOrder.forEach(prog => {
           let tr = document.createElement('tr');
 
           let dailyCounts = [0, 0, 0, 0, 0, 0, 0];
           let rowTotal = 0;
           let progData = weekData.filter(r => getNormalizedProg(r[C.PROGRAMA]) === prog);
-          progData.forEach(r => {
-            const dStr = formatD(toDate(r[C.FECHA]));
-            let didx = dates.findIndex(dx => formatD(dx) === dStr);
-            if (didx !== -1) {
-              dailyCounts[didx]++;
-              rowTotal++;
-            }
-          });
+
+          if (isAcum) {
+            rowTotal = progData.length;
+          } else {
+            progData.forEach(r => {
+              const dStr = formatD(toDate(r[C.FECHA]));
+              let didx = dates.findIndex(dx => formatD(dx) === dStr);
+              if (didx !== -1) {
+                dailyCounts[didx]++;
+                rowTotal++;
+              }
+            });
+          }
 
           if (rowTotal === 0) return; // Hide row if 0 leads during the week
 
+          chartProgs.push(prog);
+          chartTotals.push(rowTotal);
+          if (!isAcum) {
+            heatMatrix.push({ prog: prog, days: [...dailyCounts] });
+          }
+
           let html = `<td style="text-align:left; font-weight:600;">${prog.toUpperCase()}</td>`;
 
-          dailyCounts.forEach((c, idx) => {
-            html += `<td>${c}</td>`;
-            sumDays[idx] += c;
-          });
+          if (!isAcum) {
+            dailyCounts.forEach((c, idx) => {
+              html += `<td>${c}</td>`;
+              sumDays[idx] += c;
+            });
+          }
 
           html += `<td style="font-weight:600;">${rowTotal}</td>`;
-
           sumTotal += rowTotal;
 
           tr.innerHTML = html;
@@ -3590,9 +3632,12 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         if (!tfoot) throw new Error("avp-tfoot not found");
         let tfootHtml = `<tr>
             <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td>`;
-        sumDays.forEach(c => {
-          tfootHtml += `<td style="background:#000; color: #ffffff !important;">${c}</td>`;
-        });
+
+        if (!isAcum) {
+          sumDays.forEach(c => {
+            tfootHtml += `<td style="background:#000; color: #ffffff !important;">${c}</td>`;
+          });
+        }
         tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td></tr>`;
 
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -3601,6 +3646,56 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         }
 
         tfoot.innerHTML = tfootHtml;
+
+        // Render Horizontal Bar Chart
+        let cBar = document.getElementById('ch-avp-bar');
+        if (cBar) {
+          if (charts['avp_bar']) { charts['avp_bar'].destroy(); }
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const txtColor = isDark ? '#e5e7eb' : '#374151';
+          const gridColor = isDark ? '#374151' : '#e5e7eb';
+          // Use same color as Avance Diario de Leads (slate)
+
+          charts['avp_bar'] = new Chart(cBar, {
+            type: 'bar',
+            data: {
+              labels: chartProgs.map(p => p.length > 25 ? p.substring(0, 25) + '...' : p),
+              datasets: [{
+                label: 'Total Leads',
+                data: chartTotals,
+                backgroundColor: 'rgba(100, 116, 139, 0.6)',
+                borderRadius: 4,
+                maxBarThickness: 40
+              }]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                datalabels: {
+                  align: 'right',
+                  anchor: 'end',
+                  color: txtColor,
+                  font: { weight: 'bold' }
+                }
+              },
+              scales: {
+                x: {
+                  grid: { color: gridColor },
+                  ticks: { color: txtColor }
+                },
+                y: {
+                  grid: { display: false },
+                  ticks: { color: txtColor }
+                }
+              },
+              layout: { padding: { right: 40 } }
+            }
+          });
+        }
+
       } catch (e) {
         const tbody = document.getElementById('avp-tbody');
         if (tbody) {
@@ -3611,8 +3706,12 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
 
     ['avp-vista', 'avp-canal', 'avp-mql', 'avp-modalidad', 'avp-semana'].forEach(id => {
-      document.getElementById(id).addEventListener('change', renderAvancePrograma);
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', renderAvancePrograma);
     });
+
+
+
 
     // Bind Avance Filters
     ['av-vista', 'av-resumen', 'av-canal', 'av-tipo', 'av-mql'].forEach(id => {
@@ -3633,22 +3732,28 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const mMod = modSel ? modSel.value : 'Todas';
 
         let vData = allData.filter(r => {
-          if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+
           const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
           if (vista === 'Instituto') {
-            return ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
+            return p === 'instituto';
           } else {
-            return ['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p);
+            return p === 'escuela';
           }
         });
 
         let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
 
-        if (weekSel.options.length !== wArr.length) {
+        if (weekSel.options.length !== wArr.length + 1) {
           let oldVal = weekSel.value;
           weekSel.innerHTML = '';
           let cWeek = getWeekNumber(new Date());
           cWeek = Math.max(2, Math.min(42, cWeek));
+
+          let optAcum = document.createElement('option');
+          optAcum.value = 'Acumulado';
+          optAcum.textContent = 'Acumulado';
+          weekSel.appendChild(optAcum);
+
           wArr.forEach(w => {
             let opt = document.createElement('option');
             opt.value = w;
@@ -3656,26 +3761,30 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
             weekSel.appendChild(opt);
           });
-          if (!oldVal) {
-            weekSel.value = cWeek;
-          } else {
-            weekSel.value = oldVal;
-          }
+          weekSel.value = oldVal || cWeek;
         }
 
-        const currW = Number(weekSel.value);
-        const dates = getDatesOfWeekLocal(currW, 2026);
+        const isAcum = weekSel.value === 'Acumulado';
+        const currW = isAcum ? 0 : Number(weekSel.value);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
 
         const hr = document.getElementById('avo-head-row');
         if (!hr) return;
         hr.innerHTML = `<th style="min-width: 140px; text-align:left;">ORIGEN</th>`;
         const formatD = (d) => [String(d.getDate()).padStart(2, '0'), String(d.getMonth() + 1).padStart(2, '0'), d.getFullYear()].join('/');
-        dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+
+        if (!isAcum) {
+          dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+        }
         hr.innerHTML += `<th style="min-width: 120px;">SUMATORIA</th>`;
 
         let weekData = vData.filter(r => {
           const d = toDate(r[C.FECHA]);
           if (!d) return false;
+
+          if (!isAcum) {
+            if (getWeekNumber(d) !== currW) return false;
+          }
           // Solo digitales
           if ((r[C.CANAL] || '').toString().trim().toUpperCase() !== 'DIGITAL') return false;
 
@@ -3718,7 +3827,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             return 'Redes sociales de pago';
           }
 
-          return null;
+          return 'Otros Orígenes';
         }
 
         let orderedOrigenes = [
@@ -3733,7 +3842,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           '69: TIK TOK LINK ADS',
           '50: REFERIDOS DIG',
           '46: INSTITUTO LP',
-          'Redes sociales de pago'
+          'Redes sociales de pago',
+          'Otros Orígenes'
         ];
 
         let tbody = document.getElementById('avo-tbody');
@@ -3749,26 +3859,32 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           let dailyCounts = [0, 0, 0, 0, 0, 0, 0];
           let rowTotal = 0;
           let origData = weekData.filter(r => getNormalizedOrigen(r[C.ORIGEN]) === orig);
-          origData.forEach(r => {
-            const dStr = formatD(toDate(r[C.FECHA]));
-            let didx = dates.findIndex(dx => formatD(dx) === dStr);
-            if (didx !== -1) {
-              dailyCounts[didx]++;
-              rowTotal++;
-            }
-          });
+
+          if (isAcum) {
+            rowTotal = origData.length;
+          } else {
+            origData.forEach(r => {
+              const dStr = formatD(toDate(r[C.FECHA]));
+              let didx = dates.findIndex(dx => formatD(dx) === dStr);
+              if (didx !== -1) {
+                dailyCounts[didx]++;
+                rowTotal++;
+              }
+            });
+          }
 
           if (rowTotal === 0) return; // Hide row if 0 leads during the week
 
           let html = `<td style="text-align:left; font-weight:600;">${orig.toUpperCase()}</td>`;
 
-          dailyCounts.forEach((c, idx) => {
-            html += `<td>${c}</td>`;
-            sumDays[idx] += c;
-          });
+          if (!isAcum) {
+            dailyCounts.forEach((c, idx) => {
+              html += `<td>${c}</td>`;
+              sumDays[idx] += c;
+            });
+          }
 
           html += `<td style="font-weight:600;">${rowTotal}</td>`;
-
           sumTotal += rowTotal;
 
           tr.innerHTML = html;
@@ -3779,9 +3895,12 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         if (!tfoot) return;
         let tfootHtml = `<tr>
             <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td>`;
-        sumDays.forEach(c => {
-          tfootHtml += `<td style="background:#000; color: #ffffff !important;">${c}</td>`;
-        });
+
+        if (!isAcum) {
+          sumDays.forEach(c => {
+            tfootHtml += `<td style="background:#000; color: #ffffff !important;">${c}</td>`;
+          });
+        }
         tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td></tr>`;
 
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -3825,12 +3944,12 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const mMql = document.getElementById('avd-mql').value;
 
       let vData = allData.filter(r => {
-        if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+
         const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
         if (vista === 'Instituto') {
-          return ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
+          return p === 'instituto';
         } else {
-          return ['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p);
+          return p === 'escuela';
         }
       });
 
@@ -3856,18 +3975,24 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         }
       }
 
-      const currW = Number(weekSel.value);
-      const dates = getDatesOfWeekLocal(currW, 2026);
+      const isAcum = weekSel.value === 'Acumulado';
+      const currW = isAcum ? 0 : Number(weekSel.value);
+      const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
 
       const hr = document.getElementById('avd-head-row');
-      hr.innerHTML = `<th style="min-width: 140px; text-align:left;">Modalidad</th><th style="min-width: 100px;">Meta semanal</th>`;
+      hr.innerHTML = `<th style="min-width: 140px; text-align:left;">Modalidad</th><th style="min-width: 100px;">Meta ${isAcum ? 'Acumulada' : 'semanal'}</th>`;
       const formatD = (d) => [String(d.getDate()).padStart(2, '0'), String(d.getMonth() + 1).padStart(2, '0'), d.getFullYear()].join('/');
-      dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+      if (!isAcum) {
+        dates.forEach(d => { hr.innerHTML += `<th>${formatD(d)}</th>`; });
+      }
       hr.innerHTML += `<th style="min-width: 120px;">Sumatoria - Modalidad</th><th style="min-width: 80px;">AVC %</th>`;
 
       let weekData = vData.filter(r => {
         const d = toDate(r[C.FECHA]);
         if (!d) return false;
+        if (!isAcum) {
+          if (getWeekNumber(d) !== currW) return false;
+        }
         if (canal !== 'Todos' && (r[C.CANAL] || '').toString().trim().toUpperCase() !== canal.toUpperCase()) return false;
         if (mMql !== 'TOTAL') {
           const m = isMQL(r);
@@ -3899,24 +4024,44 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         let dailyCounts = [0, 0, 0, 0, 0, 0, 0];
         let rowTotal = 0;
         let modData = weekData.filter(r => (r[C.MODALIDAD] || '').toString().trim().toUpperCase() === mod);
-        modData.forEach(r => {
-          const dStr = formatD(toDate(r[C.FECHA]));
-          let didx = dates.findIndex(dx => formatD(dx) === dStr);
-          if (didx !== -1) {
-            dailyCounts[didx]++;
-            rowTotal++;
-          }
-        });
+
+        if (isAcum) {
+          rowTotal = modData.length;
+        } else {
+          modData.forEach(r => {
+            const dStr = formatD(toDate(r[C.FECHA]));
+            let didx = dates.findIndex(dx => formatD(dx) === dStr);
+            if (didx !== -1) {
+              dailyCounts[didx]++;
+              rowTotal++;
+            }
+          });
+        }
 
         let metaVal = 0;
-        let metaObj = metasData.find(m => m.entidad === vista && m.semana === currW && m.modalidad.toUpperCase() === mod.toUpperCase());
-        if (metaObj) {
+
+        if (isAcum) {
+          // Sum all weeks metas
           let cUpper = canal.toUpperCase();
-          if (cUpper === 'TODOS') metaVal = metaObj.leads_total;
-          else if (cUpper === 'ATL') metaVal = metaObj.leads_atl;
-          else if (cUpper === 'B2B') metaVal = metaObj.leads_b2b;
-          else if (cUpper === 'BTL') metaVal = metaObj.leads_btl;
-          else if (cUpper === 'DIGITAL') metaVal = metaObj.leads_digital;
+          metasData.forEach(m => {
+            if (m.entidad === vista && m.modalidad.toUpperCase() === mod.toUpperCase()) {
+              if (cUpper === 'TODOS') metaVal += m.leads_total;
+              else if (cUpper === 'ATL') metaVal += m.leads_atl;
+              else if (cUpper === 'B2B') metaVal += m.leads_b2b;
+              else if (cUpper === 'BTL') metaVal += m.leads_btl;
+              else if (cUpper === 'DIGITAL') metaVal += m.leads_digital;
+            }
+          });
+        } else {
+          let metaObj = metasData.find(m => m.entidad === vista && m.semana === currW && m.modalidad.toUpperCase() === mod.toUpperCase());
+          if (metaObj) {
+            let cUpper = canal.toUpperCase();
+            if (cUpper === 'TODOS') metaVal = metaObj.leads_total;
+            else if (cUpper === 'ATL') metaVal = metaObj.leads_atl;
+            else if (cUpper === 'B2B') metaVal = metaObj.leads_b2b;
+            else if (cUpper === 'BTL') metaVal = metaObj.leads_btl;
+            else if (cUpper === 'DIGITAL') metaVal = metaObj.leads_digital;
+          }
         }
 
         let avc = metaVal > 0 ? Math.round((rowTotal / metaVal) * 100) + '%' : '0%';
@@ -3925,9 +4070,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         let rowHtml = `<td style="text-align:left; font-weight:600;">${mod}</td>
         <td style="font-weight:600; color:var(--text-dark);">${metaVal || 0}</td>`;
 
-        for (let i = 0; i < 7; i++) {
-          rowHtml += `<td>${dailyCounts[i]}</td>`;
-          sumDays[i] += dailyCounts[i];
+        if (!isAcum) {
+          for (let i = 0; i < 7; i++) {
+            rowHtml += `<td>${dailyCounts[i]}</td>`;
+            sumDays[i] += dailyCounts[i];
+          }
         }
 
         rowHtml += `<td style="font-weight:600;">${rowTotal}</td><td style="font-weight:600;">${avc}</td>`;
@@ -3940,8 +4087,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       let tfoot = document.getElementById('avd-tfoot');
       let tfootHtml = `<tr>
         <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td><td style="background:#dc2626; color: #ffffff !important;">${sumMetas}</td>`;
-      for (let i = 0; i < 7; i++) {
-        tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumDays[i]}</td>`;
+
+      if (!isAcum) {
+        for (let i = 0; i < 7; i++) {
+          tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumDays[i]}</td>`;
+        }
       }
       tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td><td style="background:#000; color: #ffffff !important;">${totalAvc}</td></tr>`;
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -3954,6 +4104,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         if (charts['avd_bar']) {
           charts['avd_bar'].destroy();
         }
+        c.parentElement.style.display = isAcum ? 'none' : 'block';
+        if (isAcum) return;
 
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         const txtColor = isDark ? '#e5e7eb' : '#374151';
@@ -4078,27 +4230,30 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
       let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
       if (weekSel.options.length !== wArr.length + 1) {
-        let oldVal = weekSel.value;
+        let oldVal = weekSel.getAttribute('data-init') ? weekSel.value : null;
+        weekSel.setAttribute('data-init', '1');
         weekSel.innerHTML = '';
+        let cWeek = getWeekNumber(new Date());
+        cWeek = Math.max(2, Math.min(42, cWeek));
+
         let optAcum = document.createElement('option');
         optAcum.value = 'Acumulado';
         optAcum.textContent = 'Acumulado';
         weekSel.appendChild(optAcum);
-        let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(42, cWeek));
+
         wArr.forEach(w => {
           let opt = document.createElement('option');
           opt.value = w;
           opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
           weekSel.appendChild(opt);
         });
-        weekSel.value = oldVal || 'Acumulado';
+        weekSel.value = oldVal || cWeek;
       }
       const selWeek = weekSel.value;
 
       let fData = allData.filter(r => {
         if (String(r[C.CANAL] || '').trim().toLowerCase() !== 'digital') return false;
-        if (String(r[C.REMARKETING] || '').trim().toLowerCase() !== 'no') return false;
+
 
         if (selWeek !== 'Acumulado') {
           const rd = toDate(r[C.FECHA]);
@@ -4109,9 +4264,9 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
         let validVista = false;
         if (vista === 'Instituto') {
-          validVista = ['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p);
+          validVista = p === 'instituto';
         } else {
-          validVista = ['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p);
+          validVista = p === 'escuela';
         }
         if (!validVista) return false;
 
