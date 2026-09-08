@@ -2204,7 +2204,7 @@
                 </thead>
                 <tbody id="avf-tbody">
                   <tr>
-                    <td style="text-align:left; font-weight:600;">WhatsApp (varios canales)</td>
+                    <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
                     <td>255</td>
                     <td>237</td>
                     <td>17,10%</td>
@@ -2213,7 +2213,7 @@
                     <td>12%</td>
                   </tr>
                   <tr>
-                    <td style="text-align:left; font-weight:600;">Facebook Leads (Lead Ads)</td>
+                    <td style="text-align:left; font-weight:600;">Facebook Leads</td>
                     <td>242</td>
                     <td>175</td>
                     <td>72,31%</td>
@@ -2243,6 +2243,86 @@
               </table>
             </div>
           </div>
+
+          <!-- Nuevo Funnel Mensual -->
+          <div class="cc" style="margin-top: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div class="cc-ttl"
+                  style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Funnel de
+                  conversión por orígenes de pago (Mensual)</div>
+                <div class="cc-sub">Rendimiento canales de pauta por mes</div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span class="f-lbl">Unidad de negocio:</span>
+                <select id="avfm-vista" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Instituto">Instituto</option>
+                  <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avfm-modalidad" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todas las modalidades</option>
+                  <option value="Distancia">Distancia</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Semipresencial">Semipresencial</option>
+                </select>
+                <select id="avfm-mes" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;"></select>
+              </div>
+            </div>
+            <div style="overflow-x:auto; margin-top:20px;">
+              <style>
+                .tb-avfm {
+                  width: 100%;
+                  min-width: 800px;
+                  text-align: center;
+                  border-collapse: collapse;
+                  font-size: 13px;
+                }
+
+                .tb-avfm th,
+                .tb-avfm td {
+                  border: 1px solid var(--border);
+                  padding: 12px 16px;
+                }
+
+                .tb-avfm th {
+                  background: var(--sidebar-bg);
+                  font-weight: 600;
+                  color: var(--text-dark);
+                }
+
+                .tb-avfm td {
+                  color: var(--text-dark);
+                }
+
+                /* Leads column is the 2nd column */
+                .tb-avfm td:nth-child(2) {
+                  background: #000 !important;
+                  color: #fff !important;
+                  font-weight: bold;
+                }
+
+                html[data-theme='dark'] .tb-avfm td:nth-child(2) {
+                  background: #222 !important;
+                }
+              </style>
+              <table class="tb-avfm">
+                <thead>
+                  <tr id="avfm-head-row">
+                    <th style="text-align:left;">Origen</th>
+                    <th style="background: var(--primary) !important; color: #fff !important;">Leads</th>
+                    <th>Leads MQL</th>
+                    <th>%MQL</th>
+                  </tr>
+                </thead>
+                <tbody id="avfm-tbody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Fin Nuevo Funnel Mensual -->
 
         </div>
 
@@ -2681,7 +2761,7 @@
       }).join('');
     }
 
-    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderAvancePrograma(); renderAvanceOrigen(); }
+    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderFunnelOrigenMensual(); renderAvancePrograma(); renderAvanceOrigen(); }
 
     // ===== FILTERS =====
     function toDate(v) {
@@ -4318,7 +4398,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
       tbody.innerHTML = `
         <tr>
-            <td style="text-align:left; font-weight:600;">WhatsApp (varios canales)</td>
+            <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
             <td><input type="text" inputmode="numeric" class="avd-meta-in" data-key="${k1}" value="${conv1}" style="width:100%;"></td>
             <td style="font-weight:bold;">${convPct}</td>
             <td>${s1.l}</td>
@@ -4328,7 +4408,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
             <td style="font-weight:bold;">${pctMat(s1.mat, s1.mql)}</td>
         </tr>
         <tr>
-            <td style="text-align:left; font-weight:600;">Facebook Leads (Lead Ads)</td>
+            <td style="text-align:left; font-weight:600;">Facebook Leads</td>
             <td class="disabled">N/A</td>
             <td class="disabled">N/A</td>
             <td>${s2.l}</td>
@@ -4373,7 +4453,124 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
     }
 
 
+
+    function renderFunnelOrigenMensual() {
+      const vista = document.getElementById('avfm-vista').value;
+      const modalidad = document.getElementById('avfm-modalidad').value;
+      const mesSel = document.getElementById('avfm-mes');
+
+      const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+      // Initialize months if empty
+      if (mesSel.options.length === 0) {
+        let optAcum = document.createElement('option');
+        optAcum.value = 'Acumulado';
+        optAcum.textContent = 'Acumulado';
+        mesSel.appendChild(optAcum);
+
+        const currentMonth = new Date().getMonth();
+        monthNames.forEach((m, idx) => {
+          let opt = document.createElement('option');
+          opt.value = idx;
+          opt.textContent = idx === currentMonth ? m + ' (mes actual)' : m;
+          mesSel.appendChild(opt);
+        });
+        mesSel.value = new Date().getMonth();
+      }
+      const selMes = mesSel.value;
+
+      let fData = allData.filter(r => {
+        if (String(r[C.CANAL] || '').trim().toLowerCase() !== 'digital') return false;
+
+        if (selMes !== 'Acumulado') {
+          const rd = toDate(r[C.FECHA]);
+          if (!rd) return false;
+          if (rd.getMonth() !== parseInt(selMes)) return false;
+        }
+
+        const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
+        let validVista = false;
+        if (vista === 'Instituto') {
+          validVista = p === 'instituto';
+        } else {
+          validVista = p === 'escuela';
+        }
+        if (!validVista) return false;
+
+        if (modalidad !== 'Todos') {
+          const mod = String(r[C.MODALIDAD] || '').trim().toUpperCase();
+          if (mod !== modalidad.toUpperCase()) return false;
+        }
+        return true;
+      });
+
+      const isMat = (r) => {
+        return String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
+      };
+
+      const org1 = ['redes sociales de pago', '10: redes sociales', '6: chat', '18: facebook chat'];
+      const org2 = ['17: facebook leads'];
+      const org3 = ['5: landing pages', '54: facebook link ads'];
+      const org4 = ['52: google search'];
+
+      let s1 = { l: 0, mql: 0, mat: 0 }, s2 = { l: 0, mql: 0, mat: 0 }, s3 = { l: 0, mql: 0, mat: 0 }, s4 = { l: 0, mql: 0, mat: 0 };
+
+      fData.forEach(r => {
+        const orig = String(r[C.ORIGEN] || '').trim().toLowerCase();
+        let target = null;
+        if (org1.includes(orig)) target = s1;
+        else if (org2.includes(orig)) target = s2;
+        else if (org3.includes(orig)) target = s3;
+        else if (org4.includes(orig)) target = s4;
+
+        if (target) {
+          target.l++;
+          if (isMQL(r)) target.mql++;
+          if (isMat(r)) target.mat++;
+        }
+      });
+
+      const tbody = document.getElementById('avfm-tbody');
+      if (!tbody) return;
+
+      const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+      const pctMat = (num, den) => den > 0 ? Math.round((num / den) * 100) + '%' : '0%';
+
+      tbody.innerHTML = `
+        <tr>
+            <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
+            <td>${s1.l}</td>
+            <td>${s1.mql}</td>
+            <td>${pct(s1.mql, s1.l)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Facebook Leads</td>
+            <td>${s2.l}</td>
+            <td>${s2.mql}</td>
+            <td>${pct(s2.mql, s2.l)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
+            <td>${s3.l}</td>
+            <td>${s3.mql}</td>
+            <td>${pct(s3.mql, s3.l)}</td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
+            <td>${s4.l}</td>
+            <td>${s4.mql}</td>
+            <td>${pct(s4.mql, s4.l)}</td>
+        </tr>
+    `;
+    }
+
     ['avf-vista', 'avf-modalidad', 'avf-semana'].forEach(id => { document.getElementById(id).addEventListener('change', renderFunnelOrigen); });
+
+    ['avfm-vista', 'avfm-modalidad', 'avfm-mes'].forEach(id => {
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', renderFunnelOrigenMensual);
+    });
+
   </script>
 </body>
 
