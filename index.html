@@ -1425,8 +1425,11 @@
         <select class="fsel" id="f-tipo">
           <option value="">Tipo oportunidad</option>
         </select>
-        <select style="display: none;" class="fsel" id="f-periodo">
-          <option value="">Unidad de negocio</option>
+        <select class="fsel" id="f-periodo">
+          <option value="">Periodo</option>
+          <option value="202620">202620</option>
+          <option value="202630">202630</option>
+          <option value="202710">202710</option>
         </select>
         <select class="fsel" id="f-modalidad">
           <option value="">Modalidad</option>
@@ -1818,6 +1821,13 @@
               <option value="Instituto">Instituto</option>
               <option value="Escuela">Escuela</option>
             </select>
+            <select id="av-periodo" class="fsel"
+              style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+              <option value="Todos">Todos los periodos</option>
+              <option value="202620">202620</option>
+              <option value="202630">202630</option>
+              <option value="202710">202710</option>
+            </select>
             <select id="av-resumen" class="fsel"
               style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
               <option value="Resumen">Resumen total</option>
@@ -1852,7 +1862,7 @@
             <div class="kcard" style="border-top: 4px solid var(--border);">
               <div class="klbl">META TOTAL</div>
               <div class="kval" id="av-kpi-meta">—</div>
-              <div class="ksub">Objetivo del periodo</div>
+              <div class="ksub" id="av-ksub-meta">Objetivo del periodo</div>
             </div>
             <div class="kcard" style="border-top: 4px solid #f97316;">
               <div class="klbl">REAL ACUMULADO</div>
@@ -1862,12 +1872,12 @@
             <div class="kcard" style="border-top: 4px solid #10b981;">
               <div class="klbl">% AVANCE</div>
               <div class="kval" id="av-kpi-pct">—</div>
-              <div class="ksub">Real / Meta</div>
+              <div class="ksub" id="av-ksub-pct">Real / Meta</div>
             </div>
             <div class="kcard" style="border-top: 4px solid var(--text-dark);">
               <div class="klbl" style="text-transform:uppercase">Semanas restantes</div>
               <div class="kval" id="av-kpi-sems">—</div>
-              <div class="ksub">Sem 42 - Semana actual</div>
+              <div class="ksub" id="av-ksub-sems">Sem 42 - Semana actual</div>
             </div>
           </div>
 
@@ -1878,7 +1888,7 @@
                 <div class="cc-ttl"
                   style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
                   semanal de Leads</div>
-                <div class="cc-sub">Acumulado semanal: Meta vs Real</div>
+                <div class="cc-sub" id="av-chart-sub">Acumulado semanal: Meta vs Real</div>
               </div>
               <div style="text-align:right; font-size:12px; color:var(--muted);">
                 Avance Total<br /><strong id="av-avance-lbl"
@@ -1888,7 +1898,7 @@
             <div class="leg" style="margin-top:10px; margin-bottom: 20px;" id="av-leg">
               <span class="leg-item"><span class="leg-sq"
                   style="background:#f97316;height:4px;border-radius:2px;width:16px;"></span>REAL</span>
-              <span class="leg-item"><span class="leg-sq"
+              <span class="leg-item" id="av-leg-meta"><span class="leg-sq"
                   style="background:#0ea5e9;height:4px;border-radius:2px;width:16px;"></span>META</span>
             </div>
             <div class="ch-fix" style="height:400px;margin-top:12px;">
@@ -1903,14 +1913,21 @@
                 <div class="cc-ttl"
                   style="border:none; padding:0; font-size:16px; text-transform:none; color:var(--text-dark);">Avance
                   diario de Leads</div>
-                <div class="cc-sub">Rendimiento semanal por modalidad</div>
+                <div class="cc-sub" id="avd-sub">Rendimiento semanal por modalidad</div>
               </div>
-              <div style="display:flex; gap:12px; align-items:center;">
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                 <span class="f-lbl">Unidad de negocio:</span>
                 <select id="avd-vista" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Instituto">Instituto</option>
                   <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avd-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620">202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
                 </select>
                 <select id="avd-canal" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2013,12 +2030,19 @@
                   diario por Programa</div>
                 <div class="cc-sub">Rendimiento semanal por programa</div>
               </div>
-              <div style="display:flex; gap:12px; align-items:center;">
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                 <span class="f-lbl">Unidad de negocio:</span>
                 <select id="avp-vista" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Instituto">Instituto</option>
                   <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avp-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620">202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
                 </select>
                 <select id="avp-canal" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2077,12 +2101,19 @@
                   Diario Digital - Orígenes</div>
                 <div class="cc-sub">Rendimiento semanal por orígenes digitales</div>
               </div>
-              <div style="display:flex; gap:12px; align-items:center;">
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                 <span class="f-lbl">Unidad de negocio:</span>
                 <select id="avo-vista" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Instituto">Instituto</option>
                   <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avo-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620">202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
                 </select>
                 <select id="avo-modalidad" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2123,12 +2154,19 @@
                   conversión por orígenes de pago</div>
                 <div class="cc-sub">Rendimiento canales de pauta </div>
               </div>
-              <div style="display:flex; gap:12px; align-items:center;">
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                 <span class="f-lbl">Unidad de negocio:</span>
                 <select id="avf-vista" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Instituto">Instituto</option>
                   <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avf-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620">202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
                 </select>
                 <select id="avf-modalidad" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2253,12 +2291,19 @@
                   conversión por orígenes de pago (Mensual)</div>
                 <div class="cc-sub">Rendimiento canales de pauta por mes</div>
               </div>
-              <div style="display:flex; gap:12px; align-items:center;">
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                 <span class="f-lbl">Unidad de negocio:</span>
                 <select id="avfm-vista" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Instituto">Instituto</option>
                   <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avfm-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620">202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
                 </select>
                 <select id="avfm-modalidad" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
@@ -2763,6 +2808,106 @@
 
     function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderFunnelOrigenMensual(); renderAvancePrograma(); renderAvanceOrigen(); }
 
+
+    // ===== PERIODO & ENTITY HELPERS =====
+    function normalizePeriodo(val) {
+      let s = String(val !== undefined && val !== null ? val : '').trim();
+      let clean = s.replace(/[\s\-_]/g, '').toLowerCase();
+      if (['202620', '202602', '20262', '262', '2602'].includes(clean)) return '202620';
+      if (['202630', '202603', '20263', '263', '2603'].includes(clean)) return '202630';
+      if (['202710', '202701', '20271', '271', '2701'].includes(clean)) return '202710';
+      if (clean === 'instituto') return '202620';
+      if (clean === 'escuela') return '202630';
+      return s || '';
+    }
+
+    function getRowEntity(row) {
+      let t = String(row[C.TIPO] || '').trim().toLowerCase();
+      if (t === 'instituto' || t === 'escuela') {
+        return t === 'instituto' ? 'Instituto' : 'Escuela';
+      }
+      let p = normalizePeriodo(row[C.PERIODO]);
+      if (p === '202620' || p === '202710') return 'Instituto';
+      if (p === '202630') return 'Escuela';
+      return 'Instituto';
+    }
+
+    function matchesVistaAndPeriodo(r, vista, selPeriodo) {
+      const rowPeriod = normalizePeriodo(r[C.PERIODO]);
+      const rowEntity = getRowEntity(r);
+
+      if (selPeriodo && selPeriodo !== 'Todos' && selPeriodo !== '') {
+        if (rowPeriod !== selPeriodo) return false;
+      }
+
+      if (vista && vista !== 'Todos') {
+        if (rowEntity.toLowerCase() !== vista.toLowerCase()) return false;
+      }
+
+      return true;
+    }
+
+    function populateAvancePeriodos() {
+      let rawPeriods = allData.map(r => (r[C.PERIODO] || '').toString()).filter(Boolean);
+      let periods = [...new Set([...rawPeriods, '202620', '202630', '202710'])].filter(Boolean);
+      periods.sort();
+
+      const avancePeriodoIds = ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo'];
+      avancePeriodoIds.forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const currentVal = sel.value;
+        sel.innerHTML = '<option value="Todos">Todos los periodos</option>';
+        periods.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p;
+          opt.textContent = p;
+          sel.appendChild(opt);
+        });
+        if (currentVal && Array.from(sel.options).some(o => o.value === currentVal)) {
+          sel.value = currentVal;
+        } else {
+          sel.value = 'Todos';
+        }
+      });
+    }
+
+    function syncPeriodoVista(vistaId, periodoId, trigger) {
+      const vEl = document.getElementById(vistaId);
+      const pEl = document.getElementById(periodoId);
+      if (!vEl || !pEl) return;
+      if (trigger === 'periodo') {
+        if (pEl.value === '202620' || pEl.value === '202710') {
+          vEl.value = 'Instituto';
+        } else if (pEl.value === '202630') {
+          vEl.value = 'Escuela';
+        }
+      } else if (trigger === 'vista') {
+        if (vEl.value === 'Instituto' && pEl.value === '202630') {
+          pEl.value = 'Todos';
+        } else if (vEl.value === 'Escuela' && (pEl.value === '202620' || pEl.value === '202710')) {
+          pEl.value = 'Todos';
+        }
+      }
+    }
+
+    function getYearForWeek(vData, w) {
+      if (Array.isArray(vData) && vData.length > 0) {
+        for (let r of vData) {
+          let rd = toDate(r[C.FECHA]);
+          if (rd && getWeekNumber(rd) === w) {
+            return rd.getFullYear();
+          }
+        }
+        let p = String(vData[0][C.PERIODO] || '');
+        if (p.startsWith('2027')) return 2027;
+        if (p.startsWith('2026')) return 2026;
+        let rd0 = toDate(vData[0][C.FECHA]);
+        if (rd0) return rd0.getFullYear();
+      }
+      return 2026;
+    }
+
     // ===== FILTERS =====
     function toDate(v) {
       if (!v) return null; if (v instanceof Date) return v;
@@ -2814,22 +2959,20 @@
             if (sa === 'ESCUELA' && sb === 'INSTITUTO') return 1;
             return sa.localeCompare(sb);
           });
+        } else if (id === 'f-periodo') {
+          vals = [...new Set([...vals, '202620', '202630', '202710'])].filter(Boolean);
+          vals.sort();
         } else {
           vals.sort();
         }
         vals.forEach(v => {
           const o = document.createElement('option');
           o.value = v;
-          let label = v;
-          if (id === 'f-periodo') {
-            const val = v.replace(/\s+/g, '').toLowerCase();
-            if (val === 'instituto') label = 'Instituto';
-            else if (val === 'escuela') label = 'Escuela';
-          }
-          o.textContent = label;
+          o.textContent = v;
           sel.appendChild(o);
         });
       });
+      populateAvancePeriodos();
     }
 
     // ===== EXCEL =====
@@ -2838,11 +2981,13 @@
       const raw = XLSX.utils.sheet_to_json(ws, { defval: '', raw: true });
       allData = raw.map(row => {
         if (row[C.GENERO] === 'Femenimo') row[C.GENERO] = 'Femenino';
-        let p = String(row[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-        if (['202620', '2026-02', '2026-2', '26-2', '26-02', 'instituto', '20262'].includes(p)) {
-          row[C.PERIODO] = 'Instituto';
-        } else if (['202630', '2026-03', '2026-3', '26-3', '26-03', 'escuela', '20263'].includes(p)) {
-          row[C.PERIODO] = 'Escuela';
+        if (row[C.PERIODO] === undefined || row[C.PERIODO] === '') {
+          const altKey = Object.keys(row).find(k => k.trim().toLowerCase().startsWith('periodo'));
+          if (altKey && row[altKey]) row[C.PERIODO] = row[altKey];
+        }
+        row[C.PERIODO] = normalizePeriodo(row[C.PERIODO]);
+        if (!row[C.TIPO] || String(row[C.TIPO]).trim() === '') {
+          row[C.TIPO] = getRowEntity(row);
         }
         return row;
       });
@@ -2881,9 +3026,9 @@
         activeDateFilter = { start: null, end: null }; dpUpdateBtnLabel();
       });
       document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
-      document.querySelectorAll('.fsel').forEach(s => s.addEventListener('change', applyFilters));
+      document.querySelectorAll('.filterbar .fsel').forEach(s => s.addEventListener('change', applyFilters));
       document.getElementById('btnClr').addEventListener('click', () => {
-        document.querySelectorAll('.fsel').forEach(s => s.value = '');
+        document.querySelectorAll('.filterbar .fsel').forEach(s => s.value = '');
         activeDateFilter = { start: null, end: null }; dpUpdateBtnLabel();
         filtered = [...allData]; renderAll();
       });
@@ -3205,15 +3350,24 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
     function processMetasCSV(csvText) {
       metasData = [];
-      let currentEntity = 'Instituto'; // Fixed currently for Instituto
+      let currentEntity = 'Instituto';
+      let currentPeriodo = '202620';
 
       const lines = csvText.split('\n');
       lines.forEach(line => {
         const row = line.split(';');
         if (row.length === 0 || row[0].trim() === '') return;
         const r0 = row[0].trim().toUpperCase();
-        if (r0 === 'INSTITUTO' && String(row[1]).includes('2026')) { currentEntity = 'Instituto'; return; }
-        if (r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
+        if (r0 === 'INSTITUTO') {
+          currentEntity = 'Instituto';
+          currentPeriodo = normalizePeriodo(row[1]) || '202620';
+          return;
+        }
+        if (r0 === 'ESCUELA') {
+          currentEntity = 'Escuela';
+          currentPeriodo = normalizePeriodo(row[1]) || '202630';
+          return;
+        }
 
         const rawModality = row[0].trim();
         const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela', 'Resumen'].includes(rawModality);
@@ -3238,6 +3392,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
           metasData.push({
             entidad: currentEntity,
+            periodo: currentPeriodo,
             modalidad: modality,
             semana: weekNum,
             leads_atl: l_atl,
@@ -3263,7 +3418,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
     function processMetasExcel(wb) {
       metasData = [];
-      let currentEntity = 'Instituto'; // Default assumed
+      let currentEntity = 'Instituto';
+      let currentPeriodo = '202620';
       wb.SheetNames.forEach(sheetName => {
         const sheet = wb.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
@@ -3271,8 +3427,16 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         json.forEach(row => {
           if (!row || typeof row !== 'object' || row.length === 0) return;
           const r0 = String(row[0]).trim().toUpperCase();
-          if (r0 === 'INSTITUTO' && String(row[1]).includes('2026')) { currentEntity = 'Instituto'; return; }
-          if (r0 === 'ESCUELA' && String(row[1]).includes('2026')) { currentEntity = 'Escuela'; return; }
+          if (r0 === 'INSTITUTO') {
+            currentEntity = 'Instituto';
+            currentPeriodo = normalizePeriodo(row[1]) || '202620';
+            return;
+          }
+          if (r0 === 'ESCUELA') {
+            currentEntity = 'Escuela';
+            currentPeriodo = normalizePeriodo(row[1]) || '202630';
+            return;
+          }
 
           const rawModality = String(row[0]).trim();
           const valid = ['Distancia', 'Presencial', 'Semipresencial', 'Instituto', 'Escuela', 'Resumen'].includes(rawModality);
@@ -3313,6 +3477,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
             metasData.push({
               entidad: currentEntity,
+              periodo: currentPeriodo,
               modalidad: modality,
               semana: weekNum,
               leads_atl: l_atl,
@@ -3333,6 +3498,31 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       renderAvance();
     }
 
+    function getMetasFor(entidad, periodo, modalidad) {
+      // Period 202710 has NO goals/metas defined yet ("todavia no tenemos metas, nos limitamos al conteo")
+      if (periodo === '202710') return [];
+
+      return metasData.filter(m => {
+        if (entidad && entidad !== 'Todos') {
+          if (m.entidad.toLowerCase() !== entidad.toLowerCase()) return false;
+        }
+        if (periodo && periodo !== 'Todos') {
+          if (m.periodo !== periodo) return false;
+        } else {
+          // When periodo is 'Todos', exclude periods with no defined goals like 202710
+          if (m.periodo === '202710') return false;
+        }
+        if (modalidad) {
+          if (modalidad === 'Resumen total' || modalidad === 'Resumen') {
+            if (m.modalidad !== 'Resumen') return false;
+          } else {
+            if (m.modalidad.toUpperCase() !== modalidad.toUpperCase()) return false;
+          }
+        }
+        return true;
+      });
+    }
+
     function getWeekNumber(d) {
       const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
       dt.setUTCDate(dt.getUTCDate() + 4 - (dt.getUTCDay() || 7));
@@ -3346,9 +3536,10 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const can = document.getElementById('av-canal').value;
       const mType = document.getElementById('av-tipo').value;
       const mMql = document.getElementById('av-mql').value;
+      const selPeriodo = document.getElementById('av-periodo') ? document.getElementById('av-periodo').value : 'Todos';
 
-      // Filtering metas
-      const metasF = metasData.filter(m => m.entidad === v && (m.modalidad === res || res === 'Resumen total' && m.modalidad === 'Resumen'));
+      // Filtering metas associated with periodo and business unit (entidad)
+      const metasF = getMetasFor(v, selPeriodo, res);
       metasF.sort((a, b) => a.semana - b.semana); // sort by week asc
 
       // Map to numbers
@@ -3369,19 +3560,11 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           else if (cUpper === 'BTL') val = m.mat_btl;
           else if (cUpper === 'DIGITAL') val = m.mat_digital;
         }
-        metaPorSemana[m.semana] = val;
+        metaPorSemana[m.semana] = (metaPorSemana[m.semana] || 0) + val;
       });
 
-      // We get actual data from allData
-      // Map VISTA to period (from user description)
-      let realData = allData.filter(r => {
-        const p = String(r[C.PERIODO] || '').trim().toLowerCase();
-        if (v === 'Instituto') {
-          return p === 'instituto';
-        } else {
-          return p === 'escuela';
-        }
-      });
+      // We get actual data from allData filtered by vista and periodo
+      let realData = allData.filter(r => matchesVistaAndPeriodo(r, v, selPeriodo));
 
       if (res !== 'Resumen') {
         realData = realData.filter(r => r[C.MODALIDAD] && r[C.MODALIDAD].toUpperCase() === res.toUpperCase());
@@ -3434,7 +3617,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
       if (maxW === 0) maxW = 42; // fallback axis
       if (minW === 53) minW = 10;
-      if (maxW > 42) maxW = 42; // Cap to 37 as requested
+      if (metasF.length > 0 && maxW > 42) maxW = 42;
+      if (minW > maxW) { let tmp = minW; minW = maxW; maxW = tmp; }
 
       let labels = [];
       let dMeta = [];
@@ -3460,18 +3644,49 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         dMeta.push(cumMeta);
       }
 
-      // KPIs
-      const finalMeta = cumMeta;
+      // Determine if goals/metas are available for this entity & period
+      const hasMetas = metasF.length > 0 && cumMeta > 0;
       const finalReal = cumReal;
+      const finalMeta = hasMetas ? cumMeta : 0;
       const currentWeekFixed = maxRealWeek > 0 ? maxRealWeek : currentRealWorldWeek;
-      const semsRestantes = Math.max(0, 42 - currentWeekFixed);
-      const pct = finalMeta > 0 ? ((finalReal / finalMeta) * 100).toFixed(1) + '%' : '—';
+      const semsRestantes = hasMetas ? Math.max(0, 42 - currentWeekFixed) : '—';
+      const pct = (hasMetas && finalMeta > 0) ? ((finalReal / finalMeta) * 100).toFixed(1) + '%' : '—';
 
-      document.getElementById('av-kpi-meta').innerText = finalMeta > 0 ? finalMeta.toLocaleString() : '—';
-      document.getElementById('av-kpi-real').innerText = finalReal.toLocaleString();
-      document.getElementById('av-kpi-pct').innerText = pct;
-      document.getElementById('av-kpi-sems').innerText = semsRestantes;
-      document.getElementById('av-avance-lbl').innerText = pct;
+      // Update KPI cards and labels
+      const kpiMeta = document.getElementById('av-kpi-meta');
+      const kpiReal = document.getElementById('av-kpi-real');
+      const kpiPct = document.getElementById('av-kpi-pct');
+      const kpiSems = document.getElementById('av-kpi-sems');
+      const ksubMeta = document.getElementById('av-ksub-meta');
+      const ksubPct = document.getElementById('av-ksub-pct');
+      const avLbl = document.getElementById('av-avance-lbl');
+      const chartSub = document.getElementById('av-chart-sub');
+      const legMeta = document.getElementById('av-leg-meta');
+
+      if (kpiMeta) kpiMeta.innerText = hasMetas ? finalMeta.toLocaleString() : '—';
+      if (kpiReal) kpiReal.innerText = finalReal.toLocaleString();
+      if (kpiPct) kpiPct.innerText = pct;
+      if (kpiSems) kpiSems.innerText = semsRestantes;
+      if (avLbl) avLbl.innerText = pct;
+
+      if (ksubMeta) {
+        ksubMeta.innerText = hasMetas ? 'Objetivo del periodo' : (selPeriodo === '202710' ? 'Sin metas en 202710' : 'Sin metas asignadas');
+      }
+      if (ksubPct) {
+        ksubPct.innerText = hasMetas ? 'Real / Meta' : 'Solo conteo real';
+      }
+      if (chartSub) {
+        if (!hasMetas) {
+          chartSub.innerText = selPeriodo === '202710'
+            ? 'Acumulado semanal: Conteo Real (Sin metas para 202710)'
+            : 'Acumulado semanal: Conteo Real (Sin metas)';
+        } else {
+          chartSub.innerText = 'Acumulado semanal: Meta vs Real';
+        }
+      }
+      if (legMeta) {
+        legMeta.style.display = hasMetas ? 'inline-flex' : 'none';
+      }
 
       // Draw Chart
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -3479,32 +3694,37 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       if (!c) return;
       if (charts['ch-avance']) charts['ch-avance'].destroy();
 
+      const datasets = [
+        {
+          label: 'REAL',
+          data: dReal,
+          borderColor: '#f97316',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.4
+        }
+      ];
+
+      if (hasMetas) {
+        datasets.push({
+          label: 'META',
+          data: dMeta,
+          borderColor: '#0ea5e9',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.4
+        });
+      }
+
       charts['ch-avance'] = new Chart(c, {
         type: 'line',
         data: {
           labels,
-          datasets: [
-            {
-              label: 'REAL',
-              data: dReal,
-              borderColor: '#f97316',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              tension: 0.4
-            },
-            {
-              label: 'META',
-              data: dMeta,
-              borderColor: '#0ea5e9',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              tension: 0.4
-            }
-          ]
+          datasets
         },
         options: {
           responsive: true, maintainAspectRatio: false,
@@ -3536,16 +3756,9 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const mMql = mMqlSel ? mMqlSel.value : 'TOTAL';
         const modSel = document.getElementById('avp-modalidad');
         const mMod = modSel ? modSel.value : 'Todas';
+        const selPeriodo = document.getElementById('avp-periodo') ? document.getElementById('avp-periodo').value : 'Todos';
 
-        let vData = allData.filter(r => {
-
-          const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-          if (vista === 'Instituto') {
-            return p === 'instituto';
-          } else {
-            return p === 'escuela';
-          }
-        });
+        let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
         let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
 
@@ -3572,7 +3785,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
         const isAcum = weekSel.value === 'Acumulado';
         const currW = isAcum ? 0 : Number(weekSel.value);
-        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
 
         const hr = document.getElementById('avp-head-row');
         if (!hr) throw new Error("avp-head-row not found");
@@ -3785,17 +3998,26 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
     }
 
 
-    ['avp-vista', 'avp-canal', 'avp-mql', 'avp-modalidad', 'avp-semana'].forEach(id => {
+    ['avp-vista', 'avp-periodo', 'avp-canal', 'avp-mql', 'avp-modalidad', 'avp-semana'].forEach(id => {
       let el = document.getElementById(id);
-      if (el) el.addEventListener('change', renderAvancePrograma);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avp-periodo') syncPeriodoVista('avp-vista', 'avp-periodo', 'periodo');
+        if (id === 'avp-vista') syncPeriodoVista('avp-vista', 'avp-periodo', 'vista');
+        renderAvancePrograma();
+      });
     });
 
 
 
 
     // Bind Avance Filters
-    ['av-vista', 'av-resumen', 'av-canal', 'av-tipo', 'av-mql'].forEach(id => {
-      document.getElementById(id).addEventListener('change', renderAvance);
+    ['av-vista', 'av-periodo', 'av-resumen', 'av-canal', 'av-tipo', 'av-mql'].forEach(id => {
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'av-periodo') syncPeriodoVista('av-vista', 'av-periodo', 'periodo');
+        if (id === 'av-vista') syncPeriodoVista('av-vista', 'av-periodo', 'vista');
+        renderAvance();
+      });
     });
 
 
@@ -3810,16 +4032,9 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         const vista = vistaSel ? vistaSel.value : 'Instituto';
         const mMql = mMqlSel ? mMqlSel.value : 'TOTAL';
         const mMod = modSel ? modSel.value : 'Todas';
+        const selPeriodo = document.getElementById('avo-periodo') ? document.getElementById('avo-periodo').value : 'Todos';
 
-        let vData = allData.filter(r => {
-
-          const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-          if (vista === 'Instituto') {
-            return p === 'instituto';
-          } else {
-            return p === 'escuela';
-          }
-        });
+        let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
         let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
 
@@ -3846,7 +4061,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
         const isAcum = weekSel.value === 'Acumulado';
         const currW = isAcum ? 0 : Number(weekSel.value);
-        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
 
         const hr = document.getElementById('avo-head-row');
         if (!hr) return;
@@ -3997,9 +4212,13 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       }
     }
 
-    ['avo-vista', 'avo-mql', 'avo-modalidad', 'avo-semana'].forEach(id => {
+    ['avo-vista', 'avo-periodo', 'avo-mql', 'avo-modalidad', 'avo-semana'].forEach(id => {
       let el = document.getElementById(id);
-      if (el) el.addEventListener('change', renderAvanceOrigen);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avo-periodo') syncPeriodoVista('avo-vista', 'avo-periodo', 'periodo');
+        if (id === 'avo-vista') syncPeriodoVista('avo-vista', 'avo-periodo', 'vista');
+        renderAvanceOrigen();
+      });
     });
 
     // Avance Diario Logic
@@ -4022,16 +4241,9 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       const vista = document.getElementById('avd-vista').value;
       const canal = document.getElementById('avd-canal').value;
       const mMql = document.getElementById('avd-mql').value;
+      const selPeriodo = document.getElementById('avd-periodo') ? document.getElementById('avd-periodo').value : 'Todos';
 
-      let vData = allData.filter(r => {
-
-        const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-        if (vista === 'Instituto') {
-          return p === 'instituto';
-        } else {
-          return p === 'escuela';
-        }
-      });
+      let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
       let wArr = Array.from({ length: 41 }, (_, i) => i + 2); // 2 through 36
 
@@ -4057,7 +4269,7 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
       const isAcum = weekSel.value === 'Acumulado';
       const currW = isAcum ? 0 : Number(weekSel.value);
-      const dates = isAcum ? [] : getDatesOfWeekLocal(currW, 2026);
+      const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
 
       const hr = document.getElementById('avd-head-row');
       hr.innerHTML = `<th style="min-width: 140px; text-align:left;">Modalidad</th><th style="min-width: 100px;">Meta ${isAcum ? 'Acumulada' : 'semanal'}</th>`;
@@ -4097,6 +4309,19 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
       let sumDays = [0, 0, 0, 0, 0, 0, 0];
       let sumTotal = 0;
 
+      const hasPeriodMetas = selPeriodo !== '202710' && metasData.some(m => m.entidad.toLowerCase() === vista.toLowerCase() && (selPeriodo === 'Todos' || m.periodo === selPeriodo));
+
+      const avdSub = document.getElementById('avd-sub');
+      if (avdSub) {
+        if (!hasPeriodMetas) {
+          avdSub.innerText = selPeriodo === '202710'
+            ? 'Rendimiento semanal por modalidad (Conteo real - Sin metas en 202710)'
+            : 'Rendimiento semanal por modalidad (Conteo real)';
+        } else {
+          avdSub.innerText = 'Rendimiento semanal por modalidad';
+        }
+      }
+
       modalities.forEach(mod => {
         let metaKey = `avd-meta-${vista}-${canal}-${currW}-${mod}`;
         let tr = document.createElement('tr');
@@ -4120,35 +4345,39 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
         let metaVal = 0;
 
-        if (isAcum) {
-          // Sum all weeks metas
-          let cUpper = canal.toUpperCase();
-          metasData.forEach(m => {
-            if (m.entidad === vista && m.modalidad.toUpperCase() === mod.toUpperCase()) {
-              if (cUpper === 'TODOS') metaVal += m.leads_total;
-              else if (cUpper === 'ATL') metaVal += m.leads_atl;
-              else if (cUpper === 'B2B') metaVal += m.leads_b2b;
-              else if (cUpper === 'BTL') metaVal += m.leads_btl;
-              else if (cUpper === 'DIGITAL') metaVal += m.leads_digital;
-            }
-          });
-        } else {
-          let metaObj = metasData.find(m => m.entidad === vista && m.semana === currW && m.modalidad.toUpperCase() === mod.toUpperCase());
-          if (metaObj) {
+        if (hasPeriodMetas) {
+          if (isAcum) {
+            // Sum all weeks metas
             let cUpper = canal.toUpperCase();
-            if (cUpper === 'TODOS') metaVal = metaObj.leads_total;
-            else if (cUpper === 'ATL') metaVal = metaObj.leads_atl;
-            else if (cUpper === 'B2B') metaVal = metaObj.leads_b2b;
-            else if (cUpper === 'BTL') metaVal = metaObj.leads_btl;
-            else if (cUpper === 'DIGITAL') metaVal = metaObj.leads_digital;
+            metasData.forEach(m => {
+              if (m.entidad.toLowerCase() === vista.toLowerCase() && (selPeriodo === 'Todos' || m.periodo === selPeriodo) && m.modalidad.toUpperCase() === mod.toUpperCase()) {
+                if (cUpper === 'TODOS') metaVal += m.leads_total;
+                else if (cUpper === 'ATL') metaVal += m.leads_atl;
+                else if (cUpper === 'B2B') metaVal += m.leads_b2b;
+                else if (cUpper === 'BTL') metaVal += m.leads_btl;
+                else if (cUpper === 'DIGITAL') metaVal += m.leads_digital;
+              }
+            });
+          } else {
+            let metaObj = metasData.find(m => m.entidad.toLowerCase() === vista.toLowerCase() && (selPeriodo === 'Todos' || m.periodo === selPeriodo) && m.semana === currW && m.modalidad.toUpperCase() === mod.toUpperCase());
+            if (metaObj) {
+              let cUpper = canal.toUpperCase();
+              if (cUpper === 'TODOS') metaVal = metaObj.leads_total;
+              else if (cUpper === 'ATL') metaVal = metaObj.leads_atl;
+              else if (cUpper === 'B2B') metaVal = metaObj.leads_b2b;
+              else if (cUpper === 'BTL') metaVal = metaObj.leads_btl;
+              else if (cUpper === 'DIGITAL') metaVal = metaObj.leads_digital;
+            }
           }
         }
 
-        let avc = metaVal > 0 ? Math.round((rowTotal / metaVal) * 100) + '%' : '0%';
+        let avc = (hasPeriodMetas && metaVal > 0) ? Math.round((rowTotal / metaVal) * 100) + '%' : '—';
         sumMetas += metaVal;
 
+        let metaDisplay = hasPeriodMetas ? (metaVal || 0) : '—';
+
         let rowHtml = `<td style="text-align:left; font-weight:600;">${mod}</td>
-        <td style="font-weight:600; color:var(--text-dark);">${metaVal || 0}</td>`;
+        <td style="font-weight:600; color:var(--text-dark);">${metaDisplay}</td>`;
 
         if (!isAcum) {
           for (let i = 0; i < 7; i++) {
@@ -4163,10 +4392,14 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         sumTotal += rowTotal;
       });
 
-      let totalAvc = sumMetas > 0 ? Math.round((sumTotal / sumMetas) * 100) + '%' : '0%';
+      let totalAvc = (hasPeriodMetas && sumMetas > 0) ? Math.round((sumTotal / sumMetas) * 100) + '%' : '—';
+      let sumMetaDisplay = (hasPeriodMetas && sumMetas > 0) ? sumMetas.toLocaleString() : (hasPeriodMetas ? '0' : '—');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      let metaBg = (hasPeriodMetas && sumMetas > 0) ? '#dc2626' : (isDark ? '#374151' : '#475569');
+
       let tfoot = document.getElementById('avd-tfoot');
       let tfootHtml = `<tr>
-        <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td><td style="background:#dc2626; color: #ffffff !important;">${sumMetas}</td>`;
+        <td style="text-align:left; color: #ffffff !important;">ACUMULADO</td><td style="background:${metaBg}; color: #ffffff !important;">${sumMetaDisplay}</td>`;
 
       if (!isAcum) {
         for (let i = 0; i < 7; i++) {
@@ -4174,7 +4407,6 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         }
       }
       tfootHtml += `<td style="background:#000; color: #ffffff !important;">${sumTotal}</td><td style="background:#000; color: #ffffff !important;">${totalAvc}</td></tr>`;
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       if (isDark) { tfootHtml = tfootHtml.replace(/#000/g, '#222'); }
       tfoot.innerHTML = tfootHtml;
 
@@ -4276,8 +4508,13 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
 
     }
 
-    ['avd-vista', 'avd-canal', 'avd-mql', 'avd-semana'].forEach(id => {
-      document.getElementById(id).addEventListener('change', renderAvanceDiario);
+    ['avd-vista', 'avd-periodo', 'avd-canal', 'avd-mql', 'avd-semana'].forEach(id => {
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avd-periodo') syncPeriodoVista('avd-vista', 'avd-periodo', 'periodo');
+        if (id === 'avd-vista') syncPeriodoVista('avd-vista', 'avd-periodo', 'vista');
+        renderAvanceDiario();
+      });
     });
 
     document.getElementById('av-vista').addEventListener('change', (e) => {
@@ -4341,14 +4578,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           if (getWeekNumber(rd) !== parseInt(selWeek)) return false;
         }
 
-        const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-        let validVista = false;
-        if (vista === 'Instituto') {
-          validVista = p === 'instituto';
-        } else {
-          validVista = p === 'escuela';
-        }
-        if (!validVista) return false;
+        const selPeriodo = document.getElementById('avf-periodo') ? document.getElementById('avf-periodo').value : 'Todos';
+        if (!matchesVistaAndPeriodo(r, vista, selPeriodo)) return false;
 
         if (modalidad !== 'Todos') {
           const mod = String(r[C.MODALIDAD] || '').trim().toUpperCase();
@@ -4488,14 +4719,8 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
           if (rd.getMonth() !== parseInt(selMes)) return false;
         }
 
-        const p = String(r[C.PERIODO] || '').trim().replace(/\s+/g, '').toLowerCase();
-        let validVista = false;
-        if (vista === 'Instituto') {
-          validVista = p === 'instituto';
-        } else {
-          validVista = p === 'escuela';
-        }
-        if (!validVista) return false;
+        const selPeriodo = document.getElementById('avfm-periodo') ? document.getElementById('avfm-periodo').value : 'Todos';
+        if (!matchesVistaAndPeriodo(r, vista, selPeriodo)) return false;
 
         if (modalidad !== 'Todos') {
           const mod = String(r[C.MODALIDAD] || '').trim().toUpperCase();
@@ -4564,11 +4789,22 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
     `;
     }
 
-    ['avf-vista', 'avf-modalidad', 'avf-semana'].forEach(id => { document.getElementById(id).addEventListener('change', renderFunnelOrigen); });
-
-    ['avfm-vista', 'avfm-modalidad', 'avfm-mes'].forEach(id => {
+    ['avf-vista', 'avf-periodo', 'avf-modalidad', 'avf-semana'].forEach(id => {
       let el = document.getElementById(id);
-      if (el) el.addEventListener('change', renderFunnelOrigenMensual);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avf-periodo') syncPeriodoVista('avf-vista', 'avf-periodo', 'periodo');
+        if (id === 'avf-vista') syncPeriodoVista('avf-vista', 'avf-periodo', 'vista');
+        renderFunnelOrigen();
+      });
+    });
+
+    ['avfm-vista', 'avfm-periodo', 'avfm-modalidad', 'avfm-mes'].forEach(id => {
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avfm-periodo') syncPeriodoVista('avfm-vista', 'avfm-periodo', 'periodo');
+        if (id === 'avfm-vista') syncPeriodoVista('avfm-vista', 'avfm-periodo', 'vista');
+        renderFunnelOrigenMensual();
+      });
     });
 
   </script>
