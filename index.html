@@ -1824,7 +1824,7 @@
             <select id="av-periodo" class="fsel"
               style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
               <option value="Todos">Todos los periodos</option>
-              <option value="202620">202620</option>
+              <option value="202620" selected>202620</option>
               <option value="202630">202630</option>
               <option value="202710">202710</option>
             </select>
@@ -1925,7 +1925,7 @@
                 <select id="avd-periodo" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Todos">Todos los periodos</option>
-                  <option value="202620">202620</option>
+                  <option value="202620" selected>202620</option>
                   <option value="202630">202630</option>
                   <option value="202710">202710</option>
                 </select>
@@ -2040,7 +2040,7 @@
                 <select id="avp-periodo" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Todos">Todos los periodos</option>
-                  <option value="202620">202620</option>
+                  <option value="202620" selected>202620</option>
                   <option value="202630">202630</option>
                   <option value="202710">202710</option>
                 </select>
@@ -2111,7 +2111,7 @@
                 <select id="avo-periodo" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Todos">Todos los periodos</option>
-                  <option value="202620">202620</option>
+                  <option value="202620" selected>202620</option>
                   <option value="202630">202630</option>
                   <option value="202710">202710</option>
                 </select>
@@ -2164,7 +2164,7 @@
                 <select id="avf-periodo" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Todos">Todos los periodos</option>
-                  <option value="202620">202620</option>
+                  <option value="202620" selected>202620</option>
                   <option value="202630">202630</option>
                   <option value="202710">202710</option>
                 </select>
@@ -2301,7 +2301,7 @@
                 <select id="avfm-periodo" class="fsel"
                   style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
                   <option value="Todos">Todos los periodos</option>
-                  <option value="202620">202620</option>
+                  <option value="202620" selected>202620</option>
                   <option value="202630">202630</option>
                   <option value="202710">202710</option>
                 </select>
@@ -2857,17 +2857,23 @@
         const sel = document.getElementById(id);
         if (!sel) return;
         const currentVal = sel.value;
+        const isUserModified = sel.dataset.userModified === 'true';
         sel.innerHTML = '<option value="Todos">Todos los periodos</option>';
         periods.forEach(p => {
           const opt = document.createElement('option');
           opt.value = p;
           opt.textContent = p;
+          if (p === '202620') opt.selected = true;
           sel.appendChild(opt);
         });
-        if (currentVal && Array.from(sel.options).some(o => o.value === currentVal)) {
+        if (isUserModified && currentVal && Array.from(sel.options).some(o => o.value === currentVal)) {
+          sel.value = currentVal;
+        } else if (Array.from(sel.options).some(o => o.value === '202620')) {
+          sel.value = '202620';
+        } else if (currentVal && Array.from(sel.options).some(o => o.value === currentVal)) {
           sel.value = currentVal;
         } else {
-          sel.value = 'Todos';
+          sel.value = '202620';
         }
       });
     }
@@ -3006,11 +3012,25 @@
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === v));
       document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === 'view-' + v));
       setEl('topView', viewNames[v] || v);
-      const c = document.querySelector('.content'); if (c) c.scrollTop = 0; if (v === 'avance') renderAvance();
+      const c = document.querySelector('.content'); if (c) c.scrollTop = 0;
+      if (v === 'avance') {
+        renderAvance();
+        renderAvanceDiario();
+        renderAvancePrograma();
+        renderAvanceOrigen();
+        renderFunnelOrigen();
+        renderFunnelOrigenMensual();
+      }
     }
 
     // ===== EVENTS =====
     document.addEventListener('DOMContentLoaded', () => {
+      ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', () => { el.dataset.userModified = 'true'; });
+      });
+      populateAvancePeriodos();
+
       const dz = document.getElementById('dropZone');
       const fi = document.getElementById('fileInput');
       dz.addEventListener('click', () => fi.click());
