@@ -2369,6 +2369,180 @@
           </div>
           <!-- Fin Nuevo Funnel Mensual -->
 
+          <!-- REPORTE PORTAL WEB -->
+          <div class="cc" id="cuadro-portal-web" style="margin-top: 24px;">
+            <!-- Header and Filters -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="cc-ttl"
+                    style="border:none; padding:0; font-size:18px; text-transform:none; color:var(--text-dark); font-weight:700;">Reporte
+                    Portal Web</span>
+                  <span class="vbadge vb-orange"
+                    style="font-weight:700; background:#f97316; color:#fff; border-radius:4px; padding:2px 8px; font-size:11px;">CANAL
+                    WEB</span>
+                </div>
+                <div class="cc-sub" id="avw-sub">Rendimiento, conversión a matrícula y comparativas estratégicas del
+                  canal Portal Web</div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <span class="f-lbl">Unidad:</span>
+                <select id="avw-vista" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos" selected>Todas las unidades</option>
+                  <option value="Instituto">Instituto</option>
+                  <option value="Escuela">Escuela</option>
+                </select>
+                <select id="avw-periodo" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todos">Todos los periodos</option>
+                  <option value="202620" selected>202620</option>
+                  <option value="202630">202630</option>
+                  <option value="202710">202710</option>
+                </select>
+                <select id="avw-modalidad" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Todas" selected>Todas las modalidades</option>
+                  <option value="Distancia">Distancia</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Semipresencial">Semipresencial</option>
+                </select>
+                <select id="avw-mql" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="TOTAL" selected>MQL: TOTAL</option>
+                  <option value="SÍ">MQL: SÍ</option>
+                  <option value="NO">MQL: NO</option>
+                </select>
+                <select id="avw-mes" class="fsel"
+                  style="border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; height: 32px;">
+                  <option value="Acumulado" selected>Todos los meses (Acumulado)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Quick KPIs Cards (Unificados - Predomina el número) -->
+            <div class="krow c5"
+              style="margin-top:20px; margin-bottom:20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+              <div class="kcard" style="border-top: 4px solid #f97316;">
+                <div class="klbl">LEADS PORTAL WEB</div>
+                <div class="kval" id="avw-kpi-leads">—</div>
+                <div class="ksub" id="avw-ksub-leads">0% del total general</div>
+              </div>
+              <div class="kcard" style="border-top: 4px solid #64748b;">
+                <div class="klbl">CALIDAD MQL</div>
+                <div class="kval" id="avw-kpi-mql">—</div>
+                <div class="ksub" id="avw-ksub-mql">0% calificados MQL</div>
+              </div>
+              <div class="kcard" style="border-top: 4px solid #475569;">
+                <div class="klbl">MATRÍCULAS WEB</div>
+                <div class="kval" id="avw-kpi-mat">—</div>
+                <div class="ksub" id="avw-ksub-mat">0% conversión efectiva</div>
+              </div>
+              <div class="kcard" style="border-top: 4px solid #94a3b8;">
+                <div class="klbl">CARRERA LÍDER WEB</div>
+                <div class="kval" id="avw-kpi-prog"
+                  style="font-size:16px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  —</div>
+                <div class="ksub" id="avw-ksub-prog">Mayor captación web</div>
+              </div>
+              <div class="kcard" style="border-top: 4px solid #334155;">
+                <div class="klbl">MODALIDAD PREDOMINANTE</div>
+                <div class="kval" id="avw-kpi-mod"
+                  style="font-size:16px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  —</div>
+                <div class="ksub" id="avw-ksub-mod">Preferencia canal web</div>
+              </div>
+            </div>
+
+            <!-- Fila 1 de Gráficos: Evolución Mensual + Funnel de Conversión -->
+            <div class="cgrid c2"
+              style="margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:16px;">
+              <div class="cc" style="padding:16px; border:1px solid var(--border); border-radius:8px;">
+                <div class="cc-ttl" style="border:none; padding:0; font-size:15px; color:var(--text-dark);">Evolución
+                  Mensual del Canal Web</div>
+                <div class="cc-sub">Leads, MQL y Matrículas captados por la web mes a mes</div>
+                <div class="leg" id="leg-avw-monthly" style="margin-top:8px; margin-bottom:8px;">
+                  <span class="leg-item"><span class="leg-sq" style="background:#64748b;"></span>Leads Web</span>
+                  <span class="leg-item"><span class="leg-sq" style="background:#94a3b8;"></span>Leads MQL</span>
+                  <span class="leg-item"><span class="leg-sq" style="background:#f97316;"></span>Matrículas</span>
+                </div>
+                <div class="ch-fix" style="height:260px; margin-top:10px;">
+                  <canvas id="ch-avw-monthly" role="img" aria-label="Evolución mensual portal web"></canvas>
+                </div>
+              </div>
+
+              <div class="cc" style="padding:16px; border:1px solid var(--border); border-radius:8px;">
+                <div class="cc-ttl" style="border:none; padding:0; font-size:15px; color:var(--text-dark);">Embudo de
+                  Conversión Web (Funnel)</div>
+                <div class="cc-sub">Tasa de conversión paso a paso desde el portal web</div>
+                <div class="ch-fix" style="height:285px; margin-top:10px;">
+                  <canvas id="ch-avw-funnel" role="img" aria-label="Embudo de conversión canal web"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fila 2 de Gráficos: Comparativa por Periodos y Unidad + Top 5 Carreras -->
+            <div class="cgrid c2"
+              style="margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:16px;">
+              <div class="cc" style="padding:16px; border:1px solid var(--border); border-radius:8px;">
+                <div class="cc-ttl" style="border:none; padding:0; font-size:15px; color:var(--text-dark);">Leads Web
+                  por Periodo y Unidad de Negocio</div>
+                <div class="cc-sub">Comparativo total de captación web entre Instituto y Escuela Continental</div>
+                <div class="leg" id="leg-avw-periods" style="margin-top:8px; margin-bottom:8px;">
+                  <span class="leg-item"><span class="leg-sq" style="background:#475569;"></span>Instituto</span>
+                  <span class="leg-item"><span class="leg-sq" style="background:#94a3b8;"></span>Escuela
+                    Continental</span>
+                </div>
+                <div class="ch-fix" style="height:260px; margin-top:10px;">
+                  <canvas id="ch-avw-periods" role="img" aria-label="Leads por periodo y unidad de negocio"></canvas>
+                </div>
+              </div>
+
+              <div class="cc" style="padding:16px; border:1px solid var(--border); border-radius:8px;">
+                <div class="cc-ttl" style="border:none; padding:0; font-size:15px; color:var(--text-dark);">Top 5
+                  Carreras con Mayor Tracción Web</div>
+                <div class="cc-sub">Programas más exitosos en captación y conversión web</div>
+                <div class="leg" id="leg-avw-carreras" style="margin-top:8px; margin-bottom:8px;">
+                  <span class="leg-item"><span class="leg-sq" style="background:#64748b;"></span>Leads Web</span>
+                  <span class="leg-item"><span class="leg-sq" style="background:#f97316;"></span>Matrículas</span>
+                </div>
+                <div class="ch-fix" style="height:260px; margin-top:10px;">
+                  <canvas id="ch-avw-carreras" role="img" aria-label="Top 5 carreras web"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resumen Ejecutivo: Tabla Compacta Top 5 Programas -->
+            <div style="margin-top:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div style="font-weight:700; font-size:14px; color:var(--text-dark);">Ranking Ejecutivo — Top 5
+                  Programas Web</div>
+                <div style="font-size:12px; color:var(--muted);">Programas con mayor demanda en el portal</div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="tb-avd" id="tb-avw-detail">
+                  <thead>
+                    <tr>
+                      <th style="width:50px;">#</th>
+                      <th style="text-align:left; min-width:180px;">Programa / Carrera</th>
+                      <th style="min-width:100px;">Unidad</th>
+                      <th style="min-width:90px; background:#475569; color:#fff;">Leads Web</th>
+                      <th style="min-width:80px;">MQL</th>
+                      <th style="min-width:70px;">% MQL</th>
+                      <th style="min-width:90px; background:#334155; color:#fff; border-bottom: 2px solid #f97316;">
+                        Matrículas</th>
+                      <th style="min-width:80px;">% Conv.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="avw-tbody">
+                    <!-- Dynamic Top 5 rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Fin REPORTE PORTAL WEB -->
+
         </div>
 
 
@@ -2806,7 +2980,7 @@
       }).join('');
     }
 
-    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderFunnelOrigenMensual(); renderAvancePrograma(); renderAvanceOrigen(); }
+    function renderAll() { updateKPIs(); renderResumen(); renderCaptacion(); renderComercial(); renderGeografia(); renderBidireccional(); renderAvance(); renderAvanceDiario(); renderFunnelOrigen(); renderFunnelOrigenMensual(); renderAvancePrograma(); renderAvanceOrigen(); renderReportePortalWeb(); }
 
 
     // ===== PERIODO & ENTITY HELPERS =====
@@ -2823,12 +2997,18 @@
 
     function getRowEntity(row) {
       let t = String(row[C.TIPO] || '').trim().toLowerCase();
-      if (t === 'instituto' || t === 'escuela') {
-        return t === 'instituto' ? 'Instituto' : 'Escuela';
+      if (t === 'instituto' || t === 'escuela' || t === 'ic' || t === 'ec') {
+        return (t === 'escuela' || t === 'ec') ? 'Escuela' : 'Instituto';
       }
+      if (t.includes('escuela') || t.includes('continental')) return 'Escuela';
+      if (t.includes('instituto')) return 'Instituto';
+
+      let prog = String(row[C.PROGRAMA] || '').trim().toLowerCase();
+      if (prog.includes('escuela') || prog.includes('ec ') || prog.startsWith('ec-')) return 'Escuela';
+
       let p = normalizePeriodo(row[C.PERIODO]);
-      if (p === '202620' || p === '202710') return 'Instituto';
       if (p === '202630') return 'Escuela';
+      if (p === '202620') return 'Instituto';
       return 'Instituto';
     }
 
@@ -2852,7 +3032,7 @@
       let periods = [...new Set([...rawPeriods, '202620', '202630', '202710'])].filter(Boolean);
       periods.sort();
 
-      const avancePeriodoIds = ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo'];
+      const avancePeriodoIds = ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo', 'avw-periodo'];
       avancePeriodoIds.forEach(id => {
         const sel = document.getElementById(id);
         if (!sel) return;
@@ -2883,17 +3063,19 @@
       const pEl = document.getElementById(periodoId);
       if (!vEl || !pEl) return;
       if (trigger === 'periodo') {
-        if (pEl.value === '202620' || pEl.value === '202710') {
+        if (pEl.value === '202620') {
           vEl.value = 'Instituto';
         } else if (pEl.value === '202630') {
           vEl.value = 'Escuela';
         }
+        // Note: 202710 now allows both Instituto and Escuela (EC), so we do not force either
       } else if (trigger === 'vista') {
         if (vEl.value === 'Instituto' && pEl.value === '202630') {
           pEl.value = 'Todos';
-        } else if (vEl.value === 'Escuela' && (pEl.value === '202620' || pEl.value === '202710')) {
+        } else if (vEl.value === 'Escuela' && pEl.value === '202620') {
           pEl.value = 'Todos';
         }
+        // Note: Escuela now allows 202710, so if vEl is Escuela and pEl is 202710, we do not reset to Todos
       }
     }
 
@@ -3020,12 +3202,13 @@
         renderAvanceOrigen();
         renderFunnelOrigen();
         renderFunnelOrigenMensual();
+        renderReportePortalWeb();
       }
     }
 
     // ===== EVENTS =====
     document.addEventListener('DOMContentLoaded', () => {
-      ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo'].forEach(id => {
+      ['av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo', 'avw-periodo'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', () => { el.dataset.userModified = 'true'; });
       });
@@ -4826,6 +5009,356 @@ Semipresencial;42;lunes, 42 de Mes de 2026;0;0.00%;0;0.00%;0;0.00%;0;0.00%;;0;;S
         renderFunnelOrigenMensual();
       });
     });
+
+    // ===== REPORTE PORTAL WEB =====
+    function isPortalWebLead(r) {
+      if (!r) return false;
+      let o = String(r[C.ORIGEN] || '').trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      if (o.includes('portal web') || o.includes('11:') || o.includes('sitio web') || o.includes('pagina web') || o.includes('web corporativa') || o === 'web' || o.includes('portal')) {
+        return true;
+      }
+      let c = String(r[C.CANAL] || '').trim().toLowerCase();
+      if (c === 'web' || c === 'sitio web') return true;
+      return false;
+    }
+
+    function renderReportePortalWeb() {
+      const vistaSel = document.getElementById('avw-vista');
+      const periodoSel = document.getElementById('avw-periodo');
+      const modSel = document.getElementById('avw-modalidad');
+      const mqlSel = document.getElementById('avw-mql');
+      const mesSel = document.getElementById('avw-mes');
+
+      if (!periodoSel) return;
+
+      const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      if (mesSel && mesSel.options.length <= 1) {
+        monthNames.forEach((m, idx) => {
+          let opt = document.createElement('option');
+          opt.value = idx;
+          opt.textContent = m;
+          mesSel.appendChild(opt);
+        });
+      }
+
+      const vista = vistaSel ? vistaSel.value : 'Todos';
+      const selPeriodo = periodoSel ? periodoSel.value : '202620';
+      const modalidad = modSel ? modSel.value : 'Todas';
+      const mMql = mqlSel ? mqlSel.value : 'TOTAL';
+      const selMes = mesSel ? mesSel.value : 'Acumulado';
+
+      const isMat = (r) => String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
+      const isPreOrPost = (r) => ['PREINSCRITO', 'POSTULANTE', 'INGRESANTE', 'MATRICULADO'].includes(String(r[C.ESTADO] || '').trim().toUpperCase());
+      const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(1).replace('.', ',') + '%' : '0,0%';
+
+      const allWebLeads = allData.filter(r => isPortalWebLead(r));
+
+      const webData = allWebLeads.filter(r => {
+        if (!matchesVistaAndPeriodo(r, vista, selPeriodo)) return false;
+        if (modalidad !== 'Todas') {
+          const m = String(r[C.MODALIDAD] || '').trim().toUpperCase();
+          if (m !== modalidad.toUpperCase()) return false;
+        }
+        if (mMql !== 'TOTAL') {
+          const m = isMQL(r);
+          if (mMql === 'SÍ' && !m) return false;
+          if (mMql === 'NO' && m) return false;
+        }
+        if (selMes !== 'Acumulado') {
+          const rd = toDate(r[C.FECHA]);
+          if (!rd) return false;
+          if (rd.getMonth() !== parseInt(selMes)) return false;
+        }
+        return true;
+      });
+
+      const totLeads = webData.length;
+      const totMql = webData.filter(r => isMQL(r)).length;
+      const totMat = webData.filter(r => isMat(r)).length;
+      const totPost = webData.filter(r => isPreOrPost(r)).length;
+
+      // Carrera breakdown
+      const progMap = {};
+      webData.forEach(r => {
+        let p = String(r[C.PROGRAMA] || 'Sin programa').trim();
+        if (!progMap[p]) {
+          progMap[p] = {
+            name: p,
+            unidad: getRowEntity(r),
+            modalidad: String(r[C.MODALIDAD] || 'N/D').trim(),
+            leads: 0,
+            mql: 0,
+            mat: 0
+          };
+        }
+        progMap[p].leads++;
+        if (isMQL(r)) progMap[p].mql++;
+        if (isMat(r)) progMap[p].mat++;
+      });
+
+      const sortedProgs = Object.values(progMap).sort((a, b) => b.leads - a.leads);
+      const topProg = sortedProgs.length > 0 ? sortedProgs[0] : null;
+
+      // Modality breakdown
+      const modMap = { 'Distancia': 0, 'Presencial': 0, 'Semipresencial': 0 };
+      webData.forEach(r => {
+        let m = String(r[C.MODALIDAD] || '').trim().toLowerCase();
+        if (m.includes('distancia')) modMap['Distancia']++;
+        else if (m.includes('presencial') && !m.includes('semi')) modMap['Presencial']++;
+        else if (m.includes('semi')) modMap['Semipresencial']++;
+      });
+      const topModEntry = Object.entries(modMap).sort((a, b) => b[1] - a[1])[0];
+      const topModName = (topModEntry && topModEntry[1] > 0) ? topModEntry[0] : '—';
+      const topModLeads = (topModEntry && topModEntry[1] > 0) ? topModEntry[1] : 0;
+
+      // Update Unified KPI Cards (donde predomina el número)
+      setEl('avw-kpi-leads', totLeads.toLocaleString());
+      setEl('avw-ksub-leads', `${pct(totLeads, allData.length || 1)} del total general institucional`);
+
+      setEl('avw-kpi-mql', totMql.toLocaleString());
+      setEl('avw-ksub-mql', `${pct(totMql, totLeads)} calificados MQL comercial`);
+
+      setEl('avw-kpi-mat', totMat.toLocaleString());
+      setEl('avw-ksub-mat', `${pct(totMat, totLeads)} tasa efectiva de matrícula web`);
+
+      setEl('avw-kpi-prog', topProg ? trim(topProg.name, 22) : '—');
+      setEl('avw-ksub-prog', topProg ? `${topProg.leads} leads (${pct(topProg.leads, totLeads)} en web)` : 'Sin datos en periodo');
+
+      setEl('avw-kpi-mod', topModName);
+      setEl('avw-ksub-mod', topModLeads > 0 ? `${topModLeads} leads (${pct(topModLeads, totLeads)} preferencia)` : 'Sin datos');
+
+      // Chart 1: Evolución Mensual (Leads vs MQL vs Matrículas)
+      const chMonthly = document.getElementById('ch-avw-monthly');
+      if (chMonthly) {
+        if (charts['ch-avw-monthly']) charts['ch-avw-monthly'].destroy();
+        const mLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const mLeads = Array(12).fill(0);
+        const mMqls = Array(12).fill(0);
+        const mMats = Array(12).fill(0);
+
+        allWebLeads.forEach(r => {
+          if (!matchesVistaAndPeriodo(r, vista, selPeriodo)) return;
+          const rd = toDate(r[C.FECHA]);
+          if (rd) {
+            let mIdx = rd.getMonth();
+            if (mIdx >= 0 && mIdx < 12) {
+              mLeads[mIdx]++;
+              if (isMQL(r)) mMqls[mIdx]++;
+              if (isMat(r)) mMats[mIdx]++;
+            }
+          }
+        });
+
+        charts['ch-avw-monthly'] = new Chart(chMonthly, {
+          type: 'bar',
+          data: {
+            labels: mLabels,
+            datasets: [
+              { label: 'Leads Web', data: mLeads, backgroundColor: '#64748b', borderRadius: 3 },
+              { label: 'Leads MQL', data: mMqls, backgroundColor: '#94a3b8', borderRadius: 3 },
+              { label: 'Matrículas', data: mMats, backgroundColor: '#f97316', borderRadius: 3 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: 'var(--text-dark)',
+                font: { size: 9, weight: 'bold' },
+                formatter: v => v > 0 ? v : ''
+              }
+            },
+            scales: {
+              x: { grid: { display: false } },
+              y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' } }
+            }
+          }
+        });
+      }
+
+      // Chart 2: Embudo de Conversión Web (Funnel Web)
+      const chFunnel = document.getElementById('ch-avw-funnel');
+      if (chFunnel) {
+        if (charts['ch-avw-funnel']) charts['ch-avw-funnel'].destroy();
+        const fLabels = ['1. Leads Web', '2. Leads MQL', '3. Postulantes', '4. Matriculados'];
+        const fVals = [totLeads, totMql, totPost, totMat];
+        const fColors = ['#334155', '#64748b', '#94a3b8', '#f97316'];
+
+        charts['ch-avw-funnel'] = new Chart(chFunnel, {
+          type: 'bar',
+          data: {
+            labels: fLabels,
+            datasets: [{
+              data: fVals,
+              backgroundColor: fColors,
+              borderRadius: 4
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              datalabels: {
+                anchor: 'end',
+                align: 'right',
+                color: 'var(--text-dark)',
+                font: { size: 10, weight: 'bold' },
+                formatter: (val) => `${val} (${pct(val, totLeads)})`
+              }
+            },
+            scales: {
+              x: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' } },
+              y: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // Chart 3: Replanteado - Leads Web por Periodo y Unidad de Negocio
+      const chPeriods = document.getElementById('ch-avw-periods');
+      if (chPeriods) {
+        if (charts['ch-avw-periods']) charts['ch-avw-periods'].destroy();
+
+        // Calculate total web leads by period and business unit
+        const periodsList = ['202620', '202630', '202710'];
+        const instLeadsByP = [0, 0, 0];
+        const escLeadsByP = [0, 0, 0];
+
+        allWebLeads.forEach(r => {
+          if (modalidad !== 'Todas') {
+            const m = String(r[C.MODALIDAD] || '').trim().toUpperCase();
+            if (m !== modalidad.toUpperCase()) return;
+          }
+          const p = normalizePeriodo(r[C.PERIODO]);
+          const pIdx = periodsList.indexOf(p);
+          if (pIdx >= 0) {
+            const ent = getRowEntity(r);
+            if (ent === 'Escuela') {
+              escLeadsByP[pIdx]++;
+            } else {
+              instLeadsByP[pIdx]++;
+            }
+          }
+        });
+
+        charts['ch-avw-periods'] = new Chart(chPeriods, {
+          type: 'bar',
+          data: {
+            labels: periodsList,
+            datasets: [
+              {
+                label: 'Instituto',
+                data: instLeadsByP,
+                backgroundColor: '#475569',
+                borderRadius: 3
+              },
+              {
+                label: 'Escuela Continental',
+                data: escLeadsByP,
+                backgroundColor: '#94a3b8',
+                borderRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: 'var(--text-dark)',
+                font: { size: 9, weight: 'bold' },
+                formatter: v => v > 0 ? v : ''
+              }
+            },
+            scales: {
+              x: { grid: { display: false } },
+              y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' } }
+            }
+          }
+        });
+      }
+
+      // Chart 4: Top 5 Carreras con Mayor Tracción Web
+      const chCarreras = document.getElementById('ch-avw-carreras');
+      if (chCarreras) {
+        if (charts['ch-avw-carreras']) charts['ch-avw-carreras'].destroy();
+        const top5 = sortedProgs.slice(0, 5);
+        const cLabels = top5.map(p => trim(p.name, 22));
+        const cLeads = top5.map(p => p.leads);
+        const cMats = top5.map(p => p.mat);
+
+        charts['ch-avw-carreras'] = new Chart(chCarreras, {
+          type: 'bar',
+          data: {
+            labels: cLabels,
+            datasets: [
+              { label: 'Leads Web', data: cLeads, backgroundColor: '#64748b', borderRadius: 3 },
+              { label: 'Matrículas', data: cMats, backgroundColor: '#f97316', borderRadius: 3 }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              datalabels: {
+                anchor: 'end',
+                align: 'right',
+                color: 'var(--text-dark)',
+                font: { size: 9, weight: 'bold' },
+                formatter: v => v > 0 ? v : ''
+              }
+            },
+            scales: {
+              x: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' } },
+              y: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // Table Rendering: Top 5 Executive Programs Table
+      const tbody = document.getElementById('avw-tbody');
+      if (tbody) {
+        const top5 = sortedProgs.slice(0, 5);
+        if (top5.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:18px; color:var(--muted);">No se encontraron leads de Portal Web con los filtros seleccionados.</td></tr>`;
+        } else {
+          tbody.innerHTML = top5.map((p, idx) => `
+                <tr>
+                    <td style="font-weight:700; color:var(--muted);">${idx + 1}</td>
+                    <td style="text-align:left; font-weight:600;">${p.name}</td>
+                    <td><span class="vbadge" style="background:${p.unidad === 'Escuela' ? 'rgba(71,85,105,0.12)' : 'rgba(148,163,184,0.2)'}; color:${p.unidad === 'Escuela' ? '#334155' : '#475569'}; font-size:11px; padding:2px 8px; border-radius:4px;">${p.unidad}</span></td>
+                    <td style="font-weight:700;">${p.leads}</td>
+                    <td>${p.mql}</td>
+                    <td>${pct(p.mql, p.leads)}</td>
+                    <td style="font-weight:700; color:#ea580c;">${p.mat}</td>
+                    <td style="font-weight:600;">${pct(p.mat, p.leads)}</td>
+                </tr>
+            `).join('');
+        }
+      }
+    }
+
+    ['avw-vista', 'avw-periodo', 'avw-modalidad', 'avw-mql', 'avw-mes'].forEach(id => {
+      let el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => {
+        if (id === 'avw-periodo') syncPeriodoVista('avw-vista', 'avw-periodo', 'periodo');
+        if (id === 'avw-vista') syncPeriodoVista('avw-vista', 'avw-periodo', 'vista');
+        renderReportePortalWeb();
+      });
+    });
+
 
   </script>
 </body>
