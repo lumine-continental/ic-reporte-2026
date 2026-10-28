@@ -3108,7 +3108,12 @@
       }
     }
 
-    function getYearForWeek(vData, w) {
+    function getYearForWeek(vData, w, selPeriodo = '202710') {
+      if (selPeriodo === '202710' || selPeriodo === '202720') {
+        return w >= 37 ? 2026 : 2027;
+      }
+      if (w === 0) return 2027;
+      if (w >= 37) return 2026;
       if (Array.isArray(vData) && vData.length > 0) {
         for (let r of vData) {
           let rd = toDate(r[C.FECHA]);
@@ -3116,31 +3121,175 @@
             return rd.getFullYear();
           }
         }
-        let p = String(vData[0][C.PERIODO] || '');
-        if (p.startsWith('2027')) return 2027;
-        if (p.startsWith('2026')) return 2026;
-        let rd0 = toDate(vData[0][C.FECHA]);
-        if (rd0) return rd0.getFullYear();
       }
-      return 2026;
+      return (selPeriodo === '202620' || selPeriodo === '202630') ? 2026 : 2027;
+    }
+
+    function getActiveCampaignWeekInfo(selPeriodo, vData) {
+      const now = new Date();
+      let maxDate = null;
+      const maxAllowedTs = new Date(2027, 5, 1).getTime();
+      const minAllowedTs = new Date(2025, 0, 1).getTime();
+
+      const searchPools = [];
+      if (Array.isArray(vData) && vData.length > 0) searchPools.push(vData);
+      if (Array.isArray(allData) && allData.length > 0) {
+        if (selPeriodo && selPeriodo !== 'Todos') {
+          const pData = allData.filter(r => normalizePeriodo(r[C.PERIODO]) === selPeriodo);
+          if (pData.length > 0) searchPools.push(pData);
+        }
+        searchPools.push(allData);
+      }
+
+      for (const pool of searchPools) {
+        let maxTs = 0;
+        for (const r of pool) {
+          const d = toDate(r[C.FECHA]);
+          if (d) {
+            const ts = d.getTime();
+            if (ts >= minAllowedTs && ts <= maxAllowedTs && ts > maxTs) {
+              maxTs = ts;
+            }
+          }
+        }
+        if (maxTs > 0) {
+          maxDate = new Date(maxTs);
+          break;
+        }
+      }
+
+      const refDate = maxDate || now;
+      const wk = getWeekNumber(refDate);
+      const yr = (refDate.getFullYear() === 2027 && refDate.getMonth() === 0 && refDate.getDate() <= 3)
+        ? 2027
+        : refDate.getFullYear();
+      return { week: wk, year: yr, refDate };
+    }
+
+    function populateWeekSelector(weekSel, selPeriodo, vData, includeAcum = true) {
+      if (!weekSel) return;
+      const activeInfo = getActiveCampaignWeekInfo(selPeriodo, vData);
+      let cWeek = activeInfo.week;
+      let cYear = activeInfo.year;
+
+      let weekItems = [];
+      if (selPeriodo === '202710' || selPeriodo === '202720') {
+        weekItems = SEMANAS_202710.map(w => ({ sem: w.sem, year: w.year }));
+      } else if (selPeriodo === 'Todos') {
+        for (let w = 2; w <= 36; w++) {
+          weekItems.push({ sem: w, year: 2026 });
+        }
+        SEMANAS_202710.forEach(w => {
+          weekItems.push({ sem: w.sem, year: w.year });
+        });
+      } else {
+        let maxOldW = 42;
+        if (Array.isArray(vData) && vData.length > 0) {
+          vData.forEach(r => {
+            const d = toDate(r[C.FECHA]);
+            if (d && d.getFullYear() === 2026) {
+              const wn = getWeekNumber(d);
+              if (wn > maxOldW) maxOldW = wn;
+            }
+          });
+        }
+        for (let w = 2; w <= maxOldW; w++) {
+          weekItems.push({ sem: w, year: 2026 });
+        }
+        cWeek = Math.min(maxOldW, Math.max(2, cWeek));
+        cYear = 2026;
+      }
+
+      const prevVal = weekSel.value;
+      const isUserModified = weekSel.dataset.userModified === 'true';
+
+      weekSel.innerHTML = '';
+      if (includeAcum) {
+        let optAcum = document.createElement('option');
+        optAcum.value = 'Acumulado';
+        optAcum.textContent = 'Acumulado';
+        weekSel.appendChild(optAcum);
+      }
+
+      let matchedCurrent = false;
+      weekItems.forEach((item, idx) => {
+        const w = item.sem;
+        const yr = item.year;
+        const isCurrent = (w === cWeek && (selPeriodo !== 'Todos' || yr === cYear || (w >= 37 && yr === 2026)));
+        if (isCurrent) matchedCurrent = true;
+        const isLast = (idx === weekItems.length - 1);
+        const wLabelNum = (w === 0) ? '00' : String(w);
+
+        let opt = document.createElement('option');
+        opt.value = String(w);
+        opt.dataset.year = String(yr);
+        let txt = 'Semana ' + wLabelNum;
+        if (selPeriodo === 'Todos' && w >= 1 && w <= 18) {
+          txt += ' (' + yr + ')';
+        }
+        if (isCurrent) {
+          txt += ' (semana actual)';
+        } else if (isLast) {
+          txt += `, ${yr} (Fin)`;
+        }
+        opt.textContent = txt;
+        weekSel.appendChild(opt);
+      });
+
+      const targetDefault = matchedCurrent ? String(cWeek) : (weekItems.length > 0 ? String(weekItems[0].sem) : '44');
+      if (isUserModified && prevVal && Array.from(weekSel.options).some(o => o.value === prevVal)) {
+        weekSel.value = prevVal;
+      } else {
+        weekSel.value = targetDefault;
+      }
     }
 
     // ===== FILTERS =====
     function toDate(v) {
-      if (!v) return null; if (v instanceof Date) return v;
+      if (!v) return null;
+      if (v instanceof Date) {
+        if (isNaN(v.getTime())) return null;
+        if (v._isLocalNormalized) return v;
+        const nd = new Date(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate());
+        nd._isLocalNormalized = true;
+        return nd;
+      }
       if (typeof v === 'number') {
-        // Excel dates are in local time context often, but Excel base date 
-        // + milliseconds UTC works if we adjust timezone offset?
-        // Let's just create a normal date.
-        let d = new Date(Math.round((v - 25569) * 86400 * 1000));
-        return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+        // Excel serial date (integer part is exact calendar day since 1899-12-30)
+        const serialDay = Math.floor(v + 1e-6);
+        let d = new Date(Math.round((serialDay - 25569) * 86400 * 1000));
+        if (isNaN(d.getTime())) return null;
+        const nd = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+        nd._isLocalNormalized = true;
+        return nd;
       }
       let s = String(v).trim();
-      if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4}/.test(s)) {
-        let p = s.split(/[\/\-:\s]/);
-        return new Date(p[2], parseInt(p[1]) - 1, p[0], p[3] || 0, p[4] || 0, p[5] || 0);
+      if (!s) return null;
+      if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s)) {
+        let p = s.split(/[\/\-:\sT]+/);
+        let d0 = parseInt(p[0], 10);
+        let d1 = parseInt(p[1], 10);
+        let yr = parseInt(p[2], 10);
+        if (yr < 100) yr += 2000;
+        let day = d0, month = d1;
+        if (d0 <= 12 && d1 > 12) {
+          month = d0;
+          day = d1;
+        }
+        const nd = new Date(yr, month - 1, day);
+        nd._isLocalNormalized = true;
+        return isNaN(nd.getTime()) ? null : nd;
       }
-      return new Date(s);
+      if (/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(s)) {
+        let p = s.split(/[\/\-:\sT]+/);
+        const nd = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+        nd._isLocalNormalized = true;
+        return isNaN(nd.getTime()) ? null : nd;
+      }
+      const fallback = new Date(s);
+      if (isNaN(fallback.getTime())) return null;
+      fallback._isLocalNormalized = true;
+      return fallback;
     }
     function applyFilters() {
       const p = document.getElementById('f-periodo').value;
@@ -3226,13 +3375,17 @@
         }
         return row;
       });
+      ['avd-semana', 'avp-semana', 'avo-semana', 'avf-semana'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.dataset.userModified = 'false';
+      });
       filtered = [...allData];
       populateFilters();
       document.getElementById('uploadScreen').style.display = 'none';
       document.getElementById('app').style.display = 'flex';
       applyFilters();
     }
-    function loadFile(file) { const r = new FileReader(); r.onload = e => { const wb = XLSX.read(e.target.result, { type: 'binary', cellDates: true }); processExcel(wb); }; r.readAsBinaryString(file); }
+    function loadFile(file) { const r = new FileReader(); r.onload = e => { const wb = XLSX.read(e.target.result, { type: 'binary' }); processExcel(wb); }; r.readAsBinaryString(file); }
 
     // ===== NAV =====
     const viewNames = { resumen: 'Resumen general', avance: 'Avance por semanas', captacion: 'Oportunidades — Captación', comercial: 'Matriculados — Comercial', geografia: 'Geografía', bidireccional: 'Bidireccional' };
@@ -3255,7 +3408,7 @@
 
     // ===== EVENTS =====
     document.addEventListener('DOMContentLoaded', () => {
-      ['f-periodo', 'av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo', 'avw-periodo'].forEach(id => {
+      ['f-periodo', 'av-periodo', 'avd-periodo', 'avp-periodo', 'avo-periodo', 'avf-periodo', 'avfm-periodo', 'avw-periodo', 'avd-semana', 'avp-semana', 'avo-semana', 'avf-semana'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', () => { el.dataset.userModified = 'true'; });
       });
@@ -3851,7 +4004,7 @@
           : null;
 
         for (let i = 0; i < SEMANAS_202710.length; i++) {
-          labels.push(SEMANAS_202710[i].label);
+          labels.push(SEMANAS_202710[i].label.split(' - ')[0]);
 
           const cw = countPerIdx[i] || 0;
           cumReal += cw;
@@ -4031,32 +4184,11 @@
 
         let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
-        let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
-
-        if (weekSel.options.length !== wArr.length + 1) {
-          let oldVal = weekSel.value;
-          weekSel.innerHTML = '';
-          let cWeek = getWeekNumber(new Date());
-          cWeek = Math.max(2, Math.min(42, cWeek));
-
-          let optAcum = document.createElement('option');
-          optAcum.value = 'Acumulado';
-          optAcum.textContent = 'Acumulado';
-          weekSel.appendChild(optAcum);
-
-          wArr.forEach(w => {
-            let opt = document.createElement('option');
-            opt.value = w;
-            opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
-            if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
-            weekSel.appendChild(opt);
-          });
-          weekSel.value = oldVal || cWeek;
-        }
+        populateWeekSelector(weekSel, selPeriodo, vData, true);
 
         const isAcum = weekSel.value === 'Acumulado';
-        const currW = isAcum ? 0 : Number(weekSel.value);
-        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
+        const currW = isAcum ? -1 : Number(weekSel.value);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW, selPeriodo));
 
         const hr = document.getElementById('avp-head-row');
         if (!hr) throw new Error("avp-head-row not found");
@@ -4272,7 +4404,11 @@
     ['avp-vista', 'avp-periodo', 'avp-canal', 'avp-mql', 'avp-modalidad', 'avp-semana'].forEach(id => {
       let el = document.getElementById(id);
       if (el) el.addEventListener('change', () => {
-        if (id === 'avp-periodo') syncPeriodoVista('avp-vista', 'avp-periodo', 'periodo');
+        if (id === 'avp-periodo') {
+          syncPeriodoVista('avp-vista', 'avp-periodo', 'periodo');
+          const ws = document.getElementById('avp-semana');
+          if (ws) ws.dataset.userModified = 'false';
+        }
         if (id === 'avp-vista') syncPeriodoVista('avp-vista', 'avp-periodo', 'vista');
         renderAvancePrograma();
       });
@@ -4307,32 +4443,11 @@
 
         let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
-        let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
-
-        if (weekSel.options.length !== wArr.length + 1) {
-          let oldVal = weekSel.value;
-          weekSel.innerHTML = '';
-          let cWeek = getWeekNumber(new Date());
-          cWeek = Math.max(2, Math.min(42, cWeek));
-
-          let optAcum = document.createElement('option');
-          optAcum.value = 'Acumulado';
-          optAcum.textContent = 'Acumulado';
-          weekSel.appendChild(optAcum);
-
-          wArr.forEach(w => {
-            let opt = document.createElement('option');
-            opt.value = w;
-            opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
-            if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
-            weekSel.appendChild(opt);
-          });
-          weekSel.value = oldVal || cWeek;
-        }
+        populateWeekSelector(weekSel, selPeriodo, vData, true);
 
         const isAcum = weekSel.value === 'Acumulado';
-        const currW = isAcum ? 0 : Number(weekSel.value);
-        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
+        const currW = isAcum ? -1 : Number(weekSel.value);
+        const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW, selPeriodo));
 
         const hr = document.getElementById('avo-head-row');
         if (!hr) return;
@@ -4486,7 +4601,11 @@
     ['avo-vista', 'avo-periodo', 'avo-mql', 'avo-modalidad', 'avo-semana'].forEach(id => {
       let el = document.getElementById(id);
       if (el) el.addEventListener('change', () => {
-        if (id === 'avo-periodo') syncPeriodoVista('avo-vista', 'avo-periodo', 'periodo');
+        if (id === 'avo-periodo') {
+          syncPeriodoVista('avo-vista', 'avo-periodo', 'periodo');
+          const ws = document.getElementById('avo-semana');
+          if (ws) ws.dataset.userModified = 'false';
+        }
         if (id === 'avo-vista') syncPeriodoVista('avo-vista', 'avo-periodo', 'vista');
         renderAvanceOrigen();
       });
@@ -4516,31 +4635,11 @@
 
       let vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
-      let wArr = Array.from({ length: 41 }, (_, i) => i + 2); // 2 through 36
-
-      if (weekSel.options.length !== wArr.length) {
-        let oldVal = weekSel.value;
-        weekSel.innerHTML = '';
-        let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(42, cWeek));
-        wArr.forEach(w => {
-          let opt = document.createElement('option');
-          opt.value = w;
-          opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
-          if (w === 42 && w !== cWeek) { opt.textContent = 'Semana 42, 2026 (Fin)'; }
-          weekSel.appendChild(opt);
-        });
-
-        if (!oldVal) {
-          weekSel.value = cWeek;
-        } else {
-          weekSel.value = oldVal;
-        }
-      }
+      populateWeekSelector(weekSel, selPeriodo, vData, false);
 
       const isAcum = weekSel.value === 'Acumulado';
-      const currW = isAcum ? 0 : Number(weekSel.value);
-      const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW));
+      const currW = isAcum ? -1 : Number(weekSel.value);
+      const dates = isAcum ? [] : getDatesOfWeekLocal(currW, getYearForWeek(vData, currW, selPeriodo));
 
       const hr = document.getElementById('avd-head-row');
       hr.innerHTML = `<th style="min-width: 140px; text-align:left;">Modalidad</th><th style="min-width: 100px;">Meta ${isAcum ? 'Acumulada' : 'semanal'}</th>`;
@@ -4785,7 +4884,11 @@
     ['avd-vista', 'avd-periodo', 'avd-canal', 'avd-mql', 'avd-semana'].forEach(id => {
       let el = document.getElementById(id);
       if (el) el.addEventListener('change', () => {
-        if (id === 'avd-periodo') syncPeriodoVista('avd-vista', 'avd-periodo', 'periodo');
+        if (id === 'avd-periodo') {
+          syncPeriodoVista('avd-vista', 'avd-periodo', 'periodo');
+          const ws = document.getElementById('avd-semana');
+          if (ws) ws.dataset.userModified = 'false';
+        }
         if (id === 'avd-vista') syncPeriodoVista('avd-vista', 'avd-periodo', 'vista');
         renderAvanceDiario();
       });
@@ -4818,28 +4921,10 @@
       const vista = document.getElementById('avf-vista').value;
       const modalidad = document.getElementById('avf-modalidad').value;
       const weekSel = document.getElementById('avf-semana');
+      const selPeriodo = document.getElementById('avf-periodo') ? document.getElementById('avf-periodo').value : 'Todos';
+      const vData = allData.filter(r => matchesVistaAndPeriodo(r, vista, selPeriodo));
 
-      let wArr = Array.from({ length: 41 }, (_, i) => i + 2);
-      if (weekSel.options.length !== wArr.length + 1) {
-        let oldVal = weekSel.getAttribute('data-init') ? weekSel.value : null;
-        weekSel.setAttribute('data-init', '1');
-        weekSel.innerHTML = '';
-        let cWeek = getWeekNumber(new Date());
-        cWeek = Math.max(2, Math.min(42, cWeek));
-
-        let optAcum = document.createElement('option');
-        optAcum.value = 'Acumulado';
-        optAcum.textContent = 'Acumulado';
-        weekSel.appendChild(optAcum);
-
-        wArr.forEach(w => {
-          let opt = document.createElement('option');
-          opt.value = w;
-          opt.textContent = 'Semana ' + w + (w === cWeek ? ' (semana actual)' : '');
-          weekSel.appendChild(opt);
-        });
-        weekSel.value = oldVal || cWeek;
-      }
+      populateWeekSelector(weekSel, selPeriodo, vData, true);
       const selWeek = weekSel.value;
 
       let fData = allData.filter(r => {
@@ -4852,7 +4937,6 @@
           if (getWeekNumber(rd) !== parseInt(selWeek)) return false;
         }
 
-        const selPeriodo = document.getElementById('avf-periodo') ? document.getElementById('avf-periodo').value : 'Todos';
         if (!matchesVistaAndPeriodo(r, vista, selPeriodo)) return false;
 
         if (modalidad !== 'Todos') {
@@ -5066,7 +5150,11 @@
     ['avf-vista', 'avf-periodo', 'avf-modalidad', 'avf-semana'].forEach(id => {
       let el = document.getElementById(id);
       if (el) el.addEventListener('change', () => {
-        if (id === 'avf-periodo') syncPeriodoVista('avf-vista', 'avf-periodo', 'periodo');
+        if (id === 'avf-periodo') {
+          syncPeriodoVista('avf-vista', 'avf-periodo', 'periodo');
+          const ws = document.getElementById('avf-semana');
+          if (ws) ws.dataset.userModified = 'false';
+        }
         if (id === 'avf-vista') syncPeriodoVista('avf-vista', 'avf-periodo', 'vista');
         renderFunnelOrigen();
       });
