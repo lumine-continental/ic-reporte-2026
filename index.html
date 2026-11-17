@@ -2242,38 +2242,72 @@
                 </thead>
                 <tbody id="avf-tbody">
                   <tr>
-                    <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
-                    <td>255</td>
-                    <td>237</td>
-                    <td>17,10%</td>
-                    <td>1386</td>
-                    <td>28</td>
-                    <td>12%</td>
+                    <td style="text-align:left; font-weight:600;">10: Redes Sociales</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:left; font-weight:600;">32: WhatsApp Empresarial</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:left; font-weight:600;">6: Chat</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:left; font-weight:600;">18: Facebook Chat</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
                   </tr>
                   <tr>
                     <td style="text-align:left; font-weight:600;">Facebook Leads</td>
-                    <td>242</td>
-                    <td>175</td>
-                    <td>72,31%</td>
                     <td class="disabled">N/A</td>
-                    <td>4</td>
-                    <td>2%</td>
+                    <td class="disabled">N/A</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
                   </tr>
                   <tr>
                     <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
-                    <td>21</td>
-                    <td>17</td>
-                    <td>80,95%</td>
                     <td class="disabled">N/A</td>
-                    <td>1</td>
-                    <td>6%</td>
+                    <td class="disabled">N/A</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
+                    <td>0</td>
+                    <td>0%</td>
                   </tr>
                   <tr>
                     <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
-                    <td>9</td>
-                    <td>9</td>
-                    <td>100,00%</td>
                     <td class="disabled">N/A</td>
+                    <td class="disabled">N/A</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0,00%</td>
                     <td>0</td>
                     <td>0%</td>
                   </tr>
@@ -4498,18 +4532,15 @@
           if (r.includes('50: referidos dig')) return '50: REFERIDOS DIG';
           if (r.includes('46: instituto lp')) return '46: INSTITUTO LP';
 
-          // Redes Sociales de Pago (agrupación)
-          if (
-            r.includes('10: redes sociales') ||
-            r.includes('32: whatsapp empresarial') || r.includes('32: whatsapp emp') ||
-            r === '6: chat' || r.includes('6: chat') ||
-            r.includes('18: facebook chat') ||
-            (r.includes('redes sociales') && r.includes('pago'))
-          ) {
-            return 'Redes sociales de pago';
-          }
+          // Orígenes independientes (sin agrupar)
+          if (r.includes('10: redes sociales')) return '10: REDES SOCIALES';
+          if (r.includes('32: whatsapp empresarial') || r.includes('32: whatsapp emp')) return '32: WHATSAPP EMPRESARIAL';
+          if (r === '6: chat' || r.includes('6: chat')) return '6: CHAT';
+          if (r.includes('18: facebook chat')) return '18: FACEBOOK CHAT';
+          if (r.includes('redes sociales') && r.includes('pago')) return 'REDES SOCIALES DE PAGO';
 
-          return 'Otros Orígenes';
+          let cleanRaw = String(raw).trim().toUpperCase();
+          return cleanRaw || 'Otros Orígenes';
         }
 
         let orderedOrigenes = [
@@ -4524,9 +4555,20 @@
           '69: TIK TOK LINK ADS',
           '50: REFERIDOS DIG',
           '46: INSTITUTO LP',
-          'Redes sociales de pago',
+          '10: REDES SOCIALES',
+          '32: WHATSAPP EMPRESARIAL',
+          '6: CHAT',
+          '18: FACEBOOK CHAT',
+          'REDES SOCIALES DE PAGO',
           'Otros Orígenes'
         ];
+
+        weekData.forEach(r => {
+          const norm = getNormalizedOrigen(r[C.ORIGEN]);
+          if (norm && !orderedOrigenes.includes(norm)) {
+            orderedOrigenes.splice(orderedOrigenes.length - 1, 0, norm);
+          }
+        });
 
         let tbody = document.getElementById('avo-tbody');
         if (!tbody) return;
@@ -4954,82 +4996,63 @@
         return String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
       };
 
-      const org1 = ['redes sociales de pago', '10: redes sociales', '6: chat', '18: facebook chat'];
-      const org2 = ['17: facebook leads'];
-      const org3 = ['5: landing pages', '54: facebook link ads'];
-      const org4 = ['52: google search'];
+      const funnelDefs = [
+        { key: '10_rs', label: '10: Redes Sociales', hasConv: true, match: o => o.includes('10: redes sociales') },
+        { key: '32_wa', label: '32: WhatsApp Empresarial', hasConv: true, match: o => o.includes('32: whatsapp empresarial') || o.includes('32: whatsapp emp') },
+        { key: '6_chat', label: '6: Chat', hasConv: true, match: o => o === '6: chat' || o.includes('6: chat') },
+        { key: '18_fbchat', label: '18: Facebook Chat', hasConv: true, match: o => o.includes('18: facebook chat') },
+        { key: 'rs_pago', label: 'Redes sociales de pago', hasConv: true, hideIfZero: true, match: o => o.includes('redes sociales') && o.includes('pago') },
+        { key: '17_fbleads', label: 'Facebook Leads', hasConv: false, match: o => o.includes('17: facebook leads') },
+        { key: 'fb_lp', label: 'Facebook Link Ads (Landing Page)', hasConv: false, match: o => o.includes('5: landing pages') || o.includes('54: facebook link ads') },
+        { key: '52_gsearch', label: 'Google Search (Landing Page)', hasConv: false, match: o => o.includes('52: google search') }
+      ];
 
-      let s1 = { l: 0, mql: 0, mat: 0 }, s2 = { l: 0, mql: 0, mat: 0 }, s3 = { l: 0, mql: 0, mat: 0 }, s4 = { l: 0, mql: 0, mat: 0 };
+      const stats = {};
+      funnelDefs.forEach(d => { stats[d.key] = { l: 0, mql: 0, mat: 0 }; });
 
       fData.forEach(r => {
-        const orig = String(r[C.ORIGEN] || '').trim().toLowerCase();
-        let target = null;
-        if (org1.includes(orig)) target = s1;
-        else if (org2.includes(orig)) target = s2;
-        else if (org3.includes(orig)) target = s3;
-        else if (org4.includes(orig)) target = s4;
-
-        if (target) {
-          target.l++;
-          if (isMQL(r)) target.mql++;
-          if (isMat(r)) target.mat++;
+        const orig = String(r[C.ORIGEN] || '').trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        for (const d of funnelDefs) {
+          if (d.match(orig)) {
+            stats[d.key].l++;
+            if (isMQL(r)) stats[d.key].mql++;
+            if (isMat(r)) stats[d.key].mat++;
+            break;
+          }
         }
       });
 
       const tbody = document.getElementById('avf-tbody');
       if (!tbody) return;
 
-      const k1 = `avf-${vista}-${modalidad}-${selWeek}-1`;
-      let conv1 = window.avfConv[k1] || '';
-
       const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
       const pctMat = (num, den) => den > 0 ? Math.round((num / den) * 100) + '%' : '0%';
 
-      let numConv = parseFloat(conv1) || 0;
-      let convPct = (numConv > 0) ? Math.round((s1.l / numConv) * 100) + '%' : '0%';
-
-      tbody.innerHTML = `
-        <tr>
-            <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
-            <td><input type="text" inputmode="numeric" class="avd-meta-in" data-key="${k1}" value="${conv1}" style="width:100%;"></td>
-            <td style="font-weight:bold;">${convPct}</td>
-            <td>${s1.l}</td>
-            <td>${s1.mql}</td>
-            <td>${pct(s1.mql, s1.l)}</td>
-            <td>${s1.mat}</td>
-            <td style="font-weight:bold;">${pctMat(s1.mat, s1.mql)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Facebook Leads</td>
-            <td class="disabled">N/A</td>
-            <td class="disabled">N/A</td>
-            <td>${s2.l}</td>
-            <td>${s2.mql}</td>
-            <td>${pct(s2.mql, s2.l)}</td>
-            <td>${s2.mat}</td>
-            <td style="font-weight:bold;">${pctMat(s2.mat, s2.mql)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
-            <td class="disabled">N/A</td>
-            <td class="disabled">N/A</td>
-            <td>${s3.l}</td>
-            <td>${s3.mql}</td>
-            <td>${pct(s3.mql, s3.l)}</td>
-            <td>${s3.mat}</td>
-            <td style="font-weight:bold;">${pctMat(s3.mat, s3.mql)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
-            <td class="disabled">N/A</td>
-            <td class="disabled">N/A</td>
-            <td>${s4.l}</td>
-            <td>${s4.mql}</td>
-            <td>${pct(s4.mql, s4.l)}</td>
-            <td>${s4.mat}</td>
-            <td style="font-weight:bold;">${pctMat(s4.mat, s4.mql)}</td>
-        </tr>
-    `;
+      tbody.innerHTML = funnelDefs.filter(d => !d.hideIfZero || stats[d.key].l > 0).map(d => {
+        const st = stats[d.key];
+        let convCells = `<td class="disabled">N/A</td><td class="disabled">N/A</td>`;
+        if (d.hasConv) {
+          const k = `avf-${vista}-${modalidad}-${selWeek}-${d.key}`;
+          const convVal = window.avfConv[k] || '';
+          const numConv = parseFloat(convVal) || 0;
+          const convPct = (numConv > 0) ? Math.round((st.l / numConv) * 100) + '%' : '0%';
+          convCells = `
+                <td><input type="text" inputmode="numeric" class="avd-meta-in" data-key="${k}" value="${convVal}" style="width:100%;"></td>
+                <td style="font-weight:bold;">${convPct}</td>
+            `;
+        }
+        return `
+            <tr>
+                <td style="text-align:left; font-weight:600;">${d.label}</td>
+                ${convCells}
+                <td>${st.l}</td>
+                <td>${st.mql}</td>
+                <td>${pct(st.mql, st.l)}</td>
+                <td>${st.mat}</td>
+                <td style="font-weight:bold;">${pctMat(st.mat, st.mql)}</td>
+            </tr>
+        `;
+      }).join('');
 
       document.querySelectorAll('#avf-tbody .avd-meta-in').forEach(inp => {
         inp.addEventListener('blur', (e) => {
@@ -5094,25 +5117,29 @@
         return String(r[C.ESTADO] || '').trim().toUpperCase() === 'MATRICULADO';
       };
 
-      const org1 = ['redes sociales de pago', '10: redes sociales', '6: chat', '18: facebook chat'];
-      const org2 = ['17: facebook leads'];
-      const org3 = ['5: landing pages', '54: facebook link ads'];
-      const org4 = ['52: google search'];
+      const funnelDefs = [
+        { key: '10_rs', label: '10: Redes Sociales', match: o => o.includes('10: redes sociales') },
+        { key: '32_wa', label: '32: WhatsApp Empresarial', match: o => o.includes('32: whatsapp empresarial') || o.includes('32: whatsapp emp') },
+        { key: '6_chat', label: '6: Chat', match: o => o === '6: chat' || o.includes('6: chat') },
+        { key: '18_fbchat', label: '18: Facebook Chat', match: o => o.includes('18: facebook chat') },
+        { key: 'rs_pago', label: 'Redes sociales de pago', hideIfZero: true, match: o => o.includes('redes sociales') && o.includes('pago') },
+        { key: '17_fbleads', label: 'Facebook Leads', match: o => o.includes('17: facebook leads') },
+        { key: 'fb_lp', label: 'Facebook Link Ads (Landing Page)', match: o => o.includes('5: landing pages') || o.includes('54: facebook link ads') },
+        { key: '52_gsearch', label: 'Google Search (Landing Page)', match: o => o.includes('52: google search') }
+      ];
 
-      let s1 = { l: 0, mql: 0, mat: 0 }, s2 = { l: 0, mql: 0, mat: 0 }, s3 = { l: 0, mql: 0, mat: 0 }, s4 = { l: 0, mql: 0, mat: 0 };
+      const stats = {};
+      funnelDefs.forEach(d => { stats[d.key] = { l: 0, mql: 0, mat: 0 }; });
 
       fData.forEach(r => {
-        const orig = String(r[C.ORIGEN] || '').trim().toLowerCase();
-        let target = null;
-        if (org1.includes(orig)) target = s1;
-        else if (org2.includes(orig)) target = s2;
-        else if (org3.includes(orig)) target = s3;
-        else if (org4.includes(orig)) target = s4;
-
-        if (target) {
-          target.l++;
-          if (isMQL(r)) target.mql++;
-          if (isMat(r)) target.mat++;
+        const orig = String(r[C.ORIGEN] || '').trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        for (const d of funnelDefs) {
+          if (d.match(orig)) {
+            stats[d.key].l++;
+            if (isMQL(r)) stats[d.key].mql++;
+            if (isMat(r)) stats[d.key].mat++;
+            break;
+          }
         }
       });
 
@@ -5120,34 +5147,18 @@
       if (!tbody) return;
 
       const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
-      const pctMat = (num, den) => den > 0 ? Math.round((num / den) * 100) + '%' : '0%';
 
-      tbody.innerHTML = `
-        <tr>
-            <td style="text-align:left; font-weight:600;">WhatsApp Genesys</td>
-            <td>${s1.l}</td>
-            <td>${s1.mql}</td>
-            <td>${pct(s1.mql, s1.l)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Facebook Leads</td>
-            <td>${s2.l}</td>
-            <td>${s2.mql}</td>
-            <td>${pct(s2.mql, s2.l)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Facebook Link Ads (Landing Page)</td>
-            <td>${s3.l}</td>
-            <td>${s3.mql}</td>
-            <td>${pct(s3.mql, s3.l)}</td>
-        </tr>
-        <tr>
-            <td style="text-align:left; font-weight:600;">Google Search (Landing Page)</td>
-            <td>${s4.l}</td>
-            <td>${s4.mql}</td>
-            <td>${pct(s4.mql, s4.l)}</td>
-        </tr>
-    `;
+      tbody.innerHTML = funnelDefs.filter(d => !d.hideIfZero || stats[d.key].l > 0).map(d => {
+        const st = stats[d.key];
+        return `
+            <tr>
+                <td style="text-align:left; font-weight:600;">${d.label}</td>
+                <td>${st.l}</td>
+                <td>${st.mql}</td>
+                <td>${pct(st.mql, st.l)}</td>
+            </tr>
+        `;
+      }).join('');
     }
 
     ['avf-vista', 'avf-periodo', 'avf-modalidad', 'avf-semana'].forEach(id => {
